@@ -14,9 +14,8 @@
       class="flex flex-col items-center justify-center min-h-[44px] transition-colors relative text-slate-500 hover:text-slate-800"
       active-class="!text-emerald-600 !font-bold"
     >
-      <Radar class="w-4.5 h-4.5" />
-      <span class="absolute top-1 right-2 w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-      <span class="text-[9px] mt-0.5">Radar</span>
+      <Users class="w-4.5 h-4.5" />
+      <span class="text-[9px] mt-0.5">Amigos</span>
     </RouterLink>
 
     <RouterLink
@@ -66,7 +65,7 @@
 <script setup>
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
-import { Home, Radar, Building2, Sparkles, Bell, User } from 'lucide-vue-next';
+import { Home, Users, Building2, Sparkles, Bell, User } from 'lucide-vue-next';
 import { useNotificationStore } from '@/modules/notifications/store/notificationStore';
 
 const notificationStore = useNotificationStore();

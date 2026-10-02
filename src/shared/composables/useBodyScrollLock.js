@@ -1,38 +1,38 @@
-import { watch, onBeforeUnmount, isRef } from 'vue';
+import { watch, onUnmounted } from 'vue';
 
-let lockCount = 0;
-
-export function useBodyScrollLock(isOpen) {
-  const getOpen = () => (isRef(isOpen) ? isOpen.value : typeof isOpen === 'function' ? isOpen() : isOpen);
+/**
+ * Universal body scroll lock composable.
+ * Ensures document.body and document.documentElement cannot scroll while a modal/fullscreen view is active.
+ * Restores original overflow when closed or unmounted.
+ */
+export function useBodyScrollLock(isOpenSource) {
+  const getIsOpen = () => {
+    if (typeof isOpenSource === 'function') {
+      return Boolean(isOpenSource());
+    }
+    return Boolean(isOpenSource?.value);
+  };
 
   watch(
-    () => getOpen(),
-    (open) => {
-      if (open) {
-        lockCount++;
-        document.documentElement.style.overflow = 'hidden';
-        document.body.style.overflow = 'hidden';
-        document.body.style.touchAction = 'none';
-      } else {
-        lockCount = Math.max(0, lockCount - 1);
-        if (lockCount === 0) {
-          document.documentElement.style.overflow = '';
+    getIsOpen,
+    (isOpen) => {
+      if (typeof document !== 'undefined') {
+        if (isOpen) {
+          document.body.style.overflow = 'hidden';
+          document.documentElement.style.overflow = 'hidden';
+        } else {
           document.body.style.overflow = '';
-          document.body.style.touchAction = '';
+          document.documentElement.style.overflow = '';
         }
       }
     },
     { immediate: true }
   );
 
-  onBeforeUnmount(() => {
-    if (getOpen()) {
-      lockCount = Math.max(0, lockCount - 1);
-      if (lockCount === 0) {
-        document.documentElement.style.overflow = '';
-        document.body.style.overflow = '';
-        document.body.style.touchAction = '';
-      }
+  onUnmounted(() => {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
   });
 }

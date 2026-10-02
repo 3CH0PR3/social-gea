@@ -13,6 +13,7 @@ export const useFeedStore = defineStore('feed', {
       isOpen: false,
       images: [],
       activeIndex: 0,
+      postId: null,
     },
     lightboxImage: null, // backwards compatibility
   }),
@@ -21,6 +22,17 @@ export const useFeedStore = defineStore('feed', {
     currentLightboxImage: (state) => {
       if (!state.lightbox.isOpen || state.lightbox.images.length === 0) return null;
       return state.lightbox.images[state.lightbox.activeIndex] || null;
+    },
+    currentLightboxPost: (state) => {
+      if (!state.lightbox.isOpen) return null;
+      if (state.lightbox.postId) {
+        return state.posts.find((p) => p.id === state.lightbox.postId) || null;
+      }
+      const activeImg = state.lightbox.images[state.lightbox.activeIndex];
+      if (activeImg) {
+        return state.posts.find((p) => p.images && p.images.includes(activeImg)) || null;
+      }
+      return null;
     },
     filteredPosts: (state) => {
       return state.posts.filter((p) => {
@@ -97,7 +109,7 @@ export const useFeedStore = defineStore('feed', {
       }
     },
 
-    addComment(postId, content, imageUrl = null, parentCommentId = null) {
+    addComment(postId, content, imageUrl = null, parentCommentId = null, replyToUser = null) {
       const post = this.posts.find((p) => p.id === postId);
       if (!post) return;
 
@@ -111,6 +123,12 @@ export const useFeedStore = defineStore('feed', {
         timestamp: 'Justo ahora',
         likesCount: 0,
         isLiked: false,
+        userReaction: null,
+        reactions: { like: 0, love: 0, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 },
+        reactionsList: [],
+        replies: [],
+        replyToUserId: replyToUser?.id || null,
+        replyToUserName: replyToUser?.name || null,
       };
 
       if (parentCommentId) {
@@ -124,26 +142,69 @@ export const useFeedStore = defineStore('feed', {
       }
     },
 
-    toggleLikeComment(postId, commentId) {
+    reactToComment(postId, commentId, reactionType = 'like') {
       const post = this.posts.find((p) => p.id === postId);
       if (!post) return;
 
-      for (const comment of post.comments) {
-        if (comment.id === commentId) {
-          comment.isLiked = !comment.isLiked;
-          comment.likesCount += comment.isLiked ? 1 : -1;
-          return;
+      let target = null;
+      for (const c of post.comments) {
+        if (c.id === commentId) {
+          target = c;
+          break;
         }
-        if (comment.replies) {
-          for (const reply of comment.replies) {
-            if (reply.id === commentId) {
-              reply.isLiked = !reply.isLiked;
-              reply.likesCount += reply.isLiked ? 1 : -1;
-              return;
+        if (c.replies) {
+          for (const r of c.replies) {
+            if (r.id === commentId) {
+              target = r;
+              break;
             }
           }
+          if (target) break;
         }
       }
+
+      if (!target) return;
+
+      if (!target.reactions) {
+        target.reactions = { like: 0, love: 0, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 };
+      }
+      if (!target.reactionsList) {
+        target.reactionsList = [];
+      }
+
+      const previous = target.userReaction;
+
+      const updatedReactions = { ...target.reactions };
+      const updatedList = [...target.reactionsList];
+
+      if (previous) {
+        updatedReactions[previous] = Math.max(0, (updatedReactions[previous] || 1) - 1);
+        const idx = updatedList.findIndex((r) => r.userId === this.currentUser.id);
+        if (idx !== -1) updatedList.splice(idx, 1);
+      }
+
+      if (previous === reactionType) {
+        target.userReaction = null;
+        target.isLiked = false;
+      } else {
+        target.userReaction = reactionType;
+        target.isLiked = true;
+        updatedReactions[reactionType] = (updatedReactions[reactionType] || 0) + 1;
+        updatedList.unshift({
+          userId: this.currentUser.id,
+          userName: this.currentUser.name,
+          userAvatar: this.currentUser.avatar,
+          type: reactionType,
+        });
+      }
+
+      target.reactions = updatedReactions;
+      target.reactionsList = updatedList;
+      target.likesCount = Object.values(updatedReactions).reduce((acc, v) => acc + v, 0);
+    },
+
+    toggleLikeComment(postId, commentId) {
+      this.reactToComment(postId, commentId, 'like');
     },
 
     deleteComment(postId, commentId) {
@@ -184,19 +245,30 @@ export const useFeedStore = defineStore('feed', {
       }
     },
 
-    openLightbox(images, startIndex = 0) {
+    openLightbox(images, startIndex = 0, post = null) {
       const list = Array.isArray(images) ? images : [images].filter(Boolean);
       if (list.length === 0) return;
+
+      let targetPostId = post?.id || null;
+      if (!targetPostId) {
+        const found = this.posts.find((p) =>
+          p.images && p.images.some((img) => list.includes(img))
+        );
+        targetPostId = found?.id || null;
+      }
+
       this.lightbox = {
         isOpen: true,
         images: list,
         activeIndex: Math.max(0, Math.min(startIndex, list.length - 1)),
+        postId: targetPostId,
       };
       this.lightboxImage = list[this.lightbox.activeIndex];
     },
 
     closeLightbox() {
       this.lightbox.isOpen = false;
+      this.lightbox.postId = null;
       this.lightboxImage = null;
     },
 

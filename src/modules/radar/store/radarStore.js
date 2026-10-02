@@ -1,55 +1,170 @@
 import { defineStore } from 'pinia';
-import { radarService } from '../services/radarService';
+import {
+  radarService,
+  COLOMBIA_LOCATIONS,
+  COLOMBIA_AREAS,
+  MOCK_COLOMBIAN_USERS
+} from '../services/radarService';
 import { CURRENT_USER } from '@/shared/data/initialData';
 
 export const useRadarStore = defineStore('radar', {
   state: () => ({
     currentUser: CURRENT_USER,
-    nearbyUsers: [],
-    friendRequests: [],
-    acceptedRequests: [],
-    radarRange: 2000,
-    selectedUser: null,
-    activeTab: 'radar', // 'radar' | 'requests' | 'suggestions'
+    users: [...MOCK_COLOMBIAN_USERS],
+    activeTab: 'friends', // 'friends' | 'requests' | 'suggestions'
+    searchQuery: '',
+    selectedDepartment: '',
+    selectedCity: '',
+    selectedArea: '',
     isLoading: false,
   }),
 
+  getters: {
+    departmentsList: () => COLOMBIA_LOCATIONS.map((loc) => loc.department),
+
+    availableCities: (state) => {
+      if (!state.selectedDepartment) return [];
+      const found = COLOMBIA_LOCATIONS.find((loc) => loc.department === state.selectedDepartment);
+      return found ? found.cities : [];
+    },
+
+    areasList: () => COLOMBIA_AREAS,
+
+    friendsList: (state) => {
+      return state.users.filter((u) => u.status === 'friend');
+    },
+
+    requestsList: (state) => {
+      return state.users.filter((u) => u.status === 'request_received');
+    },
+
+    suggestionsList: (state) => {
+      return state.users.filter((u) => u.status === 'suggestion' || u.status === 'request_sent');
+    },
+
+    pendingRequestsCount: (state) => {
+      return state.users.filter((u) => u.status === 'request_received').length;
+    },
+
+    hasActiveFilters: (state) => {
+      return Boolean(state.searchQuery || state.selectedDepartment || state.selectedCity || state.selectedArea);
+    },
+
+    // Filtered items based on activeTab and filters
+    filteredUsers: (state) => {
+      let baseList = [];
+      if (state.activeTab === 'friends') {
+        baseList = state.users.filter((u) => u.status === 'friend');
+      } else if (state.activeTab === 'requests') {
+        baseList = state.users.filter((u) => u.status === 'request_received');
+      } else if (state.activeTab === 'suggestions') {
+        baseList = state.users.filter((u) => u.status === 'suggestion' || u.status === 'request_sent');
+      }
+
+      return baseList.filter((user) => {
+        // Search query
+        if (state.searchQuery.trim()) {
+          const q = state.searchQuery.toLowerCase().trim();
+          const matchName = user.name.toLowerCase().includes(q);
+          const matchUsername = user.username.toLowerCase().includes(q);
+          const matchBio = user.bio && user.bio.toLowerCase().includes(q);
+          const matchCity = user.city && user.city.toLowerCase().includes(q);
+          if (!matchName && !matchUsername && !matchBio && !matchCity) return false;
+        }
+
+        // Department
+        if (state.selectedDepartment && user.department !== state.selectedDepartment) {
+          return false;
+        }
+
+        // City / Municipio
+        if (state.selectedCity && user.city !== state.selectedCity) {
+          return false;
+        }
+
+        // Area / Interest
+        if (state.selectedArea && user.area !== state.selectedArea) {
+          return false;
+        }
+
+        return true;
+      });
+    },
+  },
+
   actions: {
-    async loadRadarData() {
-      if (this.nearbyUsers.length > 0) return;
+    async loadUsers() {
+      if (this.users.length > 0) return;
       this.isLoading = true;
       try {
-        const [users, requests] = await Promise.all([
-          radarService.fetchNearbyUsers(this.radarRange),
-          radarService.fetchFriendRequests(),
-        ]);
-        this.nearbyUsers = users;
-        this.friendRequests = requests;
+        const data = await radarService.fetchUsers();
+        this.users = data;
       } finally {
         this.isLoading = false;
       }
     },
 
-    setRadarRange(meters) {
-      this.radarRange = meters;
+    setActiveTab(tabName) {
+      this.activeTab = tabName;
     },
 
-    selectUser(user) {
-      this.selectedUser = user;
+    setSearch(query) {
+      this.searchQuery = query;
     },
 
-    acceptRequest(reqId) {
-      if (!this.acceptedRequests.includes(reqId)) {
-        this.acceptedRequests.push(reqId);
+    setDepartment(department) {
+      this.selectedDepartment = department;
+      this.selectedCity = ''; // Reset city when department changes
+    },
+
+    setCity(city) {
+      this.selectedCity = city;
+    },
+
+    setArea(area) {
+      this.selectedArea = area;
+    },
+
+    resetFilters() {
+      this.searchQuery = '';
+      this.selectedDepartment = '';
+      this.selectedCity = '';
+      this.selectedArea = '';
+    },
+
+    acceptRequest(userId) {
+      const user = this.users.find((u) => u.id === userId);
+      if (user) {
+        user.status = 'friend';
       }
     },
 
-    declineRequest(reqId) {
-      this.friendRequests = this.friendRequests.filter((r) => r.id !== reqId);
+    declineRequest(userId) {
+      const user = this.users.find((u) => u.id === userId);
+      if (user) {
+        user.status = 'suggestion';
+      }
     },
 
-    setActiveTab(tabName) {
-      this.activeTab = tabName;
+    sendRequest(userId) {
+      const user = this.users.find((u) => u.id === userId);
+      if (user) {
+        user.status = 'request_sent';
+      }
+    },
+
+    cancelRequest(userId) {
+      const user = this.users.find((u) => u.id === userId);
+      if (user) {
+        user.status = 'suggestion';
+      }
+    },
+
+    removeFriend(userId) {
+      const user = this.users.find((u) => u.id === userId);
+      if (user) {
+        user.status = 'suggestion';
+      }
     },
   },
 });

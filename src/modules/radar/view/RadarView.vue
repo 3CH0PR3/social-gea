@@ -1,194 +1,126 @@
 <template>
-  <div class="w-full max-w-5xl mx-auto space-y-6 pb-12 animate-in fade-in duration-200">
-    <!-- Hero Banner -->
-    <div class="bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 rounded-3xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden">
-      <div class="absolute right-0 top-0 bottom-0 opacity-10 pointer-events-none transform translate-x-12 -translate-y-6">
-        <RadarLogo :size="320" />
-      </div>
-
-      <div class="relative z-10 max-w-xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-emerald-200 text-xs font-semibold mb-3 border border-white/10">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-          <span>Radar Social Activo en Tiempo Real</span>
+  <div class="w-full space-y-5 pb-12 animate-in fade-in duration-200">
+    <!-- Top Modern Colombian Friends Hub Banner -->
+    <div class="bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 rounded-3xl p-5 sm:p-6 text-white shadow-sm relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-emerald-200 text-xs font-semibold mb-2 border border-white/10">
+          <span>🇨🇴</span>
+          <span>Red de Amigos y Conexiones en Colombia</span>
         </div>
-        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight font-display text-white">
-          Explora conexiones a tu alrededor
+        <h1 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">
+          Amigos y Conexiones
         </h1>
-        <p class="text-emerald-100/90 text-sm mt-2 leading-relaxed">
-          Descubre amigos, creadores y comunidades cercanas sincronizadas con tu radar. Conéctate al instante e interactúa con sus historias.
+        <p class="text-emerald-100/90 text-xs sm:text-sm mt-1 leading-relaxed">
+          Descubre amigos, gestiona solicitudes y conecta con personas por departamento, municipio y área de interés.
         </p>
       </div>
-
-      <!-- Switcher Tabs -->
-      <div class="flex items-center gap-2 mt-6 relative z-10">
-        <button
-          type="button"
-          @click="activeTab = 'radar'"
-          :class="[
-            'px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer',
-            activeTab === 'radar'
-              ? 'bg-white text-emerald-900 shadow-md scale-102'
-              : 'bg-white/15 text-white hover:bg-white/25'
-          ]"
-        >
-          <Radar class="w-4 h-4 text-emerald-600" />
-          <span>Escáner de Radar</span>
-        </button>
-
-        <button
-          type="button"
-          @click="activeTab = 'requests'"
-          :class="[
-            'px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 relative cursor-pointer',
-            activeTab === 'requests'
-              ? 'bg-white text-emerald-900 shadow-md scale-102'
-              : 'bg-white/15 text-white hover:bg-white/25'
-          ]"
-        >
-          <Users class="w-4 h-4" />
-          <span>Solicitudes de Amistad</span>
-          <span
-            v-if="friendRequests.length > 0"
-            class="w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-[10px] font-bold"
-          >
-            {{ friendRequests.length }}
-          </span>
-        </button>
-
-        <button
-          type="button"
-          @click="activeTab = 'suggestions'"
-          :class="[
-            'px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer',
-            activeTab === 'suggestions'
-              ? 'bg-white text-emerald-900 shadow-md scale-102'
-              : 'bg-white/15 text-white hover:bg-white/25'
-          ]"
-        >
-          <UserPlus class="w-4 h-4" />
-          <span>Sugerencias</span>
-        </button>
-      </div>
     </div>
 
-    <!-- 1. Radar Scanner Screen -->
-    <div v-if="activeTab === 'radar'" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-      <div class="lg:col-span-7">
-        <RadarScanner
-          :users="nearbyUsers"
-          :currentUser="currentUser"
-          :range="radarRange"
-          @select-user="selectUser"
-          @update:range="setRadarRange"
-        />
+    <!-- Mobile-First Direct Filters Bar (Android Friendly - NO hidden menus, NO drawers) -->
+    <MobileFriendsFilters />
+
+    <!-- Main Two-Column Layout for Web & Android Cards Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- Left Column on Web: Dedicated Colombian Aside Menu with Filters -->
+      <div class="hidden lg:block lg:col-span-4 xl:col-span-3">
+        <FriendsFiltersAside />
       </div>
 
-      <div class="lg:col-span-5 space-y-4">
-        <RadarUserCard
-          :user="selectedUser"
-          @close="selectUser(null)"
-          @open-chat="openChat"
-        />
+      <!-- Right Column on Web / Main Stage: Cards Grid -->
+      <div class="lg:col-span-8 xl:col-span-9 space-y-4">
+        <!-- Stage Header & Active Filter Pills -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                {{ activeSectionTitle }}
+              </h2>
+              <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                {{ radarStore.filteredUsers.length }}
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">
+              {{ activeSectionDescription }}
+            </p>
+          </div>
 
-        <!-- Detected users list -->
-        <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/90 space-y-3">
-          <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider text-slate-400">
-            Usuarios cercanos detectados
-          </h4>
-          <div class="space-y-2">
-            <div
-              v-for="u in nearbyUsers"
-              :key="u.id"
-              @click="selectUser(u)"
-              class="flex items-center justify-between p-2 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer"
+          <!-- Active Filter summary badges -->
+          <div v-if="radarStore.hasActiveFilters" class="flex items-center gap-1.5 flex-wrap">
+            <span
+              v-if="radarStore.selectedDepartment"
+              class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200"
             >
-              <div class="flex items-center gap-3">
-                <div class="relative">
-                  <img
-                    :src="u.avatar"
-                    :alt="u.name"
-                    class="w-10 h-10 rounded-full object-cover ring-1 ring-slate-200"
-                  />
-                  <span
-                    v-if="u.isOnline"
-                    class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white"
-                  />
-                </div>
-                <div>
-                  <h5 class="text-xs font-bold text-slate-900">{{ u.name }}</h5>
-                  <span class="text-[11px] text-emerald-600 font-medium">
-                    {{ u.radarDistance || 'Cerca de ti' }}
-                  </span>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                @click.stop="openChat(u)"
-                class="p-2 rounded-xl text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
-                title="Chatear"
-              >
-                <MessageCircle class="w-4 h-4" />
+              📍 {{ radarStore.selectedDepartment }}
+              <button type="button" @click="radarStore.setDepartment('')" class="hover:text-emerald-950 cursor-pointer">
+                <X class="w-3 h-3" />
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </span>
 
-    <!-- 2. Friend Requests Screen -->
-    <div v-else-if="activeTab === 'requests'" class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200/90">
-      <FriendRequestsList
-        :requests="friendRequests"
-        :acceptedList="acceptedRequests"
-        @accept="acceptRequest"
-        @decline="declineRequest"
-      />
-    </div>
+            <span
+              v-if="radarStore.selectedCity"
+              class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200"
+            >
+              🏙️ {{ radarStore.selectedCity }}
+              <button type="button" @click="radarStore.setCity('')" class="hover:text-emerald-950 cursor-pointer">
+                <X class="w-3 h-3" />
+              </button>
+            </span>
 
-    <!-- 3. Suggestions Screen -->
-    <div v-else-if="activeTab === 'suggestions'" class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200/90 space-y-4">
-      <h3 class="font-bold text-slate-800 text-base">Personas que quizás conozcas</h3>
+            <span
+              v-if="radarStore.selectedArea"
+              class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200"
+            >
+              💼 {{ radarStore.selectedArea }}
+              <button type="button" @click="radarStore.setArea('')" class="hover:text-emerald-950 cursor-pointer">
+                <X class="w-3 h-3" />
+              </button>
+            </span>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div
-          v-for="u in nearbyUsers"
-          :key="u.id"
-          class="rounded-2xl border border-slate-200 overflow-hidden bg-white hover:shadow-md transition-all flex flex-col justify-between"
-        >
-          <div class="relative h-20 bg-slate-100">
-            <SafeImage :src="u.coverImage" alt="Cover" imgClass="w-full h-full object-cover" />
-            <div class="absolute -bottom-5 left-4">
-              <img
-                :src="u.avatar"
-                :alt="u.name"
-                class="w-12 h-12 rounded-xl object-cover ring-2 ring-white shadow-sm"
-              />
-            </div>
-          </div>
-
-          <div class="p-4 pt-7 flex-1">
-            <h4 class="text-sm font-bold text-slate-900">{{ u.name }}</h4>
-            <p class="text-xs text-slate-500">@{{ u.username }}</p>
-            <p class="text-xs text-slate-600 line-clamp-2 mt-1.5">{{ u.bio }}</p>
-          </div>
-
-          <div class="p-3 border-t border-slate-100 bg-slate-50/50 flex items-center gap-2">
             <button
               type="button"
-              @click="addFriend(u.name)"
-              class="flex-1 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1"
+              @click="radarStore.resetFilters"
+              class="text-xs text-emerald-700 hover:text-emerald-800 font-bold hover:underline cursor-pointer ml-1"
             >
-              <UserPlus class="w-3.5 h-3.5" />
-              <span>Conectar</span>
+              Limpiar
             </button>
-            <RouterLink
-              :to="`/profiles/${u.id}`"
-              class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-semibold transition-colors"
-            >
-              Perfil
-            </RouterLink>
           </div>
+        </div>
+
+        <!-- Empty State -->
+        <div
+          v-if="radarStore.filteredUsers.length === 0"
+          class="bg-white rounded-3xl border border-slate-200/90 p-8 sm:p-12 text-center space-y-3 shadow-xs"
+        >
+          <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
+            <Users class="w-7 h-7" />
+          </div>
+          <h3 class="font-bold text-slate-800 text-base">
+            No se encontraron personas
+          </h3>
+          <p class="text-xs text-slate-500 max-w-sm mx-auto">
+            No hay perfiles que coincidan con los filtros aplicados en esta sección.
+          </p>
+          <button
+            v-if="radarStore.hasActiveFilters"
+            type="button"
+            @click="radarStore.resetFilters"
+            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors cursor-pointer"
+          >
+            <RotateCcw class="w-3.5 h-3.5" />
+            <span>Restablecer todos los filtros</span>
+          </button>
+        </div>
+
+        <!-- Cards Grid for Web & Android -->
+        <div
+          v-else
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
+        >
+          <FriendCard
+            v-for="user in radarStore.filteredUsers"
+            :key="user.id"
+            :user="user"
+          />
         </div>
       </div>
     </div>
@@ -196,43 +128,42 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import { RouterLink } from 'vue-router';
-import { Radar, Users, UserPlus, MessageCircle } from 'lucide-vue-next';
-import { useRadar } from '../composables/useRadar';
-import { useMessengerStore } from '@/modules/messenger/store/messengerStore';
-import RadarScanner from '../components/RadarScanner.vue';
-import RadarUserCard from '../components/RadarUserCard.vue';
-import FriendRequestsList from '../components/FriendRequestsList.vue';
-import RadarLogo from '@/shared/components/RadarLogo.vue';
-import SafeImage from '@/shared/components/SafeImage.vue';
+import { computed, onMounted } from 'vue';
+import { Users, X, RotateCcw } from 'lucide-vue-next';
+import { useRadarStore } from '../store/radarStore';
+import FriendsFiltersAside from '../components/FriendsFiltersAside.vue';
+import MobileFriendsFilters from '../components/MobileFriendsFilters.vue';
+import FriendCard from '../components/FriendCard.vue';
 
-const {
-  nearbyUsers,
-  friendRequests,
-  acceptedRequests,
-  radarRange,
-  selectedUser,
-  activeTab,
-  currentUser,
-  loadRadarData,
-  setRadarRange,
-  selectUser,
-  acceptRequest,
-  declineRequest,
-} = useRadar();
-
-const messengerStore = useMessengerStore();
+const radarStore = useRadarStore();
 
 onMounted(() => {
-  loadRadarData();
+  radarStore.loadUsers();
 });
 
-function openChat(user) {
-  messengerStore.openWithUser(user);
-}
+const activeSectionTitle = computed(() => {
+  switch (radarStore.activeTab) {
+    case 'friends':
+      return 'Mis Amigos';
+    case 'requests':
+      return 'Solicitudes de Amistad Recibidas';
+    case 'suggestions':
+      return 'Personas que quizá conozcas';
+    default:
+      return 'Amigos';
+  }
+});
 
-function addFriend(name) {
-  alert(`¡Solicitud enviada a ${name}!`);
-}
+const activeSectionDescription = computed(() => {
+  switch (radarStore.activeTab) {
+    case 'friends':
+      return 'Personas con las que ya estás conectado en Conecta Radar.';
+    case 'requests':
+      return 'Personas que te han enviado una solicitud para conectar.';
+    case 'suggestions':
+      return 'Sugerencias basadas en tus conexiones, ciudad y área de interés.';
+    default:
+      return '';
+  }
+});
 </script>

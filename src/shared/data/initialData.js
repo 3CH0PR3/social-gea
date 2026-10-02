@@ -93,6 +93,8 @@ export const MOCK_USERS = [
   },
 ];
 
+export const COMMUNITY_USERS = MOCK_USERS;
+
 export const PRESET_IMAGE_GALLERY = [
   {
     label: 'Lago Glaciar Alpino',
@@ -111,7 +113,7 @@ export const PRESET_IMAGE_GALLERY = [
   },
   {
     label: 'Atardecer Urbano',
-    url: 'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=1200&q=80',
+    url: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80',
     category: 'Ciudad',
   },
   {
@@ -179,16 +181,32 @@ export const INITIAL_POSTS = [
         timestamp: 'Hace 15 min',
         likesCount: 6,
         isLiked: true,
+        userReaction: 'love',
+        reactions: { like: 3, love: 2, care: 1, haha: 0, wow: 0, sad: 0, angry: 0 },
+        reactionsList: [
+          { userId: 'user_1', userName: 'Elena Rostova', userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80', type: 'love' },
+          { userId: 'user_3', userName: 'Sofía Valenzuela', userAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80', type: 'care' },
+          { userId: 'user_4', userName: 'Marcos Benítez', userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80', type: 'like' },
+          { userId: 'user_5', userName: 'Valentina Silva', userAvatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80', type: 'like' }
+        ],
         replies: [
           {
             id: 'c_1_r1',
             authorId: 'user_1',
             authorName: 'Elena Rostova',
             authorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80',
+            replyToUserId: 'user_2',
+            replyToUserName: 'Alejandro Morales',
             content: '¡Muchas gracias Alex! Usé un 24-70mm f/2.8 con filtro polarizador circular. ¡Hace toda la diferencia!',
             timestamp: 'Hace 10 min',
             likesCount: 3,
             isLiked: false,
+            userReaction: 'like',
+            reactions: { like: 2, love: 1, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 },
+            reactionsList: [
+              { userId: 'user_2', userName: 'Alejandro Morales', userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80', type: 'love' },
+              { userId: 'user_5', userName: 'Valentina Silva', userAvatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80', type: 'like' }
+            ]
           }
         ]
       },
@@ -201,6 +219,13 @@ export const INITIAL_POSTS = [
         timestamp: 'Hace 8 min',
         likesCount: 4,
         isLiked: false,
+        userReaction: null,
+        reactions: { like: 2, love: 2, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 },
+        reactionsList: [
+          { userId: 'user_1', userName: 'Elena Rostova', userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80', type: 'love' },
+          { userId: 'user_2', userName: 'Alejandro Morales', userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80', type: 'like' }
+        ],
+        replies: []
       }
     ],
     sharesCount: 18,

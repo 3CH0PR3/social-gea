@@ -1,6 +1,7 @@
 <template>
-  <div
-    v-if="isOpen"
+  <Teleport to="body">
+    <div
+      v-if="isOpen"
     role="dialog"
     aria-modal="true"
     class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-white sm:bg-black/65 sm:backdrop-blur-xs animate-in fade-in duration-200"
@@ -309,38 +310,49 @@
 
         <!-- 5. Comments Stream (Exact Facebook thread style) -->
         <div class="p-4 space-y-4">
-          <div v-if="post.comments.length === 0" class="text-center py-6 text-xs text-slate-400">
+          <div v-if="sortedComments.length === 0" class="text-center py-6 text-xs text-slate-400">
             No hay comentarios aún. ¡Sé el primero en comentar!
           </div>
 
           <div
-            v-for="comment in post.comments"
+            v-for="comment in sortedComments"
             :key="comment.id"
             class="space-y-2 group/comment"
           >
             <!-- Main Comment -->
             <div class="flex items-start gap-2.5">
-              <SafeImage
-                :src="comment.authorAvatar"
-                :alt="comment.authorName"
-                imgClass="w-9 h-9 rounded-full object-cover ring-1 ring-slate-200 shrink-0 mt-0.5"
-                containerClass="w-9 h-9 rounded-full"
-              />
+              <RouterLink
+                :to="`/profiles/${comment.authorId}`"
+                @click="$emit('close')"
+                class="shrink-0 mt-0.5 cursor-pointer"
+              >
+                <SafeImage
+                  :src="comment.authorAvatar"
+                  :alt="comment.authorName"
+                  imgClass="w-9 h-9 rounded-full object-cover ring-1 ring-slate-200"
+                  containerClass="w-9 h-9 rounded-full"
+                />
+              </RouterLink>
 
               <div class="flex-1 min-w-0">
                 <!-- Grey Bubble (Facebook signature look) -->
                 <div class="inline-block bg-slate-100 hover:bg-slate-200/70 transition-colors px-3.5 py-2 rounded-2xl max-w-[92%]">
                   <div class="flex items-center gap-2">
-                    <span class="text-xs font-bold text-slate-900 cursor-pointer hover:underline">
+                    <RouterLink
+                      :to="`/profiles/${comment.authorId}`"
+                      @click="$emit('close')"
+                      class="text-xs font-bold text-slate-900 cursor-pointer hover:underline"
+                    >
                       {{ comment.authorName }}
-                    </span>
+                    </RouterLink>
                     <span class="text-[11px] text-slate-500 font-normal">
                       · {{ comment.timestamp }}
                     </span>
                   </div>
 
+                  <!-- Comment Body with Clickable Mentions -->
                   <p class="text-xs text-slate-900 leading-snug break-words mt-0.5">
-                    {{ comment.content }}
+                    <MentionText :content="comment.content" :onMentionClick="() => $emit('close')" />
                   </p>
                 </div>
 
@@ -357,23 +369,49 @@
                   />
                 </div>
 
-                <!-- Comment Sub-actions: 👍 | Responder | Compartir | Reactions Badge -->
+                <!-- Comment Sub-actions: Reactions Popover / Like | Responder | Compartir | Reactions Badge -->
                 <div class="flex items-center gap-3 px-2 pt-1 text-[11px] text-slate-500 font-semibold relative">
-                  <button
-                    type="button"
-                    @click="feedStore.toggleLikeComment(post.id, comment.id)"
-                    :class="[
-                      'flex items-center gap-1 hover:underline cursor-pointer',
-                      comment.isLiked ? 'text-blue-600 font-bold' : 'hover:text-slate-800'
-                    ]"
+                  <!-- Comment Facebook Reaction Trigger (Clean Emoji Only, No text) -->
+                  <div
+                    class="relative inline-flex items-center"
+                    @mouseenter="hoverCommentReaction(comment.id)"
+                    @mouseleave="leaveCommentReaction"
                   >
-                    <ThumbsUp :class="['w-3.5 h-3.5', comment.isLiked ? 'fill-blue-600 text-blue-600' : 'text-slate-500']" />
-                  </button>
+                    <!-- Small Floating Emoji Dock -->
+                    <div
+                      v-if="activeCommentReactionId === comment.id"
+                      class="absolute -top-9 left-0 z-40 animate-in fade-in zoom-in-95 duration-100"
+                      @mouseenter="clearCommentReactionTimer"
+                      @mouseleave="leaveCommentReaction"
+                    >
+                      <FacebookReactions
+                        compact
+                        size="xs"
+                        @select="(type) => handleCommentReaction(comment.id, type)"
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      @click="handleClickCommentReaction(comment)"
+                      class="p-0.5 rounded-full hover:scale-110 active:scale-95 transition-all cursor-pointer flex items-center justify-center"
+                      :title="comment.userReaction ? 'Quitar o cambiar reacción' : 'Reaccionar'"
+                    >
+                      <FacebookReactionIcon
+                        :type="comment.userReaction || 'like'"
+                        size="xs"
+                        :class="[
+                          'w-3.5 h-3.5 transition-all',
+                          comment.userReaction ? 'scale-105 drop-shadow-2xs' : 'opacity-50 hover:opacity-100'
+                        ]"
+                      />
+                    </button>
+                  </div>
 
                   <button
                     type="button"
-                    @click="toggleReply(comment.id)"
-                    class="hover:underline hover:text-slate-800 cursor-pointer"
+                    @click="startReply(comment, { id: comment.authorId, name: comment.authorName })"
+                    class="hover:underline hover:text-slate-800 cursor-pointer text-[11px]"
                   >
                     Responder
                   </button>
@@ -381,25 +419,36 @@
                   <button
                     type="button"
                     @click="shareComment(comment)"
-                    class="hover:underline hover:text-slate-800 cursor-pointer"
+                    class="hover:underline hover:text-slate-800 cursor-pointer text-[11px]"
                   >
                     Compartir
                   </button>
 
-                  <!-- Reaction Counter Badge (e.g. 😆👍 15) like screenshot -->
-                  <div
+                  <!-- Clickable Reaction Counter Badge: Opens modal with who reacted! -->
+                  <button
                     v-if="comment.likesCount > 0"
-                    class="ml-auto flex items-center gap-1 bg-white px-1.5 py-0.5 rounded-full shadow-2xs border border-slate-200 text-[10px] text-slate-600 font-normal cursor-pointer"
+                    type="button"
+                    @click="openReactionsModalFor(comment)"
+                    class="ml-auto flex items-center gap-1 bg-white hover:bg-slate-50 px-2 py-0.5 rounded-full shadow-2xs border border-slate-200 text-[10px] text-slate-600 transition-transform active:scale-95 cursor-pointer"
+                    title="Ver quién reaccionó a este comentario"
                   >
-                    <span>😆👍</span>
-                    <span class="font-semibold">{{ comment.likesCount }}</span>
-                  </div>
+                    <div class="flex items-center -space-x-1">
+                      <FacebookReactionIcon
+                        v-for="t in getTopReactionsFor(comment)"
+                        :key="t"
+                        :type="t"
+                        size="xs"
+                        class="ring-1 ring-white rounded-full w-3.5 h-3.5"
+                      />
+                    </div>
+                    <span class="font-bold text-slate-700 ml-0.5">{{ comment.likesCount }}</span>
+                  </button>
 
                   <button
                     v-if="comment.authorId === feedStore.currentUser.id"
                     type="button"
                     @click="feedStore.deleteComment(post.id, comment.id)"
-                    class="text-red-500 hover:underline font-normal text-[10px] ml-2 cursor-pointer"
+                    class="text-red-500 hover:underline font-normal text-[10px] ml-1 cursor-pointer"
                   >
                     Eliminar
                   </button>
@@ -407,7 +456,7 @@
               </div>
             </div>
 
-            <!-- Nested Replies Thread (Matches screenshot 2 with connecting curve line!) -->
+            <!-- Nested Replies Thread -->
             <div v-if="comment.replies && comment.replies.length > 0" class="pl-11 space-y-2 relative">
               <!-- Thread line connecting to parent -->
               <div class="absolute left-5 top-0 bottom-3 w-0.5 bg-slate-200 rounded-full" />
@@ -420,108 +469,190 @@
                 <!-- Horizontal connector branch -->
                 <div class="absolute -left-6 top-4 w-4 h-3 border-l-2 border-b-2 border-slate-200 rounded-bl-lg" />
 
-                <SafeImage
-                  :src="reply.authorAvatar"
-                  :alt="reply.authorName"
-                  imgClass="w-7 h-7 rounded-full object-cover ring-1 ring-slate-200 shrink-0 mt-0.5"
-                  containerClass="w-7 h-7 rounded-full"
-                />
+                <RouterLink
+                  :to="`/profiles/${reply.authorId}`"
+                  @click="$emit('close')"
+                  class="shrink-0 mt-0.5 cursor-pointer"
+                >
+                  <SafeImage
+                    :src="reply.authorAvatar"
+                    :alt="reply.authorName"
+                    imgClass="w-7 h-7 rounded-full object-cover ring-1 ring-slate-200"
+                    containerClass="w-7 h-7 rounded-full"
+                  />
+                </RouterLink>
 
                 <div class="flex-1 min-w-0">
                   <div class="inline-block bg-slate-100 hover:bg-slate-200/70 transition-colors px-3 py-1.5 rounded-2xl max-w-[92%]">
                     <div class="flex items-center gap-1.5">
-                      <span class="text-xs font-bold text-slate-900 cursor-pointer hover:underline">
+                      <RouterLink
+                        :to="`/profiles/${reply.authorId}`"
+                        @click="$emit('close')"
+                        class="text-xs font-bold text-slate-900 cursor-pointer hover:underline"
+                      >
                         {{ reply.authorName }}
-                      </span>
+                      </RouterLink>
                       <span class="text-[10px] text-slate-500 font-normal">
                         · {{ reply.timestamp }}
                       </span>
                     </div>
 
+                    <!-- Replying to specific person mention! -->
                     <p class="text-xs text-slate-900 leading-snug break-words mt-0.5">
-                      <span class="text-blue-600 font-semibold mr-1">
-                        {{ comment.authorName }}
-                      </span>
-                      {{ reply.content }}
+                      <template v-if="!reply.content.startsWith('@')">
+                        <RouterLink
+                          v-if="reply.replyToUserId"
+                          :to="`/profiles/${reply.replyToUserId}`"
+                          @click="$emit('close')"
+                          class="text-blue-600 hover:text-blue-800 font-bold mr-1 hover:underline cursor-pointer inline-flex items-center"
+                        >
+                          @{{ reply.replyToUserName || comment.authorName }}
+                        </RouterLink>
+                        <span v-else-if="reply.replyToUserName" class="text-blue-600 font-bold mr-1">
+                          @{{ reply.replyToUserName }}
+                        </span>
+                      </template>
+                      <MentionText :content="reply.content" :onMentionClick="() => $emit('close')" />
                     </p>
                   </div>
 
-                  <!-- Reply sub-actions -->
-                  <div class="flex items-center gap-3 px-2 pt-0.5 text-[11px] text-slate-500 font-semibold">
-                    <button
-                      type="button"
-                      @click="feedStore.toggleLikeComment(post.id, reply.id)"
-                      :class="['flex items-center gap-1 hover:underline cursor-pointer', reply.isLiked ? 'text-blue-600 font-bold' : '']"
+                  <!-- Reply sub-actions: Reactions Popover / Like | Responder | Compartir | Reactions Badge -->
+                  <div class="flex items-center gap-3 px-2 pt-0.5 text-[11px] text-slate-500 font-semibold relative">
+                    <!-- Reply Reaction Popover Trigger -->
+                    <div
+                      class="relative inline-flex items-center"
+                      @mouseenter="hoverCommentReaction(reply.id)"
+                      @mouseleave="leaveCommentReaction"
                     >
-                      <ThumbsUp :class="['w-3 h-3', reply.isLiked ? 'fill-blue-600 text-blue-600' : 'text-slate-500']" />
-                    </button>
+                      <div
+                        v-if="activeCommentReactionId === reply.id"
+                        class="absolute -top-9 left-0 z-40 animate-in fade-in zoom-in-95 duration-100"
+                        @mouseenter="clearCommentReactionTimer"
+                        @mouseleave="leaveCommentReaction"
+                      >
+                        <FacebookReactions
+                          compact
+                          size="xs"
+                          @select="(type) => handleCommentReaction(reply.id, type)"
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        @click="handleClickCommentReaction(reply)"
+                        class="p-0.5 rounded-full hover:scale-110 active:scale-95 transition-all cursor-pointer flex items-center justify-center"
+                        :title="reply.userReaction ? 'Quitar o cambiar reacción' : 'Reaccionar'"
+                      >
+                        <FacebookReactionIcon
+                          :type="reply.userReaction || 'like'"
+                          size="xs"
+                          :class="[
+                            'w-3 h-3 transition-all',
+                            reply.userReaction ? 'scale-105 drop-shadow-2xs' : 'opacity-50 hover:opacity-100'
+                          ]"
+                        />
+                      </button>
+                    </div>
+
+                    <!-- Clicking Responder on a reply targets this reply's author! -->
                     <button
                       type="button"
-                      @click="toggleReply(comment.id)"
-                      class="hover:underline cursor-pointer"
+                      @click="startReply(comment, { id: reply.authorId, name: reply.authorName })"
+                      class="hover:underline cursor-pointer text-[10.5px]"
                     >
                       Responder
                     </button>
+
                     <button
                       type="button"
                       @click="shareComment(reply)"
-                      class="hover:underline cursor-pointer"
+                      class="hover:underline cursor-pointer text-[10.5px]"
                     >
                       Compartir
                     </button>
 
-                    <div
+                    <!-- Clickable Badge on Reply: Opens modal with who reacted! -->
+                    <button
                       v-if="reply.likesCount > 0"
-                      class="ml-auto flex items-center gap-1 bg-white px-1.5 py-0.2 rounded-full shadow-2xs border border-slate-200 text-[10px] text-slate-600 font-normal"
+                      type="button"
+                      @click="openReactionsModalFor(reply)"
+                      class="ml-auto flex items-center gap-1 bg-white hover:bg-slate-50 px-1.5 py-0.5 rounded-full shadow-2xs border border-slate-200 text-[10px] text-slate-600 transition-transform active:scale-95 cursor-pointer"
+                      title="Ver quién reaccionó a esta respuesta"
                     >
-                      <span>👍</span>
-                      <span class="font-semibold">{{ reply.likesCount }}</span>
-                    </div>
+                      <div class="flex items-center -space-x-1">
+                        <FacebookReactionIcon
+                          v-for="t in getTopReactionsFor(reply)"
+                          :key="t"
+                          :type="t"
+                          size="xs"
+                          class="ring-1 ring-white rounded-full w-3 h-3"
+                        />
+                      </div>
+                      <span class="font-bold text-slate-700 ml-0.5">{{ reply.likesCount }}</span>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Inline Thread Reply Input Box (Screenshot 2: "Escribe una respuesta pública...") -->
-            <div v-if="activeReplyCommentId === comment.id" class="pl-11 pt-1 flex items-center gap-2 relative">
-              <div class="relative shrink-0">
-                <SafeImage
-                  :src="feedStore.currentUser.avatar"
-                  :alt="feedStore.currentUser.name"
-                  imgClass="w-7 h-7 rounded-full object-cover ring-1 ring-slate-200"
-                  containerClass="w-7 h-7 rounded-full"
-                />
-                <span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-slate-200 flex items-center justify-center">
-                  <ChevronDown class="w-2.5 h-2.5 text-slate-600" />
-                </span>
+            <!-- Inline Thread Reply Input Box with Target Indicator and @ Autocomplete -->
+            <div v-if="activeReplyCommentId === comment.id" class="pl-11 pt-1 flex flex-col gap-1.5 relative">
+              <div v-if="activeReplyTarget" class="flex items-center justify-between text-[11px] text-slate-500 px-1">
+                <span>Respondiendo a <strong class="text-blue-600">@{{ activeReplyTarget.name }}</strong></span>
+                <button type="button" @click="cancelReply" class="text-slate-400 hover:text-slate-600 cursor-pointer">
+                  <X class="w-3.5 h-3.5" />
+                </button>
               </div>
 
-              <div class="flex-1 bg-slate-100 rounded-3xl px-3 py-1.5 flex items-center gap-2 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-500 border border-transparent focus-within:border-slate-200 transition-all">
-                <input
-                  type="text"
-                  v-model="replyText"
-                  placeholder="Escribe una respuesta pública..."
-                  class="flex-1 text-xs text-slate-900 bg-transparent outline-none placeholder-slate-500"
-                  @keydown.enter.prevent="submitReply(comment.id)"
-                  autofocus
+              <div class="flex items-center gap-2 relative">
+                <!-- Mention Autocomplete for Reply -->
+                <MentionAutocomplete
+                  :isOpen="showReplyMentionAutocomplete"
+                  :searchQuery="replyMentionQuery"
+                  @select="selectMentionReply"
                 />
 
-                <div class="flex items-center gap-1 text-slate-400">
-                  <button type="button" @click="replyText += ' 🙂'" class="hover:text-amber-500 transition-colors cursor-pointer" title="Emoji">
-                    <Smile class="w-4 h-4" />
-                  </button>
-                  <button type="button" @click="triggerPhotoUpload" class="hover:text-emerald-600 transition-colors cursor-pointer" title="Cámara / Foto">
-                    <Camera class="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    @click="submitReply(comment.id)"
-                    :disabled="!replyText.trim()"
-                    class="p-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-30 cursor-pointer ml-1"
-                    title="Enviar respuesta"
-                  >
-                    <Send class="w-3 h-3" />
-                  </button>
+                <div class="relative shrink-0">
+                  <SafeImage
+                    :src="feedStore.currentUser.avatar"
+                    :alt="feedStore.currentUser.name"
+                    imgClass="w-7 h-7 rounded-full object-cover ring-1 ring-slate-200"
+                    containerClass="w-7 h-7 rounded-full"
+                  />
+                  <span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-slate-200 flex items-center justify-center">
+                    <ChevronDown class="w-2.5 h-2.5 text-slate-600" />
+                  </span>
+                </div>
+
+                <div class="flex-1 bg-slate-100 rounded-3xl px-3 py-1.5 flex items-center gap-2 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-500 border border-transparent focus-within:border-slate-200 transition-all">
+                  <input
+                    :data-reply-input="comment.id"
+                    type="text"
+                    v-model="replyText"
+                    @input="onReplyInput"
+                    placeholder="Escribe una respuesta pública..."
+                    class="flex-1 text-xs text-slate-900 bg-transparent outline-none placeholder-slate-500"
+                    @keydown.enter.prevent="submitReply(comment.id)"
+                    autofocus
+                  />
+
+                  <div class="flex items-center gap-1 text-slate-400">
+                    <button type="button" @click="replyText += ' 🙂'" class="hover:text-amber-500 transition-colors cursor-pointer" title="Emoji">
+                      <Smile class="w-4 h-4" />
+                    </button>
+                    <button type="button" @click="triggerPhotoUpload" class="hover:text-emerald-600 transition-colors cursor-pointer" title="Cámara / Foto">
+                      <Camera class="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      @click="submitReply(comment.id)"
+                      :disabled="!replyText.trim()"
+                      class="p-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-30 cursor-pointer ml-1"
+                      title="Enviar respuesta"
+                    >
+                      <Send class="w-3 h-3" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -529,8 +660,15 @@
         </div>
       </div>
 
-      <!-- 6. Fixed Sticky Bottom Comment Composer (Exact match to screenshot 1 & 2!) -->
-      <div class="p-3 sm:px-4 bg-white border-t border-slate-200 z-30">
+      <!-- 6. Fixed Sticky Bottom Comment Composer with @ Autocomplete -->
+      <div class="p-3 sm:px-4 bg-white border-t border-slate-200 z-30 relative">
+        <!-- Mention Autocomplete for Main Comment -->
+        <MentionAutocomplete
+          :isOpen="showMentionAutocomplete"
+          :searchQuery="mentionQuery"
+          @select="selectMentionMain"
+        />
+
         <form @submit.prevent="submitComment" class="flex items-center gap-2.5">
           <!-- Current User Avatar with dropdown arrow -->
           <div class="relative shrink-0 cursor-pointer" title="Comentando como tú">
@@ -552,7 +690,8 @@
               ref="commentInputRef"
               type="text"
               v-model="commentText"
-              placeholder="Escribe un comentario público..."
+              @input="onCommentInput"
+              placeholder="Escribe un comentario público (usa @ para mencionar)..."
               class="w-full text-xs text-slate-900 placeholder-slate-500 bg-transparent outline-none"
               autofocus
             />
@@ -573,10 +712,9 @@
               </button>
             </div>
 
-            <!-- Bottom icons row (like in Facebook: Stickers, Emoji, Camera, GIF, Send) -->
+            <!-- Bottom icons row -->
             <div class="flex items-center justify-between pt-1">
               <div class="flex items-center gap-2 text-slate-400">
-                <!-- Avatar / Sticker icon -->
                 <button
                   type="button"
                   @click="commentText += ' 🎭'"
@@ -586,7 +724,6 @@
                   <Smile class="w-4 h-4 text-slate-400" />
                 </button>
 
-                <!-- Emoji icon -->
                 <button
                   type="button"
                   @click="commentText += ' 🙂'"
@@ -596,7 +733,6 @@
                   <Smile class="w-4 h-4" />
                 </button>
 
-                <!-- Camera / Photo icon -->
                 <button
                   type="button"
                   @click="promptImageUrl"
@@ -606,7 +742,6 @@
                   <Camera class="w-4 h-4" />
                 </button>
 
-                <!-- GIF icon badge -->
                 <button
                   type="button"
                   @click="insertGif"
@@ -631,11 +766,11 @@
         </form>
       </div>
 
-      <!-- Modals -->
+      <!-- Modals (Reactions modal can show post reactions OR comment reactions) -->
       <ReactionsModal
-        :post="post"
+        :post="selectedEntityForReactions || post"
         :isOpen="showReactionsModal"
-        @close="showReactionsModal = false"
+        @close="showReactionsModal = false; selectedEntityForReactions = null"
       />
 
       <ShareModal
@@ -645,6 +780,7 @@
       />
     </div>
   </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -665,12 +801,15 @@ import {
   Send
 } from 'lucide-vue-next';
 import { useFeedStore } from '../store/feedStore';
+import { useNotificationStore } from '@/modules/notifications/store/notificationStore';
 import { REACTION_CONFIGS } from '../composables/useReactions';
 import FacebookReactions from './FacebookReactions.vue';
 import FacebookReactionIcon from './FacebookReactionIcon.vue';
 import ReactionsModal from './ReactionsModal.vue';
 import ShareModal from './ShareModal.vue';
 import SafeImage from '@/shared/components/SafeImage.vue';
+import MentionText from './MentionText.vue';
+import MentionAutocomplete from './MentionAutocomplete.vue';
 import { useBodyScrollLock } from '@/shared/composables/useBodyScrollLock';
 
 const props = defineProps({
@@ -688,11 +827,13 @@ useBodyScrollLock(() => props.isOpen);
 
 defineEmits(['close']);
 const feedStore = useFeedStore();
+const notificationStore = useNotificationStore();
 
 const commentInputRef = ref(null);
 const scrollContainer = ref(null);
 const showReactionsPopover = ref(false);
 const showReactionsModal = ref(false);
+const selectedEntityForReactions = ref(null);
 const showShareModal = ref(false);
 const showOptionsMenu = ref(false);
 const showSortMenu = ref(false);
@@ -701,14 +842,40 @@ const sortOption = ref('relevant');
 const commentText = ref('');
 const commentImageUrl = ref('');
 const activeReplyCommentId = ref(null);
+const activeReplyTarget = ref(null);
 const replyText = ref('');
 
+// Mention Autocomplete states
+const showMentionAutocomplete = ref(false);
+const mentionQuery = ref('');
+const showReplyMentionAutocomplete = ref(false);
+const replyMentionQuery = ref('');
+
+// Comment reaction popover states
+const activeCommentReactionId = ref(null);
+let commentReactionTimer = null;
 let popoverTimer = null;
 
 const sortOptionLabel = computed(() => {
   if (sortOption.value === 'recent') return 'Más recientes';
   if (sortOption.value === 'all') return 'Todos los comentarios';
   return 'Más relevantes';
+});
+
+// Working filter: dynamically sorts comments based on selected filter
+const sortedComments = computed(() => {
+  const list = [...(props.post.comments || [])];
+  if (sortOption.value === 'recent') {
+    return list.slice().reverse();
+  }
+  if (sortOption.value === 'relevant') {
+    return list.sort((a, b) => {
+      const aEngagement = (a.likesCount || 0) + (a.replies?.length || 0) * 2;
+      const bEngagement = (b.likesCount || 0) + (b.replies?.length || 0) * 2;
+      return bEngagement - aEngagement;
+    });
+  }
+  return list;
 });
 
 const totalReactions = computed(() => {
@@ -726,6 +893,7 @@ const currentReactionConfig = computed(() => {
   return props.post.userReaction ? REACTION_CONFIGS[props.post.userReaction] : null;
 });
 
+// Post level reactions popover
 function delayShowPopover() {
   clearPopoverTimer();
   popoverTimer = setTimeout(() => {
@@ -758,14 +926,185 @@ function handleSelectReaction(type) {
   showReactionsPopover.value = false;
 }
 
-function focusCommentInput() {
+// Comment level reactions popover & handling
+function hoverCommentReaction(id) {
+  if (commentReactionTimer) clearTimeout(commentReactionTimer);
+  activeCommentReactionId.value = id;
+}
+
+function leaveCommentReaction() {
+  if (commentReactionTimer) clearTimeout(commentReactionTimer);
+  commentReactionTimer = setTimeout(() => {
+    activeCommentReactionId.value = null;
+  }, 350);
+}
+
+function clearCommentReactionTimer() {
+  if (commentReactionTimer) clearTimeout(commentReactionTimer);
+}
+
+function handleClickCommentReaction(commentOrReply) {
+  if (activeCommentReactionId.value === commentOrReply.id) {
+    if (commentOrReply.userReaction) {
+      handleCommentReaction(commentOrReply.id, commentOrReply.userReaction);
+    } else {
+      handleCommentReaction(commentOrReply.id, 'like');
+    }
+  } else {
+    clearCommentReactionTimer();
+    activeCommentReactionId.value = commentOrReply.id;
+  }
+}
+
+function handleCommentReaction(commentOrReplyId, reactionType) {
+  feedStore.reactToComment(props.post.id, commentOrReplyId, reactionType);
+  activeCommentReactionId.value = null;
+}
+
+function getCommentReactionConfig(type) {
+  return type ? REACTION_CONFIGS[type] : null;
+}
+
+function getTopReactionsFor(comment) {
+  if (!comment?.reactions) return ['like'];
+
+  const activeKeys = Object.keys(comment.reactions).filter(
+    (k) => (comment.reactions[k] || 0) > 0
+  );
+  if (activeKeys.length === 0) return ['like'];
+
+  const result = [];
+
+  // If the user reacted to this comment, prioritize user reaction so it appears immediately!
+  if (comment.userReaction && (comment.reactions[comment.userReaction] || 0) > 0) {
+    result.push(comment.userReaction);
+  }
+
+  // Fill up to 3 slots with other top reactions by count
+  const sortedOthers = activeKeys
+    .filter((k) => k !== comment.userReaction)
+    .sort((a, b) => (comment.reactions[b] || 0) - (comment.reactions[a] || 0));
+
+  for (const k of sortedOthers) {
+    if (result.length < 3) {
+      result.push(k);
+    }
+  }
+
+  return result.length > 0 ? result : ['like'];
+}
+
+// Open reactions modal for a comment
+function openReactionsModalFor(entity) {
+  if (!entity.reactions) {
+    entity.reactions = { like: entity.likesCount || 1, love: 0, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 };
+  }
+  if (!entity.reactionsList || entity.reactionsList.length === 0) {
+    entity.reactionsList = [
+      {
+        userId: 'user_1',
+        userName: 'Elena Rostova',
+        userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80',
+        type: entity.userReaction || 'love',
+      },
+      {
+        userId: 'user_2',
+        userName: 'Alejandro Morales',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+        type: 'like',
+      },
+    ];
+  }
+  selectedEntityForReactions.value = entity;
+  showReactionsModal.value = true;
+}
+
+// Reply to specific person
+function startReply(comment, targetUser) {
+  activeReplyCommentId.value = comment.id;
+  activeReplyTarget.value = targetUser;
+  replyText.value = `@${targetUser.name} `;
+  nextTick(() => {
+    const el = document.querySelector(`[data-reply-input="${comment.id}"]`);
+    if (el) {
+      el.focus();
+      el.selectionStart = el.selectionEnd = replyText.value.length;
+    }
+  });
+}
+
+function cancelReply() {
+  activeReplyCommentId.value = null;
+  activeReplyTarget.value = null;
+  replyText.value = '';
+}
+
+// Mentions autocomplete logic
+function onCommentInput(e) {
+  const val = commentText.value;
+  const cursor = e.target.selectionStart || val.length;
+  const beforeCursor = val.slice(0, cursor);
+  const match = beforeCursor.match(/@([a-zA-Z0-9_\s]{0,20})$/);
+  if (match) {
+    mentionQuery.value = match[1];
+    showMentionAutocomplete.value = true;
+  } else {
+    showMentionAutocomplete.value = false;
+  }
+}
+
+function selectMentionMain(user) {
+  const val = commentText.value;
+  const match = val.match(/@([a-zA-Z0-9_\s]{0,20})$/);
+  if (match) {
+    commentText.value = val.slice(0, match.index) + `@${user.name} `;
+  } else {
+    commentText.value += `@${user.name} `;
+  }
+  showMentionAutocomplete.value = false;
+  notificationStore.addMentionNotification({
+    senderName: feedStore.currentUser.name,
+    senderAvatar: feedStore.currentUser.avatar,
+    commentText: commentText.value,
+  });
   nextTick(() => {
     commentInputRef.value?.focus();
   });
 }
 
-function toggleReply(commentId) {
-  activeReplyCommentId.value = activeReplyCommentId.value === commentId ? null : commentId;
+function onReplyInput(e) {
+  const val = replyText.value;
+  const cursor = e.target.selectionStart || val.length;
+  const beforeCursor = val.slice(0, cursor);
+  const match = beforeCursor.match(/@([a-zA-Z0-9_\s]{0,20})$/);
+  if (match) {
+    replyMentionQuery.value = match[1];
+    showReplyMentionAutocomplete.value = true;
+  } else {
+    showReplyMentionAutocomplete.value = false;
+  }
+}
+
+function selectMentionReply(user) {
+  const val = replyText.value;
+  const match = val.match(/@([a-zA-Z0-9_\s]{0,20})$/);
+  if (match) {
+    replyText.value = val.slice(0, match.index) + `@${user.name} `;
+  } else {
+    replyText.value += `@${user.name} `;
+  }
+  showReplyMentionAutocomplete.value = false;
+  notificationStore.addMentionNotification({
+    senderName: feedStore.currentUser.name,
+    senderAvatar: feedStore.currentUser.avatar,
+    commentText: replyText.value,
+  });
+}
+
+function focusCommentInput() {
+  nextTick(() => {
+    commentInputRef.value?.focus();
+  });
 }
 
 function promptImageUrl() {
@@ -793,9 +1132,22 @@ function shareComment(c) {
 
 function submitComment() {
   if (!commentText.value.trim() && !commentImageUrl.value.trim()) return;
-  feedStore.addComment(props.post.id, commentText.value.trim(), commentImageUrl.value.trim() || null);
+
+  const text = commentText.value.trim();
+  feedStore.addComment(props.post.id, text, commentImageUrl.value.trim() || null);
+
+  // If text mentions anyone with @, dispatch in-app notification
+  if (text.includes('@')) {
+    notificationStore.addMentionNotification({
+      senderName: feedStore.currentUser.name,
+      senderAvatar: feedStore.currentUser.avatar,
+      commentText: text,
+    });
+  }
+
   commentText.value = '';
   commentImageUrl.value = '';
+  showMentionAutocomplete.value = false;
 
   nextTick(() => {
     if (scrollContainer.value) {
@@ -806,8 +1158,31 @@ function submitComment() {
 
 function submitReply(parentId) {
   if (!replyText.value.trim()) return;
-  feedStore.addComment(props.post.id, replyText.value.trim(), null, parentId);
+
+  let text = replyText.value.trim();
+
+  // If text accidentally has duplicate target prefix (e.g. "@Elena Rostova @Elena Rostova jajaja")
+  if (activeReplyTarget.value?.name) {
+    const prefix = `@${activeReplyTarget.value.name}`;
+    const doublePrefix = `${prefix} ${prefix}`;
+    while (text.startsWith(doublePrefix)) {
+      text = prefix + text.slice(doublePrefix.length);
+    }
+  }
+
+  feedStore.addComment(props.post.id, text, null, parentId, activeReplyTarget.value);
+
+  if (activeReplyTarget.value || text.includes('@')) {
+    notificationStore.addMentionNotification({
+      senderName: feedStore.currentUser.name,
+      senderAvatar: feedStore.currentUser.avatar,
+      commentText: text,
+    });
+  }
+
   replyText.value = '';
   activeReplyCommentId.value = null;
+  activeReplyTarget.value = null;
+  showReplyMentionAutocomplete.value = false;
 }
 </script>

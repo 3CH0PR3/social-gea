@@ -39,10 +39,9 @@
           to="/radar"
           class="relative flex items-center justify-center px-4 md:px-6 h-full transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100/70 rounded-xl my-1"
           active-class="text-emerald-600 font-bold !bg-transparent"
-          title="Radar de Amigos"
+          title="Amigos"
         >
-          <Radar class="w-5 h-5" />
-          <span class="absolute top-3 right-3 md:right-5 w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+          <Users class="w-5 h-5" />
           <span
             v-if="$route.path === '/radar'"
             class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
@@ -197,6 +196,7 @@ import { RouterLink, useRoute } from 'vue-router';
 import {
   Search,
   Home,
+  Users,
   Radar,
   Sparkles,
   Building2,

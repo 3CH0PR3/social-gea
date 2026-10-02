@@ -123,8 +123,7 @@
     <!-- A. Colored Gradient Canvas (Like Facebook) -->
     <div
       v-if="post.backgroundColor"
-      @click="showCommentsModal = true"
-      class="min-h-[220px] p-8 flex items-center justify-center text-center px-6 cursor-pointer select-none"
+      class="min-h-[220px] p-8 flex items-center justify-center text-center px-6 select-none"
       :style="{ background: post.backgroundColor }"
     >
       <p
@@ -136,7 +135,7 @@
     </div>
 
     <!-- B. Regular Content Text -->
-    <div v-else-if="post.content" class="px-4 pb-3 cursor-pointer" @click="showCommentsModal = true">
+    <div v-else-if="post.content" class="px-4 pb-3">
       <p class="text-sm text-slate-800 leading-relaxed whitespace-pre-line break-words">
         {{ post.content }}
       </p>
@@ -153,13 +152,13 @@
       <div
         v-if="post.images.length === 1"
         class="w-full flex items-center justify-center bg-slate-900 cursor-pointer overflow-hidden"
-        @click="feedStore.openLightbox(post.images, 0)"
+        @click="feedStore.openLightbox(post.images, 0, post)"
       >
         <SafeImage
           :src="post.images[0]"
           alt="Imagen vinculada"
           allowZoom
-          @zoom="feedStore.openLightbox(post.images, 0)"
+          @zoom="feedStore.openLightbox(post.images, 0, post)"
           imgClass="w-full max-h-[550px] object-cover hover:scale-101 transition-transform duration-300"
           containerClass="w-full"
         />
@@ -170,7 +169,7 @@
           v-for="(img, idx) in post.images.slice(0, 4)"
           :key="idx"
           class="h-44 sm:h-52 cursor-pointer overflow-hidden bg-slate-900"
-          @click="feedStore.openLightbox(post.images, idx)"
+          @click="feedStore.openLightbox(post.images, idx, post)"
         >
           <SafeImage
             :src="img"

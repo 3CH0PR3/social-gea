@@ -1,10 +1,11 @@
 <template>
-  <div
-    v-if="viewer.isOpen && currentStory"
-    role="dialog"
-    aria-modal="true"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 select-none"
-  >
+  <Teleport to="body">
+    <div
+      v-if="viewer.isOpen && currentStory"
+      role="dialog"
+      aria-modal="true"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 select-none"
+    >
     <!-- Floating Emojis -->
     <span
       v-for="f in floatingEmojis"
@@ -200,6 +201,7 @@
       </div>
     </div>
   </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -208,11 +210,14 @@ import { X, ChevronLeft, ChevronRight, Pause, Play, Send, Eye, Trash2 } from 'lu
 import { useHistorys } from '../composables/useHistorys';
 import { useHistoryStore } from '../store/historyStore';
 import { useMessengerStore } from '@/modules/messenger/store/messengerStore';
+import { useBodyScrollLock } from '@/shared/composables/useBodyScrollLock';
 import SafeImage from '@/shared/components/SafeImage.vue';
 
 const { stories, viewer } = useHistorys();
 const historyStore = useHistoryStore();
 const messengerStore = useMessengerStore();
+
+useBodyScrollLock(() => viewer.value?.isOpen);
 
 const currentStoryIdx = ref(0);
 const currentItemIdx = ref(0);

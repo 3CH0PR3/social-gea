@@ -1,6 +1,7 @@
 <template>
-  <div
-    v-if="isOpen"
+  <Teleport to="body">
+    <div
+      v-if="isOpen"
     role="dialog"
     aria-modal="true"
     class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-white sm:bg-black/60 sm:backdrop-blur-sm animate-in fade-in duration-200"
@@ -331,6 +332,7 @@
       </form>
     </div>
   </div>
+  </Teleport>
 </template>
 
 <script setup>

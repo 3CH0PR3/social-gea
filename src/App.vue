@@ -5,17 +5,17 @@
 
     <!-- Main Responsive Layout -->
     <div class="max-w-7xl mx-auto w-full px-2 sm:px-4 py-4 sm:py-6 flex items-start justify-center gap-6">
-      <!-- Left Sidebar (Contextual for Empresas) -->
+      <!-- Left Sidebar (Contextual for Empresas or General Feeds, hidden on Friends where filters aside is used) -->
       <SidebarEmpresas v-if="isEmpresasRoute" />
-      <SidebarLeft v-else />
+      <SidebarLeft v-else-if="!isFriendsRoute" />
 
       <!-- Center Dynamic Router Stage -->
-      <main :class="['flex-1 w-full min-w-0 transition-all duration-200', isWideRoute ? 'max-w-5xl' : 'max-w-2xl']">
+      <main :class="['flex-1 w-full min-w-0 transition-all duration-200', (isWideRoute || isFriendsRoute) ? 'max-w-7xl' : 'max-w-2xl']">
         <RouterView />
       </main>
 
       <!-- Right Sidebar -->
-      <SidebarRight v-if="!isWideRoute" />
+      <SidebarRight v-if="!isWideRoute && !isFriendsRoute" />
     </div>
 
     <!-- Mobile Navigation -->
@@ -53,11 +53,13 @@ import { useMessengerStore } from '@/modules/messenger/store/messengerStore';
 
 const route = useRoute();
 const isEmpresasRoute = computed(() => route.path.startsWith('/empresas'));
+const isFriendsRoute = computed(() => route.path.startsWith('/radar') || route.path.startsWith('/friends'));
 const isWideRoute = computed(() => {
   return (
     route.path.startsWith('/empresas') ||
     route.path.startsWith('/profiles') ||
-    route.path.startsWith('/historys')
+    route.path.startsWith('/historys') ||
+    isFriendsRoute.value
   );
 });
 

@@ -47,5 +47,18 @@ export const useNotificationStore = defineStore('notification', {
     setFilter(filterName) {
       this.filter = filterName;
     },
+
+    addMentionNotification({ senderName, senderAvatar, commentText }) {
+      this.notifications.unshift({
+        id: `notif_${Date.now()}`,
+        type: 'mention',
+        title: `${senderName} te ha mencionado`,
+        message: commentText ? `"${commentText.slice(0, 60)}..."` : 'Te mencionó en un comentario.',
+        timestamp: 'Justo ahora',
+        isRead: false,
+        avatar: senderAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+        link: '/feeds',
+      });
+    },
   },
 });
