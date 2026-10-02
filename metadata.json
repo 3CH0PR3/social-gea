@@ -1,0 +1,6 @@
+{
+  "name": "Conecta Radar - Red Social",
+  "description": "Red social interactiva con publicaciones, historias, comentarios, reacciones estilo Facebook, radar de conexiones y vinculación de imágenes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
