@@ -1,0 +1,83 @@
+:root {
+  /* ========================================================
+     BRAND & COLOR TOKENS
+     ======================================================== */
+  --color-primary: #059669;
+  --color-primary-hover: #047857;
+  --color-primary-active: #065f46;
+  --color-primary-subtle: #ecfdf5;
+  --color-primary-subtle-border: #a7f3d0;
+  --color-primary-contrast: #ffffff;
+
+  /* Accent & Status Colors */
+  --color-accent: #f59e0b;
+  --color-accent-subtle: #fffbeb;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-danger-subtle: #fef2f2;
+  --color-info: #0284c7;
+  --color-info-subtle: #f0f9ff;
+
+  /* Surfaces & Backgrounds */
+  --bg-app: #f0f2f5;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #f8fafc;
+  --bg-input: #f1f5f9;
+  --bg-input-focus: #ffffff;
+
+  /* Borders & Dividers */
+  --border-subtle: #f1f5f9;
+  --border-default: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-focus: var(--color-primary);
+
+  /* Typography Colors */
+  --text-main: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+  --text-inverse: #ffffff;
+
+  /* ========================================================
+     TYPOGRAPHIC TOKENS (Normalized Social Feed Scale)
+     ======================================================== */
+  --font-size-2xs: 0.6875rem;  /* 11px - Meta, timestamps, micro badges */
+  --font-size-xs: 0.75rem;     /* 12px - Feeling, counters, secondary info */
+  --font-size-sm: 0.8125rem;   /* 13px - Subtitles, captions, utility items */
+  --font-size-feed: 0.84375rem; /* 13.5px - Optimal Facebook-style feed text */
+  --font-size-base: 0.875rem;  /* 14px - Primary body & author names */
+  --font-size-md: 0.9375rem;   /* 15px - Section headers */
+  --font-size-lg: 1rem;        /* 16px - Modal titles */
+
+  /* Line Heights (Crisp, native feel without excessive vertical gap) */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-feed: 1.38;        /* Compact line-height for feed readability */
+  --leading-snug: 1.35;
+  --leading-normal: 1.45;
+
+  /* ========================================================
+     ICON SYSTEM TOKENS (Pixel-Consistent Across App)
+     ======================================================== */
+  --icon-size-nav: 1.25rem;     /* 20px - Top Navbar & Bottom Nav */
+  --icon-size-action: 1rem;     /* 16px - Post actions & reactions */
+  --icon-size-meta: 0.75rem;    /* 12px - Globe, lock, timestamps */
+
+  /* Shapes & Radii */
+  --card-radius: 1rem;         /* 16px */
+  --card-radius-sm: 0.75rem;    /* 12px */
+  --btn-radius: 0.75rem;       /* 12px */
+  --btn-radius-full: 9999px;   /* Pills */
+  --input-radius: 0.75rem;     /* 12px */
+  --badge-radius: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-dropdown: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-modal: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Fonts */
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Outfit", sans-serif;
+}

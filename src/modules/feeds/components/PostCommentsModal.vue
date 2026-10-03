@@ -8,7 +8,7 @@
     @click="$emit('close')"
   >
     <div
-      class="relative w-full h-[100dvh] sm:h-auto sm:max-h-[92vh] sm:max-w-[620px] bg-white sm:rounded-2xl shadow-none sm:shadow-2xl overflow-hidden border-0 sm:border border-slate-200/90 flex flex-col animate-in slide-in-from-bottom-2 sm:zoom-in-95 duration-200"
+      class="relative w-full h-[100dvh] sm:h-auto sm:max-h-[92vh] sm:max-w-[620px] bg-white sm:rounded-2xl shadow-none sm:shadow-2xl overflow-hidden border-0 sm:border border-slate-200/90 flex flex-col overscroll-contain animate-in slide-in-from-bottom-2 sm:zoom-in-95 duration-200"
       @click.stop
     >
       <!-- 1. Modal Top Bar (Mobile: native app bar with back button; Desktop: centered title with close X) -->
@@ -43,7 +43,7 @@
       </div>
 
       <!-- 2. Scrollable Body: Full Post Details + Comments Stream -->
-      <div class="flex-1 overflow-y-auto" ref="scrollContainer">
+      <div class="flex-1 overflow-y-auto overscroll-contain" ref="scrollContainer">
         <!-- Post Header: Author, Community, Time, 3-dots -->
         <div class="p-4 flex items-start justify-between">
           <div class="flex items-center gap-3">
@@ -60,8 +60,8 @@
               />
             </RouterLink>
 
-            <div>
-              <div class="flex items-center gap-1.5 flex-wrap">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 flex-wrap leading-tight">
                 <RouterLink
                   :to="`/profiles/${post.authorId}`"
                   @click="$emit('close')"
@@ -73,22 +73,22 @@
                 <span
                   v-if="post.authorVerified"
                   title="Verificado"
-                  class="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px]"
+                  class="w-3.5 h-3.5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] font-bold"
                 >
                   ✓
                 </span>
 
-                <span v-if="post.feeling" class="text-xs text-slate-500">
+                <span v-if="post.feeling" class="text-[11px] text-slate-500 font-normal inline-flex items-center gap-1">
                   está {{ post.feeling.emoji }} {{ post.feeling.text }}
                 </span>
               </div>
 
-              <div class="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5 font-normal">
+              <div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5 font-normal leading-none">
                 <span>{{ post.authorUsername ? `@${post.authorUsername}` : post.authorName }}</span>
                 <span>·</span>
                 <span>{{ post.timestamp }}</span>
                 <span>·</span>
-                <Globe class="w-3.5 h-3.5 text-slate-500" />
+                <Globe class="w-3 h-3 text-slate-400" />
               </div>
             </div>
           </div>
@@ -97,10 +97,10 @@
             <button
               type="button"
               @click="showOptionsMenu = !showOptionsMenu"
-              class="p-1.5 rounded-full text-slate-500 hover:bg-slate-100 transition-colors cursor-pointer"
+              class="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
               title="Opciones"
             >
-              <MoreHorizontal class="w-5 h-5" />
+              <MoreHorizontal class="w-4 h-4" />
             </button>
 
             <div
@@ -124,11 +124,11 @@
         <!-- A. Colored Gradient Canvas (Like in user's screenshot) -->
         <div
           v-if="post.backgroundColor"
-          class="min-h-[280px] p-8 flex items-center justify-center text-center px-6 select-none"
+          class="min-h-[220px] p-6 sm:p-8 flex items-center justify-center text-center px-4 select-none"
           :style="{ background: post.backgroundColor }"
         >
           <p
-            class="text-xl sm:text-2xl font-black leading-tight max-w-lg break-words uppercase tracking-wide drop-shadow-sm"
+            class="text-lg sm:text-xl font-black leading-snug max-w-lg break-words uppercase tracking-wide drop-shadow-sm"
             :style="{ color: post.textColor || '#ffffff' }"
           >
             {{ post.content }}
@@ -137,7 +137,7 @@
 
         <!-- B. Regular Text Content -->
         <div v-else-if="post.content" class="px-4 pb-3">
-          <p class="text-sm text-slate-900 leading-relaxed whitespace-pre-line break-words">
+          <p class="text-[13.5px] text-slate-800 leading-[1.38] whitespace-pre-line break-words">
             {{ post.content }}
           </p>
         </div>

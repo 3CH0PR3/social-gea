@@ -1,0 +1,81 @@
+/* Global HTML & Body base styling */
+html,
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--font-size-base);
+  line-height: var(--leading-normal);
+}
+
+/* Normalized Paragraph Reset */
+p {
+  margin: 0;
+  font-size: var(--font-size-feed);
+  line-height: var(--leading-feed);
+  color: var(--text-main);
+}
+
+/* Normalized Headings */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  color: var(--text-main);
+  line-height: var(--leading-tight);
+}
+
+/* Modal Open Body Lock */
+html.modal-open,
+body.modal-open {
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+  height: 100% !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Utility to hide scrollbars for horizontal carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important;    /* Firefox */
+}
+
+/* Selection Highlight */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+/* Global Subtle Keyframes */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.04); }
+}
+
+.animate-radar-ping {
+  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

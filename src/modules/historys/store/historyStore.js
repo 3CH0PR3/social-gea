@@ -54,6 +54,11 @@ export const useHistoryStore = defineStore('history', {
           items: [createdItem],
         });
       }
+      return createdItem;
+    },
+
+    async createStory(storyItem) {
+      return this.addStoryItem(storyItem);
     },
 
     deleteStoryItem(storyId, itemId) {

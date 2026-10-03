@@ -32,7 +32,7 @@
             type="button"
             @click="handleSubmit"
             :disabled="!content.trim() && imageUrls.length === 0"
-            class="sm:hidden px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all disabled:opacity-40 disabled:pointer-events-none bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs cursor-pointer"
+            class="sm:hidden btn btn-primary btn-sm"
           >
             Publicar
           </button>
@@ -50,27 +50,27 @@
       </div>
 
       <!-- Form Body -->
-      <form @submit.prevent="handleSubmit" class="flex-1 overflow-y-auto p-4 space-y-4">
+      <form @submit.prevent="handleSubmit" class="flex-1 overflow-y-auto overscroll-contain p-3.5 sm:p-4 space-y-2.5">
         <!-- Author info -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2.5">
           <SafeImage
             :src="currentUser.avatar"
             :alt="currentUser.name"
-            imgClass="w-10 h-10 rounded-full object-cover ring-2 ring-emerald-500"
-            containerClass="w-10 h-10 rounded-full"
+            imgClass="w-9 h-9 rounded-full object-cover ring-1.5 ring-emerald-500"
+            containerClass="w-9 h-9 rounded-full shrink-0"
           />
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-semibold text-slate-900">{{ currentUser.name }}</span>
-              <span v-if="selectedFeeling" class="text-xs text-slate-500 flex items-center gap-1">
-                está <span>{{ selectedFeeling.emoji }}</span> {{ selectedFeeling.text }}
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-1.5 leading-tight flex-wrap">
+              <span class="text-[13.5px] font-bold text-slate-900">{{ currentUser.name }}</span>
+              <span v-if="selectedFeeling" class="text-[11px] text-slate-500 inline-flex items-center gap-1">
+                está {{ selectedFeeling.emoji }} {{ selectedFeeling.text }}
               </span>
             </div>
 
             <div class="flex items-center gap-1 mt-0.5">
               <select
                 v-model="privacy"
-                class="text-[11px] font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-md outline-none cursor-pointer"
+                class="text-[11px] font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg outline-none cursor-pointer border border-slate-200/60"
               >
                 <option value="public">🌐 Público</option>
                 <option value="friends">👥 Solo amigos</option>
@@ -83,22 +83,25 @@
           </div>
         </div>
 
-        <!-- Text Area -->
+        <!-- Text Area (Compact and responsive so photos sit right below without empty gaps) -->
         <textarea
           v-model="content"
           :placeholder="`¿Qué estás pensando, ${currentUser.name.split(' ')[0]}?`"
-          class="w-full text-sm text-slate-800 placeholder-slate-400 bg-transparent resize-none outline-none min-h-[90px] border-none focus:ring-0"
+          :class="[
+            'w-full text-[13.5px] leading-[1.38] text-slate-800 placeholder-slate-400 bg-transparent resize-none outline-none border-none focus:ring-0 p-0 transition-all',
+            imageUrls.length > 0 ? 'min-h-[44px]' : 'min-h-[75px]'
+          ]"
           autofocus
         />
 
         <!-- Attached Images Grid Preview -->
-        <div v-if="imageUrls.length > 0" class="space-y-2">
-          <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+        <div v-if="imageUrls.length > 0" class="space-y-1.5 pt-1">
+          <div class="flex items-center justify-between text-[11px] font-semibold text-slate-500">
             <span>Fotos vinculadas ({{ imageUrls.length }}/4)</span>
             <button
               type="button"
               @click="imageUrls = []"
-              class="text-red-500 hover:underline"
+              class="text-red-500 hover:underline cursor-pointer"
             >
               Quitar todas
             </button>
@@ -224,7 +227,7 @@
               type="button"
               @click="addImageUrl(currentUrlInput)"
               :disabled="!currentUrlInput.trim()"
-              class="px-3 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white rounded-lg transition-colors shrink-0"
+              class="btn btn-primary btn-sm shrink-0"
             >
               Vincular
             </button>
@@ -268,17 +271,30 @@
         </div>
 
         <!-- Location Input -->
-        <div v-if="showLocationInput" class="p-3 rounded-xl border border-sky-200 bg-sky-50/50 flex items-center gap-2">
-          <MapPin class="w-4 h-4 text-sky-600 shrink-0" />
-          <input
-            type="text"
-            v-model="location"
-            placeholder="Ingresa ubicación (ej: Madrid, Parque del Retiro)..."
-            class="w-full text-xs bg-transparent outline-none text-slate-800"
-          />
-          <button type="button" @click="showLocationInput = false" class="text-slate-400 hover:text-slate-600">
-            <X class="w-3.5 h-3.5" />
-          </button>
+        <div v-if="showLocationInput" class="p-3 rounded-xl border border-sky-200 bg-sky-50/50 space-y-2 animate-in fade-in duration-150">
+          <div class="flex items-center gap-2">
+            <MapPin class="w-4 h-4 text-sky-600 shrink-0" />
+            <input
+              type="text"
+              v-model="location"
+              placeholder="¿Dónde te encuentras? (ej: Maracaibo, Venezuela)..."
+              class="w-full text-xs bg-transparent outline-none text-slate-800 placeholder-slate-400"
+            />
+            <button type="button" @click="showLocationInput = false; location = ''" class="text-slate-400 hover:text-slate-600 cursor-pointer">
+              <X class="w-3.5 h-3.5" />
+            </button>
+          </div>
+          <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
+            <button
+              v-for="loc in ['Maracaibo', 'Caracas', 'Madrid', 'Bogotá']"
+              :key="loc"
+              type="button"
+              @click="location = loc"
+              class="px-2 py-0.5 rounded-md bg-white border border-sky-200 text-[11px] font-medium text-sky-800 hover:bg-sky-100 transition-colors cursor-pointer"
+            >
+              {{ loc }}
+            </button>
+          </div>
         </div>
 
         <!-- Bottom Action Bar -->
@@ -325,7 +341,7 @@
         <button
           type="submit"
           :disabled="!content.trim() && imageUrls.length === 0"
-          class="w-full py-2.5 rounded-xl text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white transition-colors shadow-xs"
+          class="btn btn-primary w-full text-sm py-2.5"
         >
           Publicar
         </button>

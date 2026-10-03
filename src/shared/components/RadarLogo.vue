@@ -48,10 +48,7 @@
     <div v-if="showText" class="flex flex-col leading-tight">
       <div class="flex items-center gap-1.5">
         <span :class="['text-xl font-bold tracking-tight font-display', textColor]">
-          Conecta
-        </span>
-        <span class="text-xs font-semibold px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-800">
-          Radar
+          Socialgea
         </span>
       </div>
     </div>

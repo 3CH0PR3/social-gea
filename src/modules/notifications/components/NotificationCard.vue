@@ -2,8 +2,8 @@
   <div
     @click="$emit('click', notification)"
     :class="[
-      'p-4 flex items-start gap-3.5 hover:bg-slate-50 transition-colors cursor-pointer',
-      !notification.isRead ? 'bg-emerald-50/30' : ''
+      'p-4 flex items-start gap-3.5 hover:bg-slate-50 active:bg-slate-100 transition-colors cursor-pointer select-none',
+      !notification.isRead ? 'bg-emerald-50/40' : 'bg-white'
     ]"
   >
     <div class="relative shrink-0">

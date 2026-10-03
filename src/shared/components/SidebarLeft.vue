@@ -1,5 +1,5 @@
 <template>
-  <aside class="hidden lg:flex flex-col gap-1 w-64 shrink-0 sticky top-18 h-[calc(100vh-5rem)] overflow-y-auto pr-2 select-none">
+  <aside class="hidden lg:flex flex-col gap-1 w-64 shrink-0 sticky top-18 select-none pr-2">
     <!-- Profile Shortcut -->
     <RouterLink
       :to="`/profiles/${currentUser.id}`"
@@ -22,7 +22,7 @@
 
     <div class="my-1 border-t border-slate-200/80" />
 
-    <!-- Links -->
+    <!-- Navigation Links -->
     <div class="space-y-0.5">
       <RouterLink
         to="/feeds"
@@ -35,21 +35,16 @@
         </div>
       </RouterLink>
 
+      <!-- Amigos (clean icon, no live badge, no radar animation) -->
       <RouterLink
         to="/radar"
         class="flex items-center justify-between p-2.5 rounded-2xl w-full text-left transition-colors text-slate-700 hover:bg-slate-200/50 font-medium"
         active-class="!bg-emerald-50 !text-emerald-800 !font-bold"
       >
         <div class="flex items-center gap-3 text-xs">
-          <div class="relative">
-            <Radar class="w-5 h-5 text-emerald-600 animate-spin" style="animation-duration: 8s;" />
-            <span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-          </div>
-          <span>Radar de Amigos</span>
+          <Users class="w-5 h-5 text-emerald-600" />
+          <span>Amigos</span>
         </div>
-        <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full">
-          En vivo
-        </span>
       </RouterLink>
 
       <RouterLink
@@ -77,14 +72,15 @@
         </span>
       </RouterLink>
 
+      <!-- Premios y Recompensas (replaces Marketplace Verde) -->
       <RouterLink
         to="/marketplace"
         class="flex items-center justify-between p-2.5 rounded-2xl w-full text-left transition-colors text-slate-700 hover:bg-slate-200/50 font-medium"
         active-class="!bg-emerald-50 !text-emerald-800 !font-bold"
       >
         <div class="flex items-center gap-3 text-xs">
-          <Store class="w-5 h-5 text-teal-600" />
-          <span>Marketplace Verde</span>
+          <Gift class="w-5 h-5 text-teal-600" />
+          <span>Premios y Recompensas</span>
         </div>
       </RouterLink>
 
@@ -111,44 +107,59 @@
       </RouterLink>
     </div>
 
-    <div class="my-2 border-t border-slate-200/80" />
+    <div class="my-1.5 border-t border-slate-200/80" />
 
-    <div class="px-2 py-1">
-      <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-        Comunidades Radar
+    <!-- Accesos Rápidos Funcionales (Replaces inactive comunidades radar) -->
+    <div class="px-2 py-1 space-y-1">
+      <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+        Filtros de Contenido
       </span>
-      <div class="mt-2 space-y-1">
-        <RouterLink
-          to="/feeds"
-          class="flex items-center gap-2.5 p-1.5 rounded-xl hover:bg-slate-200/50 text-xs text-slate-700 cursor-pointer"
+      <div class="space-y-0.5 pt-0.5">
+        <button
+          type="button"
+          @click="filterByTag('all')"
+          class="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-200/50 text-xs text-slate-700 cursor-pointer text-left transition-colors"
         >
-          <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
-            📸
+          <div class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[11px]">
+            🌐
           </div>
-          <span class="truncate">Fotografía y Paisajes</span>
-        </RouterLink>
-        <RouterLink
-          to="/feeds"
-          class="flex items-center gap-2.5 p-1.5 rounded-xl hover:bg-slate-200/50 text-xs text-slate-700 cursor-pointer"
+          <span class="truncate font-medium">Todas las publicaciones</span>
+        </button>
+
+        <button
+          type="button"
+          @click="filterByTag('#Naturaleza')"
+          class="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-200/50 text-xs text-slate-700 cursor-pointer text-left transition-colors"
         >
-          <div class="w-7 h-7 rounded-lg bg-teal-100 text-teal-800 flex items-center justify-center font-bold text-xs">
+          <div class="w-6 h-6 rounded-lg bg-teal-100 text-teal-800 flex items-center justify-center font-bold text-[11px]">
+            🌿
+          </div>
+          <span class="truncate font-medium">#Naturaleza & Paisajes</span>
+        </button>
+
+        <button
+          type="button"
+          @click="filterByTag('#Tecnología')"
+          class="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-200/50 text-xs text-slate-700 cursor-pointer text-left transition-colors"
+        >
+          <div class="w-6 h-6 rounded-lg bg-sky-100 text-sky-800 flex items-center justify-center font-bold text-[11px]">
             💻
           </div>
-          <span class="truncate">Desarrolladores Vue 3</span>
-        </RouterLink>
+          <span class="truncate font-medium">#Tecnología & Innovación</span>
+        </button>
       </div>
     </div>
 
-    <div class="mt-auto pt-4 text-[11px] text-slate-400 px-2 space-y-1">
-      <p>Conecta Radar · Vue 3</p>
-      <p class="text-[10px] text-slate-400">Modular por Features</p>
+    <div class="mt-auto pt-3 text-[11px] text-slate-400 px-2 space-y-0.5">
+      <p class="font-semibold text-slate-500">Socialgea © 2026</p>
+      <p class="text-[10px] text-slate-400">Plataforma Social & Ecológica</p>
     </div>
   </aside>
 </template>
 
 <script setup>
 import { RouterLink, useRouter } from 'vue-router';
-import { Home, Radar, Sparkles, Building2, Store, Bookmark, MessageCircle } from 'lucide-vue-next';
+import { Home, Users, Sparkles, Building2, Gift, Bookmark, MessageCircle } from 'lucide-vue-next';
 import { useFeedStore } from '@/modules/feeds/store/feedStore';
 import SafeImage from './SafeImage.vue';
 
@@ -158,6 +169,15 @@ const currentUser = feedStore.currentUser;
 
 function goToSaved() {
   feedStore.setFilter('saved');
+  router.push('/feeds');
+}
+
+function filterByTag(tag) {
+  if (tag === 'all') {
+    feedStore.setSearch('');
+  } else {
+    feedStore.setSearch(tag);
+  }
   router.push('/feeds');
 }
 </script>

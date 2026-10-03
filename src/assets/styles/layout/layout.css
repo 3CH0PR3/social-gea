@@ -1,0 +1,40 @@
+/* App Global Layout Classes */
+.app-container {
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main-layout {
+  max-width: 80rem; /* max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 1rem 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .app-main-layout {
+    padding: 1.5rem 1rem;
+  }
+}
+
+.stage-feed {
+  max-width: 42rem; /* max-w-2xl */
+  width: 100%;
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.stage-wide {
+  max-width: 80rem; /* max-w-7xl */
+  width: 100%;
+  flex: 1 1 0%;
+  min-width: 0;
+}

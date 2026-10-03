@@ -12,17 +12,16 @@
   >
     <!-- LEFT THEATER AREA (Black canvas with full-size photo, zoom & navigation) -->
     <div class="flex-1 h-full bg-black relative flex items-center justify-center min-w-0 overflow-hidden">
-      <!-- Top Left Controls (Close X / ArrowLeft + Brand Logo or Author on mobile) -->
+      <!-- Top Left Controls (Close X on mobile; Brand logo on desktop) -->
       <div class="absolute top-3 sm:top-4 left-3 sm:left-4 z-30 flex items-center gap-2.5">
         <button
           type="button"
           @click="feedStore.closeLightbox"
-          class="w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10 shadow-lg"
+          class="w-10 h-10 rounded-full bg-black/40 hover:bg-black/80 text-white flex items-center justify-center transition-colors cursor-pointer"
           title="Cerrar (Esc)"
           aria-label="Cerrar"
         >
-          <ArrowLeft class="w-5 h-5 stroke-[2.2] lg:hidden" />
-          <X class="w-5 h-5 stroke-[2.2] hidden lg:block" />
+          <X class="w-6 h-6 stroke-[2.2]" />
         </button>
 
         <RouterLink
@@ -33,15 +32,9 @@
         >
           <RadarLogo :size="40" :showText="false" withRadarPulse />
         </RouterLink>
-
-        <!-- Mobile Author Info in top bar -->
-        <div v-if="post" class="flex lg:hidden items-center gap-2 text-white bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
-          <img :src="post.authorAvatar" :alt="post.authorName" class="w-6 h-6 rounded-full object-cover ring-1 ring-white/30" />
-          <span class="text-xs font-bold truncate max-w-[130px]">{{ post.authorName }}</span>
-        </div>
       </div>
 
-      <!-- Top Right Theater Controls (Zoom In, Zoom Out, Fullscreen + Counter) -->
+      <!-- Top Right Theater Controls (Zoom on desktop) -->
       <div class="absolute top-3 sm:top-4 right-3 sm:right-4 z-30 flex items-center gap-1.5 sm:gap-2">
         <span
           v-if="lightbox.images.length > 1"
@@ -66,16 +59,6 @@
           title="Alejar (-)"
         >
           <ZoomOut class="w-4 h-4" />
-        </button>
-
-        <button
-          type="button"
-          @click="toggleFullscreen"
-          class="w-9 h-9 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10 shadow-md"
-          title="Pantalla completa"
-        >
-          <Minimize2 v-if="isFullscreen" class="w-4 h-4" />
-          <Maximize2 v-else class="w-4 h-4" />
         </button>
       </div>
 
@@ -119,48 +102,119 @@
       <!-- Mobile Floating Bottom Action Bar (when comments sheet is not open) -->
       <div
         v-if="post && !showMobileComments"
-        class="lg:hidden absolute bottom-0 inset-x-0 z-30 p-3 sm:p-4 bg-gradient-to-t from-black/95 via-black/60 to-transparent flex flex-col gap-2.5 pointer-events-auto"
+        class="lg:hidden absolute bottom-0 inset-x-0 z-30 p-4 pb-5 bg-gradient-to-t from-black/95 via-black/80 to-transparent flex flex-col gap-2.5 pointer-events-auto select-none"
       >
-        <!-- Caption snippet on mobile -->
-        <p v-if="post.content" class="text-xs text-white/95 line-clamp-2 leading-relaxed drop-shadow-sm px-1">
+        <!-- 1. Author row at bottom (Exact match to screenshot 2: avatar + name + timestamp + privacy) -->
+        <div class="flex items-center gap-2.5">
+          <RouterLink
+            :to="`/profiles/${post.authorId}`"
+            @click="feedStore.closeLightbox"
+            class="relative shrink-0 cursor-pointer"
+          >
+            <img
+              :src="post.authorAvatar"
+              :alt="post.authorName"
+              class="w-9 h-9 rounded-full object-cover ring-1.5 ring-white/60"
+            />
+          </RouterLink>
+
+          <div>
+            <RouterLink
+              :to="`/profiles/${post.authorId}`"
+              @click="feedStore.closeLightbox"
+              class="font-bold text-white text-sm hover:underline block leading-tight cursor-pointer"
+            >
+              {{ post.authorName }}
+            </RouterLink>
+            <div class="flex items-center gap-1.5 text-[11px] text-white/70 font-medium mt-0.5">
+              <span>{{ post.timestamp || 'AYER A LAS 10:49 A.M.' }}</span>
+              <span>·</span>
+              <Globe class="w-3 h-3 text-white/70" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Post Caption below author -->
+        <p v-if="post.content" class="text-xs sm:text-sm text-white/95 leading-relaxed line-clamp-3">
           {{ post.content }}
         </p>
 
-        <!-- Action Buttons -->
+        <!-- 3. Bottom Action Bar matching screenshot 2 -->
         <div class="flex items-center justify-between text-white pt-1">
-          <!-- Like Button -->
-          <button
-            type="button"
-            @click="handleClickReactionButton"
-            class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/15 backdrop-blur-md text-xs font-semibold hover:bg-white/25 transition-colors cursor-pointer"
-          >
-            <FacebookReactionIcon
-              :type="post.userReaction"
-              size="xs"
-              class="w-3.5 h-3.5"
-            />
-            <span>{{ currentReactionConfig ? currentReactionConfig.label : 'Me gusta' }}</span>
-            <span v-if="post.likesCount" class="text-[11px] opacity-80">({{ post.likesCount }})</span>
-          </button>
+          <div class="flex items-center gap-5">
+            <!-- Like button: ICON + NUMBER ONLY (no text "Me gusta" or "Me encanta") -->
+            <div
+              class="relative"
+              @mouseenter="delayShowPopover"
+              @mouseleave="delayHidePopover"
+            >
+              <!-- Animated reactions popover -->
+              <div
+                v-if="showReactionsPopover"
+                class="absolute -top-12 left-0 z-50"
+                @mouseenter="clearPopoverTimer"
+                @mouseleave="delayHidePopover"
+              >
+                <FacebookReactions @select="handleSelectReaction" />
+              </div>
 
-          <!-- Comments Button (Opens Sheet) -->
-          <button
-            type="button"
-            @click="showMobileComments = true"
-            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/20 backdrop-blur-md text-xs font-semibold hover:bg-white/30 transition-colors cursor-pointer ring-1 ring-white/20"
-          >
-            <MessageCircle class="w-4 h-4" />
-            <span>{{ (post.comments || []).length }} comentarios</span>
-          </button>
+              <button
+                type="button"
+                @pointerdown="onPointerDownLike"
+                @pointerup="onPointerUpLike"
+                @pointercancel="onPointerUpLike"
+                @pointerleave="onPointerUpLike"
+                @click="onButtonClickLike"
+                class="flex items-center gap-1.5 text-white/90 hover:text-white transition-colors cursor-pointer select-none active:scale-95"
+                title="Me gusta / Reaccionar"
+              >
+                <FacebookReactionIcon
+                  :type="post.userReaction || 'like'"
+                  size="sm"
+                  class="w-5 h-5 drop-shadow-sm"
+                />
+                <span class="font-bold text-sm text-white">{{ totalPostReactions }}</span>
+              </button>
+            </div>
 
-          <!-- Share Button -->
+            <!-- Comment button: ICON + NUMBER ONLY (no text "comentarios") -->
+            <button
+              type="button"
+              @click="showMobileComments = true"
+              class="flex items-center gap-1.5 text-white/90 hover:text-white transition-colors cursor-pointer active:scale-95"
+              title="Comentarios"
+            >
+              <MessageCircle class="w-5 h-5 text-white stroke-[2.2]" />
+              <span class="font-bold text-sm text-white">{{ (post.comments || []).length }}</span>
+            </button>
+
+            <!-- Share button: RIGHT ARROW ONLY (no text "Compartir") -->
+            <button
+              type="button"
+              @click="showShareModal = true"
+              class="flex items-center text-white/90 hover:text-white transition-colors cursor-pointer active:scale-95"
+              title="Compartir"
+            >
+              <Share2 class="w-5 h-5 text-white stroke-[2.2]" />
+            </button>
+          </div>
+
+          <!-- Right side: Reaction icons preview. Clicking opens full-screen Android reactions component! -->
           <button
             type="button"
-            @click="showShareModal = true"
-            class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/15 backdrop-blur-md text-xs font-semibold hover:bg-white/25 transition-colors cursor-pointer"
+            @click="showReactionsModal = true"
+            class="flex items-center hover:scale-105 transition-transform cursor-pointer pl-2 py-1"
+            title="Ver quiénes reaccionaron"
           >
-            <Share2 class="w-4 h-4" />
-            <span>Compartir</span>
+            <div class="flex items-center -space-x-1.5">
+              <FacebookReactionIcon
+                v-for="t in topPostReactions"
+                :key="t"
+                :type="t"
+                size="xs"
+                class="ring-1.5 ring-black rounded-full drop-shadow-sm"
+              />
+            </div>
           </button>
         </div>
       </div>
@@ -774,6 +828,8 @@ import {
   Minimize2,
   Globe,
   MoreHorizontal,
+  MoreVertical,
+  Tag,
   MessageCircle,
   Share2,
   ChevronDown,
@@ -928,8 +984,40 @@ function clearPopoverTimer() {
   if (popoverTimer) clearTimeout(popoverTimer);
 }
 
+let holdTimerLike = null;
+let didTriggerHoldLike = false;
+
+function onPointerDownLike() {
+  didTriggerHoldLike = false;
+  if (holdTimerLike) clearTimeout(holdTimerLike);
+  holdTimerLike = setTimeout(() => {
+    didTriggerHoldLike = true;
+    showReactionsPopover.value = true;
+  }, 350);
+}
+
+function onPointerUpLike() {
+  if (holdTimerLike) {
+    clearTimeout(holdTimerLike);
+    holdTimerLike = null;
+  }
+}
+
+function onButtonClickLike() {
+  if (didTriggerHoldLike) {
+    didTriggerHoldLike = false;
+    return;
+  }
+  if (holdTimerLike) {
+    clearTimeout(holdTimerLike);
+    holdTimerLike = null;
+  }
+  handleClickReactionButton();
+}
+
 function handleClickReactionButton() {
   if (!post.value) return;
+  // Clean, unconditional toggle: if reacted, removes reaction; if none, gives 'like'
   if (post.value.userReaction) {
     feedStore.toggleReaction(post.value.id, null);
   } else {
@@ -940,7 +1028,12 @@ function handleClickReactionButton() {
 
 function handleSelectReaction(type) {
   if (!post.value) return;
-  feedStore.toggleReaction(post.value.id, type);
+  // If user picks the reaction they already have, unclick/remove it!
+  if (post.value.userReaction === type) {
+    feedStore.toggleReaction(post.value.id, null);
+  } else {
+    feedStore.toggleReaction(post.value.id, type);
+  }
   showReactionsPopover.value = false;
 }
 

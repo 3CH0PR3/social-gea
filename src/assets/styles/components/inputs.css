@@ -1,0 +1,77 @@
+/* Form Inputs & Fields */
+.input-base {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: var(--input-radius);
+  color: var(--text-main);
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.input-base:focus {
+  background-color: var(--bg-input-focus);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-subtle);
+}
+
+.input-base::placeholder {
+  color: var(--text-subtle);
+}
+
+/* Search Input with Icon Container */
+.input-search-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-search-container input {
+  padding-left: 2.25rem;
+  padding-right: 2rem;
+}
+
+.input-search-container .search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-subtle);
+  pointer-events: none;
+}
+
+.input-search-container .clear-icon {
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-subtle);
+  cursor: pointer;
+}
+
+.input-search-container .clear-icon:hover {
+  color: var(--text-main);
+}
+
+/* Select Dropdown */
+.input-select {
+  appearance: none;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: var(--input-radius);
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.input-select:focus {
+  background-color: var(--bg-input-focus);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-subtle);
+}

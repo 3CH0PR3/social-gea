@@ -1,5 +1,5 @@
 <template>
-  <aside class="hidden lg:flex flex-col gap-3 w-68 shrink-0 sticky top-18 h-[calc(100vh-5rem)] overflow-y-auto pr-2 select-none">
+  <aside class="hidden lg:flex flex-col gap-2.5 w-68 shrink-0 sticky top-18 select-none pr-2">
     <!-- Back to Feed shortcut -->
     <RouterLink
       to="/feeds"

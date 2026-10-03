@@ -5,8 +5,8 @@
       class="flex flex-col items-center justify-center min-h-[44px] transition-colors text-slate-500 hover:text-slate-800"
       active-class="!text-emerald-600 !font-bold"
     >
-      <Home class="w-4.5 h-4.5" />
-      <span class="text-[9px] mt-0.5">Inicio</span>
+      <Home class="w-5 h-5" />
+      <span class="text-[10px] mt-0.5 tracking-tight">Inicio</span>
     </RouterLink>
 
     <RouterLink
@@ -14,8 +14,8 @@
       class="flex flex-col items-center justify-center min-h-[44px] transition-colors relative text-slate-500 hover:text-slate-800"
       active-class="!text-emerald-600 !font-bold"
     >
-      <Users class="w-4.5 h-4.5" />
-      <span class="text-[9px] mt-0.5">Amigos</span>
+      <Users class="w-5 h-5" />
+      <span class="text-[10px] mt-0.5 tracking-tight">Amigos</span>
     </RouterLink>
 
     <RouterLink
@@ -23,8 +23,8 @@
       class="flex flex-col items-center justify-center min-h-[44px] transition-colors text-slate-500 hover:text-slate-800"
       active-class="!text-emerald-600 !font-bold"
     >
-      <Building2 class="w-4.5 h-4.5" />
-      <span class="text-[9px] mt-0.5 truncate max-w-[48px]">Empresas</span>
+      <Building2 class="w-5 h-5" />
+      <span class="text-[10px] mt-0.5 tracking-tight truncate max-w-[48px]">Empresas</span>
     </RouterLink>
 
     <RouterLink
@@ -32,8 +32,8 @@
       class="flex flex-col items-center justify-center min-h-[44px] transition-colors text-slate-500 hover:text-slate-800"
       active-class="!text-emerald-600 !font-bold"
     >
-      <Sparkles class="w-4.5 h-4.5" />
-      <span class="text-[9px] mt-0.5">Historias</span>
+      <Sparkles class="w-5 h-5" />
+      <span class="text-[10px] mt-0.5 tracking-tight">Historias</span>
     </RouterLink>
 
     <RouterLink
@@ -41,14 +41,14 @@
       class="flex flex-col items-center justify-center min-h-[44px] transition-colors relative text-slate-500 hover:text-slate-800"
       active-class="!text-emerald-600 !font-bold"
     >
-      <Bell class="w-4.5 h-4.5" />
+      <Bell class="w-5 h-5" />
       <span
         v-if="unreadCount > 0"
-        class="absolute top-1 right-2 w-3.5 h-3.5 rounded-full bg-rose-500 text-white text-[8px] font-bold flex items-center justify-center"
+        class="absolute top-1 right-2.5 w-4 h-4 rounded-full bg-rose-500 text-white text-[9px] font-bold flex items-center justify-center"
       >
         {{ unreadCount }}
       </span>
-      <span class="text-[9px] mt-0.5">Alertas</span>
+      <span class="text-[10px] mt-0.5 tracking-tight">Alertas</span>
     </RouterLink>
 
     <RouterLink
@@ -56,8 +56,8 @@
       class="flex flex-col items-center justify-center min-h-[44px] transition-colors text-slate-500 hover:text-slate-800"
       active-class="!text-emerald-600 !font-bold"
     >
-      <User class="w-4.5 h-4.5" />
-      <span class="text-[9px] mt-0.5">Perfil</span>
+      <User class="w-5 h-5" />
+      <span class="text-[10px] mt-0.5 tracking-tight">Perfil</span>
     </RouterLink>
   </nav>
 </template>

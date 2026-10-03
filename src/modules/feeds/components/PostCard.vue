@@ -1,22 +1,22 @@
 <template>
-  <article class="bg-white rounded-2xl shadow-xs border border-slate-200/90 overflow-hidden transition-shadow hover:shadow-sm">
+  <article class="feed-post-card">
     <!-- 1. Header (Author, Time, Privacy, 3-dots Menu) -->
-    <div class="p-4 flex items-start justify-between">
-      <div class="flex items-center gap-3">
+    <div class="feed-post-header">
+      <div class="feed-post-author-row">
         <RouterLink :to="`/profiles/${post.authorId}`" class="relative cursor-pointer">
           <SafeImage
             :src="post.authorAvatar"
             :alt="post.authorName"
-            imgClass="w-10 h-10 rounded-full object-cover ring-2 ring-emerald-500/80 hover:opacity-90 transition-opacity"
-            containerClass="w-10 h-10 rounded-full"
+            imgClass="w-full h-full object-cover"
+            containerClass="feed-post-avatar"
           />
         </RouterLink>
 
-        <div>
-          <div class="flex items-center gap-1.5 flex-wrap">
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-1.5 flex-wrap leading-tight">
             <RouterLink
               :to="`/profiles/${post.authorId}`"
-              class="text-sm font-bold text-slate-900 hover:underline cursor-pointer"
+              class="feed-post-author-name"
             >
               {{ post.authorName }}
             </RouterLink>
@@ -24,46 +24,46 @@
             <span
               v-if="post.authorVerified"
               title="Verificado"
-              class="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px]"
+              class="feed-post-verified-badge"
             >
               ✓
             </span>
 
-            <span v-if="post.feeling" class="text-xs text-slate-500 flex items-center gap-1">
+            <span v-if="post.feeling" class="feed-post-feeling inline-flex items-center gap-1 text-[11px] text-slate-500 font-normal">
               está <span>{{ post.feeling.emoji }}</span> {{ post.feeling.text }}
             </span>
           </div>
 
-          <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium mt-0.5">
+          <div class="feed-post-meta">
             <span>{{ post.timestamp }}</span>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true" class="text-slate-300">·</span>
             <template v-if="post.location">
-              <span class="text-slate-500 truncate max-w-[180px]">{{ post.location }}</span>
-              <span aria-hidden="true">·</span>
+              <span class="text-slate-500 truncate max-w-[140px] sm:max-w-[200px]">{{ post.location }}</span>
+              <span aria-hidden="true" class="text-slate-300">·</span>
             </template>
             <span v-if="post.privacy === 'public'" title="Público" class="flex items-center">
-              <Globe class="w-3.5 h-3.5 text-slate-400" />
+              <Globe class="w-3 h-3 text-slate-400" />
             </span>
             <span v-else-if="post.privacy === 'friends'" title="Amigos" class="flex items-center">
-              <Users class="w-3.5 h-3.5 text-slate-400" />
+              <Users class="w-3 h-3 text-slate-400" />
             </span>
             <span v-else title="Solo yo" class="flex items-center">
-              <Lock class="w-3.5 h-3.5 text-slate-400" />
+              <Lock class="w-3 h-3 text-slate-400" />
             </span>
           </div>
         </div>
       </div>
 
-      <!-- Options Menu (3 Dots Menu containing Guardar Publicación) -->
+      <!-- Options Menu -->
       <div class="relative">
         <button
           type="button"
           @click="showOptionsMenu = !showOptionsMenu"
-          class="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+          class="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
           title="Opciones"
           aria-label="Opciones"
         >
-          <MoreHorizontal class="w-5 h-5" />
+          <MoreHorizontal class="w-4 h-4" />
         </button>
 
         <div
@@ -71,7 +71,6 @@
           class="absolute right-0 top-10 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-30 animate-in fade-in zoom-in-95 duration-100"
           @click="showOptionsMenu = false"
         >
-          <!-- Guardar publicación function inside 3 dots -->
           <button
             type="button"
             @click="feedStore.toggleSavePost(post.id)"
@@ -120,14 +119,14 @@
     </div>
 
     <!-- 2. Content -->
-    <!-- A. Colored Gradient Canvas (Like Facebook) -->
+    <!-- A. Colored Gradient Canvas -->
     <div
       v-if="post.backgroundColor"
-      class="min-h-[220px] p-8 flex items-center justify-center text-center px-6 select-none"
+      class="feed-post-canvas"
       :style="{ background: post.backgroundColor }"
     >
       <p
-        class="text-lg sm:text-xl font-black leading-tight max-w-lg break-words uppercase tracking-wide drop-shadow-sm"
+        class="feed-post-canvas-text"
         :style="{ color: post.textColor || '#ffffff' }"
       >
         {{ post.content }}
@@ -135,13 +134,11 @@
     </div>
 
     <!-- B. Regular Content Text -->
-    <div v-else-if="post.content" class="px-4 pb-3">
-      <p class="text-sm text-slate-800 leading-relaxed whitespace-pre-line break-words">
-        {{ post.content }}
-      </p>
+    <div v-else-if="post.content" class="feed-post-content">
+      <p>{{ post.content }}</p>
     </div>
 
-    <!-- 3. Linked Images Gallery (With forward/backward navigation) -->
+    <!-- 3. Linked Images Gallery -->
     <div
       v-if="post.images && post.images.length > 0"
       :class="[
@@ -181,9 +178,9 @@
       </template>
     </div>
 
-    <!-- 4. Modern Post Action Bar (Matches image.png: [👍 24] [💬 3] [↗ 1] on left, reaction icons on right) -->
-    <div class="px-4 py-2.5 flex items-center justify-between border-t border-slate-100/90 relative bg-white">
-      <!-- Reactions Popover (when hovering over like button) -->
+    <!-- 4. Post Action Bar -->
+    <div class="feed-post-footer">
+      <!-- Reactions Popover -->
       <div
         v-if="showReactionsPopover"
         class="absolute -top-12 left-2 z-40"
@@ -193,8 +190,8 @@
         <FacebookReactions @select="handleSelectReaction" />
       </div>
 
-      <!-- Left Side Actions: Like, Comment, Share with counts -->
-      <div class="flex items-center gap-1 sm:gap-2">
+      <!-- Left Side Actions: Like, Comment, Share -->
+      <div class="feed-post-actions-group">
         <!-- Like Button with Counter -->
         <div
           class="relative"
@@ -203,14 +200,17 @@
         >
           <button
             type="button"
-            @click="handleClickReactionButton"
+            @pointerdown="onPointerDown"
+            @pointerup="onPointerUp"
+            @pointercancel="onPointerUp"
+            @pointerleave="onPointerUp"
+            @click="onButtonClick"
             :class="[
-              'flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:bg-slate-100 cursor-pointer',
-              currentReactionConfig ? currentReactionConfig.colorClass : 'text-slate-600 hover:text-slate-900'
+              'feed-post-action-btn select-none active:scale-95 cursor-pointer',
+              currentReactionConfig ? currentReactionConfig.colorClass : ''
             ]"
             title="Me gusta / Reaccionar"
           >
-            <!-- SVG Icon: unreacted outline or authentic Facebook Reaction SVG -->
             <FacebookReactionIcon
               :type="post.userReaction"
               size="xs"
@@ -222,12 +222,12 @@
           </button>
         </div>
 
-        <!-- Comment Button with Counter -> Opens Facebook-style Modal! -->
+        <!-- Comment Button with Counter -->
         <button
           type="button"
           @click="showCommentsModal = true"
-          class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-          title="Comentar (Abre diálogo Facebook)"
+          class="feed-post-action-btn"
+          title="Comentar"
         >
           <MessageCircle class="w-4 h-4 text-slate-600 stroke-[2.2]" />
           <span class="font-bold text-xs text-slate-700">{{ post.comments.length }}</span>
@@ -237,7 +237,7 @@
         <button
           type="button"
           @click="showShareModal = true"
-          class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+          class="feed-post-action-btn"
           title="Compartir publicación"
         >
           <Share2 class="w-4 h-4 text-slate-600 stroke-[2.2]" />
@@ -245,7 +245,7 @@
         </button>
       </div>
 
-      <!-- Right Side: Overlapping Authentic Facebook Reaction SVGs (Matches Facebook!) -->
+      <!-- Right Side: Reaction Icons -->
       <button
         type="button"
         @click="showReactionsModal = true"
@@ -268,21 +268,18 @@
     </div>
 
     <!-- Modals -->
-    <!-- Facebook-Style Post & Comments Dialog Modal -->
     <PostCommentsModal
       :post="post"
       :isOpen="showCommentsModal"
       @close="showCommentsModal = false"
     />
 
-    <!-- Reactions Breakdown Modal -->
     <ReactionsModal
       :post="post"
       :isOpen="showReactionsModal"
       @close="showReactionsModal = false"
     />
 
-    <!-- Share & Embed Modal -->
     <ShareModal
       :post="post"
       :isOpen="showShareModal"
@@ -365,7 +362,36 @@ function clearPopoverTimer() {
   if (popoverTimer) clearTimeout(popoverTimer);
 }
 
-function handleClickReactionButton() {
+let holdTimer = null;
+let didTriggerHold = false;
+
+function onPointerDown() {
+  didTriggerHold = false;
+  if (holdTimer) clearTimeout(holdTimer);
+  holdTimer = setTimeout(() => {
+    didTriggerHold = true;
+    showReactionsPopover.value = true;
+  }, 350);
+}
+
+function onPointerUp() {
+  if (holdTimer) {
+    clearTimeout(holdTimer);
+    holdTimer = null;
+  }
+}
+
+function onButtonClick() {
+  if (didTriggerHold) {
+    didTriggerHold = false;
+    return;
+  }
+  if (holdTimer) {
+    clearTimeout(holdTimer);
+    holdTimer = null;
+  }
+
+  // Toggle reaction cleanly: if reacted, removes reaction; if none, gives 'like'
   if (props.post.userReaction) {
     feedStore.toggleReaction(props.post.id, null);
   } else {
@@ -375,7 +401,12 @@ function handleClickReactionButton() {
 }
 
 function handleSelectReaction(type) {
-  feedStore.toggleReaction(props.post.id, type);
+  // If user picks the reaction they already have, unclick/remove it!
+  if (props.post.userReaction === type) {
+    feedStore.toggleReaction(props.post.id, null);
+  } else {
+    feedStore.toggleReaction(props.post.id, type);
+  }
   showReactionsPopover.value = false;
 }
 
