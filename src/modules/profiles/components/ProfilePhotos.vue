@@ -1,11 +1,11 @@
 <template>
-  <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4">
-    <div class="flex items-center justify-between">
-      <h3 class="font-bold text-slate-900 text-sm">Galería de fotos vinculadas</h3>
-      <span class="text-xs text-slate-500">{{ photos.length }} fotos</span>
+  <div class="bg-white rounded-md p-6 border border-slate-200 shadow-xs space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+      <h3 class="font-extrabold text-slate-900 text-base sm:text-lg font-display">Fotos</h3>
+      <span class="text-xs sm:text-sm text-slate-500 font-semibold">{{ photos.length }} fotos</span>
     </div>
 
-    <p v-if="photos.length === 0" class="text-xs text-slate-400 text-center py-8">
+    <p v-if="photos.length === 0" class="text-xs sm:text-sm text-slate-400 text-center py-10">
       Aún no se han compartido fotos en este perfil.
     </p>
 
@@ -14,7 +14,7 @@
         v-for="(url, i) in photos"
         :key="i"
         @click="feedStore.openLightbox(photos, i)"
-        class="relative group h-36 rounded-xl overflow-hidden cursor-pointer bg-slate-100 border border-slate-200 hover:shadow-md transition-shadow"
+        class="relative group h-40 rounded-md overflow-hidden cursor-pointer bg-slate-100 border border-slate-200 hover:shadow-md transition-shadow"
       >
         <SafeImage
           :src="url"
@@ -23,7 +23,7 @@
           containerClass="w-full h-full"
         />
         <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-          <span class="text-xs font-semibold">Ver</span>
+          <span class="text-xs sm:text-sm font-semibold">Ver</span>
         </div>
       </div>
     </div>

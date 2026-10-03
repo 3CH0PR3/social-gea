@@ -78,11 +78,11 @@
                 :class="[
                   'px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer shrink-0 ml-2',
                   connectedIds.includes(person.id)
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                    : 'bg-emerald-600 text-white shadow-2xs hover:bg-emerald-700'
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-xs'
                 ]"
               >
-                {{ connectedIds.includes(person.id) ? 'Conectado' : 'Conectar' }}
+                {{ connectedIds.includes(person.id) ? 'Amigos' : 'Agregar amigo' }}
               </button>
             </div>
           </div>
@@ -208,12 +208,12 @@
                   :class="[
                     'w-full py-1.5 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1',
                     connectedIds.includes(sug.id)
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                      : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xs'
+                      ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                      : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-xs'
                   ]"
                 >
-                  <UserPlus v-if="!connectedIds.includes(sug.id)" class="w-3.5 h-3.5" />
-                  <span>{{ connectedIds.includes(sug.id) ? 'Conectado' : 'Conectar' }}</span>
+                  <UserPlus v-if="!connectedIds.includes(sug.id)" class="w-3.5 h-3.5 text-white" />
+                  <span>{{ connectedIds.includes(sug.id) ? 'Amigos' : 'Agregar amigo' }}</span>
                 </button>
               </div>
             </div>

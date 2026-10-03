@@ -6,32 +6,30 @@
     ]"
   >
     <!-- ========================================================
-         1. ANDROID / MOBILE NAVBAR (MATCHING FACEBOOK LAYOUT FROM USER IMAGE 2)
-         - Line 1: Brand "socialgea" on left, Search & Hamburger Menu on right
-         - Line 2: 6 Top Navigation Tabs directly underneath (Feed, Amigos, Mensajes, Empresas, Notificaciones, Marketplace)
+         1. ANDROID / MOBILE NAVBAR (FACEBOOK ANDROID TOP NAVBAR)
          ======================================================== -->
     <div class="sm:hidden">
       <!-- Line 1: Brand & Action Buttons -->
       <div class="px-4 pt-2.5 pb-1 flex items-center justify-between">
         <RouterLink
           to="/feeds"
-          class="text-2xl font-black text-emerald-600 font-display tracking-tight hover:opacity-90 transition-opacity"
+          class="text-2xl font-black text-emerald-700 font-display tracking-tight hover:opacity-90 transition-opacity"
         >
           socialgea
         </RouterLink>
 
         <div class="flex items-center gap-2">
-          <!-- Round Search Button (Opens unified MobileSearchModal matching Image 3) -->
+          <!-- Round Search Button -->
           <button
             type="button"
             @click="isSearchModalOpen = true"
             class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Buscar personas"
           >
-            <Search class="w-4.5 h-4.5 stroke-[2.2]" />
+            <Search class="w-4 h-4 stroke-[2.2]" />
           </button>
 
-          <!-- Round Hamburger Menu Button (Opens Android Menu from Image 1) -->
+          <!-- Round Hamburger Menu Button -->
           <button
             type="button"
             @click="isMobileMenuOpen = true"
@@ -45,7 +43,7 @@
 
       <!-- Quick Mobile Search Bar (Toggleable) -->
       <div v-if="showMobileSearch" class="px-4 py-2 bg-slate-50 border-t border-b border-slate-200/80 animate-in fade-in duration-150">
-        <div class="flex items-center gap-2 bg-white rounded-xl px-3 py-1.5 border border-slate-200 shadow-2xs">
+        <div class="flex items-center gap-2 bg-white rounded-md px-3 py-1.5 border border-slate-200 shadow-2xs">
           <Search class="w-4 h-4 text-slate-400 shrink-0" />
           <input
             type="text"
@@ -61,19 +59,19 @@
         </div>
       </div>
 
-      <!-- Line 2: 6 Top Tabs (Facebook Android Layout from Image 2) -->
+      <!-- Line 2: 6 Top Tabs (Facebook Android Layout) -->
       <div class="grid grid-cols-6 items-center border-t border-slate-100">
         <!-- 1. Feed -->
         <RouterLink
           to="/feeds"
           class="relative flex items-center justify-center py-2.5 text-slate-500 hover:text-slate-800 transition-colors"
-          :class="isFeedActive ? '!text-emerald-600' : ''"
+          :class="isFeedActive ? '!text-emerald-700' : ''"
           title="Feed"
         >
-          <Home class="w-5.5 h-5.5 stroke-[2]" />
+          <Home class="w-5 h-5 stroke-[2]" />
           <span
             v-if="isFeedActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
 
@@ -81,13 +79,13 @@
         <RouterLink
           to="/radar"
           class="relative flex items-center justify-center py-2.5 text-slate-500 hover:text-slate-800 transition-colors"
-          :class="isFriendsActive ? '!text-emerald-600' : ''"
+          :class="isFriendsActive ? '!text-emerald-700' : ''"
           title="Amigos"
         >
-          <Users class="w-5.5 h-5.5 stroke-[2]" />
+          <Users class="w-5 h-5 stroke-[2]" />
           <span
             v-if="isFriendsActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
 
@@ -99,27 +97,27 @@
           title="Mensajes"
         >
           <div class="relative">
-            <MessageCircle class="w-5.5 h-5.5 stroke-[2]" />
+            <MessageCircle class="w-5 h-5 stroke-[2]" />
             <span
               v-if="unreadMessages > 0"
-              class="absolute -top-1 -right-1.5 w-4 h-4 rounded-full bg-emerald-600 text-white text-[9px] font-bold flex items-center justify-center"
+              class="absolute -top-1 -right-1.5 w-4 h-4 rounded-full bg-emerald-700 text-white text-xs font-bold flex items-center justify-center"
             >
               {{ unreadMessages }}
             </span>
           </div>
         </button>
 
-        <!-- 4. Empresas (Recycling Centers, replaces video icon) -->
+        <!-- 4. Empresas -->
         <RouterLink
           to="/empresas"
           class="relative flex items-center justify-center py-2.5 text-slate-500 hover:text-slate-800 transition-colors"
-          :class="isEmpresasActive ? '!text-emerald-600' : ''"
+          :class="isEmpresasActive ? '!text-emerald-700' : ''"
           title="Empresas de Reciclaje"
         >
-          <Building2 class="w-5.5 h-5.5 stroke-[2]" />
+          <Building2 class="w-5 h-5 stroke-[2]" />
           <span
             v-if="isEmpresasActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
 
@@ -127,21 +125,21 @@
         <RouterLink
           to="/notifications"
           class="relative flex items-center justify-center py-2.5 text-slate-500 hover:text-slate-800 transition-colors"
-          :class="isNotificationsActive ? '!text-emerald-600' : ''"
+          :class="isNotificationsActive ? '!text-emerald-700' : ''"
           title="Notificaciones"
         >
           <div class="relative">
-            <Bell class="w-5.5 h-5.5 stroke-[2]" />
+            <Bell class="w-5 h-5 stroke-[2]" />
             <span
               v-if="unreadNotifs > 0"
-              class="absolute -top-1 -right-1.5 w-4 h-4 rounded-full bg-rose-500 text-white text-[9px] font-bold flex items-center justify-center"
+              class="absolute -top-1 -right-1.5 w-4 h-4 rounded-full bg-rose-500 text-white text-xs font-bold flex items-center justify-center"
             >
               {{ unreadNotifs }}
             </span>
           </div>
           <span
             v-if="isNotificationsActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
 
@@ -149,125 +147,124 @@
         <RouterLink
           to="/marketplace"
           class="relative flex items-center justify-center py-2.5 text-slate-500 hover:text-slate-800 transition-colors"
-          :class="isMarketplaceActive ? '!text-emerald-600' : ''"
+          :class="isMarketplaceActive ? '!text-emerald-700' : ''"
           title="Marketplace"
         >
-          <Store class="w-5.5 h-5.5 stroke-[2]" />
+          <Store class="w-5 h-5 stroke-[2]" />
           <span
             v-if="isMarketplaceActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
       </div>
     </div>
 
     <!-- ========================================================
-         2. DESKTOP NAVBAR (PRESERVED FOR DESKTOP >= sm)
-         - Dock shows only the round icon and search input (no text)
+         2. DESKTOP NAVBAR (EXPANSIVE DESKTOP LAYOUT)
          ======================================================== -->
-    <div class="hidden sm:flex max-w-7xl mx-auto px-4 h-14 items-center justify-between gap-4">
-      <!-- Zone 1: Logo & Search (Only icon and search, no text) -->
-      <div class="flex items-center gap-2.5 shrink-0">
-        <RouterLink to="/feeds" class="flex items-center focus:outline-none" aria-label="Ir a Inicio">
+    <div class="hidden sm:flex max-w-7xl mx-auto px-3 sm:px-6 h-14 sm:h-16 items-center justify-between gap-2 md:gap-4">
+      <!-- Zone 1: Logo & Search -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <RouterLink to="/feeds" class="flex items-center focus:outline-none shrink-0" aria-label="Ir a Inicio">
           <RadarLogo :size="38" :showText="false" />
         </RouterLink>
 
-        <!-- Compact Search Bar -->
-        <div class="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200/70 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-500 rounded-full px-2.5 py-1.5 transition-all w-36 sm:w-44 md:w-52 border border-transparent focus-within:border-emerald-400">
-          <Search class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+        <!-- Search Bar with Responsive Width -->
+        <div class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-600 rounded-full px-3 py-1.5 sm:py-2 transition-all w-32 sm:w-40 md:w-52 lg:w-64 border border-transparent focus-within:border-emerald-600">
+          <Search class="w-4 h-4 text-slate-400 shrink-0" />
           <input
             type="text"
             :value="feedStore.searchQuery"
             @input="feedStore.setSearch($event.target.value)"
             placeholder="Buscar en Socialgea..."
-            class="w-full bg-transparent text-xs text-slate-800 outline-none placeholder-slate-400"
+            class="w-full bg-transparent text-xs sm:text-sm font-medium text-slate-800 outline-none placeholder-slate-400 min-w-0"
           />
-          <button v-if="feedStore.searchQuery" @click="feedStore.setSearch('')" class="text-slate-400 p-0.5">
-            <X class="w-3 h-3" />
+          <button v-if="feedStore.searchQuery" @click="feedStore.setSearch('')" class="text-slate-400 p-0.5 cursor-pointer">
+            <X class="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      <!-- Zone 2: Navigation Links for Desktop -->
-      <nav class="flex items-center gap-1 md:gap-2 h-full">
+      <!-- Zone 2: Navigation Links for Desktop with Responsive Padding -->
+      <nav class="flex items-center gap-0.5 sm:gap-1 md:gap-2 h-full">
         <RouterLink
           to="/feeds"
-          class="relative flex items-center justify-center px-4 md:px-6 h-full transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100/70 rounded-xl my-1"
-          active-class="text-emerald-600 font-bold !bg-transparent"
+          class="relative flex items-center justify-center px-2.5 sm:px-3 md:px-5 lg:px-7 h-full transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100/80 rounded-md my-1"
+          active-class="text-emerald-800 font-bold !bg-transparent"
           title="Inicio"
         >
-          <Home class="w-5 h-5" />
+          <Home class="w-5 sm:w-6 h-5 sm:h-6" />
           <span
             v-if="isFeedActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
 
         <RouterLink
           to="/radar"
-          class="relative flex items-center justify-center px-4 md:px-6 h-full transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100/70 rounded-xl my-1"
-          active-class="text-emerald-600 font-bold !bg-transparent"
+          class="relative flex items-center justify-center px-2.5 sm:px-3 md:px-5 lg:px-7 h-full transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100/80 rounded-md my-1"
+          active-class="text-emerald-800 font-bold !bg-transparent"
           title="Amigos"
         >
-          <Users class="w-5 h-5" />
+          <Users class="w-5 sm:w-6 h-5 sm:h-6" />
           <span
             v-if="isFriendsActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
 
         <RouterLink
           to="/historys"
-          class="relative flex items-center justify-center px-4 md:px-6 h-full transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100/70 rounded-xl my-1"
-          active-class="text-emerald-600 font-bold !bg-transparent"
+          class="relative flex items-center justify-center px-2.5 sm:px-3 md:px-5 lg:px-7 h-full transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100/80 rounded-md my-1"
+          active-class="text-emerald-800 font-bold !bg-transparent"
           title="Historias de amigos"
         >
-          <Sparkles class="w-5 h-5" />
+          <Sparkles class="w-5 sm:w-6 h-5 sm:h-6" />
           <span
             v-if="route.path === '/historys'"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
 
         <RouterLink
           to="/empresas"
-          class="relative flex items-center justify-center px-4 md:px-6 h-full transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100/70 rounded-xl my-1"
-          active-class="text-emerald-600 font-bold !bg-transparent"
+          class="relative flex items-center justify-center px-2.5 sm:px-3 md:px-5 lg:px-7 h-full transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100/80 rounded-md my-1"
+          active-class="text-emerald-800 font-bold !bg-transparent"
           title="Empresas de Reciclaje"
         >
-          <Building2 class="w-5 h-5" />
+          <Building2 class="w-5 sm:w-6 h-5 sm:h-6" />
           <span
             v-if="isEmpresasActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
 
         <RouterLink
           to="/marketplace"
-          class="relative flex items-center justify-center px-4 md:px-6 h-full transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100/70 rounded-xl my-1"
-          active-class="text-emerald-600 font-bold !bg-transparent"
+          class="relative flex items-center justify-center px-2.5 sm:px-3 md:px-5 lg:px-7 h-full transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100/80 rounded-md my-1"
+          active-class="text-emerald-800 font-bold !bg-transparent"
           title="Premios & Recompensas"
         >
-          <Store class="w-5 h-5" />
+          <Store class="w-5 sm:w-6 h-5 sm:h-6" />
           <span
             v-if="isMarketplaceActive"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 rounded-t-full"
+            class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-700 rounded-t-full"
           />
         </RouterLink>
       </nav>
 
       <!-- Zone 3: Actions (Notifications, Messages, User Profile) -->
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
         <!-- Notifications button -->
         <RouterLink
           to="/notifications"
-          class="relative w-9.5 h-9.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer flex items-center justify-center"
+          class="relative w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer flex items-center justify-center"
           title="Notificaciones"
         >
           <Bell class="w-5 h-5" />
           <span
             v-if="unreadNotifs > 0"
-            class="absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center"
+            class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-rose-500 text-white text-xs font-bold flex items-center justify-center"
           >
             {{ unreadNotifs }}
           </span>
@@ -277,13 +274,13 @@
         <button
           type="button"
           @click="messengerStore.toggleDrawer"
-          class="relative w-9.5 h-9.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer flex items-center justify-center"
+          class="relative w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer flex items-center justify-center"
           title="Mensajes de Socialgea"
         >
           <MessageCircle class="w-5 h-5" />
           <span
             v-if="unreadMessages > 0"
-            class="absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center"
+            class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-emerald-700 text-white text-xs font-bold flex items-center justify-center"
           >
             {{ unreadMessages }}
           </span>
@@ -296,7 +293,7 @@
             @click="showDropdown = !showDropdown"
             class="flex items-center gap-1.5 p-1 rounded-full hover:bg-slate-100 transition-colors focus:outline-none cursor-pointer"
           >
-            <div class="w-8 h-8 rounded-full p-0.5 bg-gradient-to-tr from-emerald-500 to-teal-400">
+            <div class="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-emerald-600 to-teal-400">
               <SafeImage
                 :src="currentUser.avatar"
                 :alt="currentUser.name"
@@ -304,64 +301,64 @@
                 containerClass="w-full h-full"
               />
             </div>
-            <ChevronDown class="w-3.5 h-3.5 text-slate-400" />
+            <ChevronDown class="w-4 h-4 text-slate-500" />
           </button>
 
           <div
             v-if="showDropdown"
-            class="absolute right-0 top-11 w-60 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-100"
+            class="absolute right-0 top-12 w-72 bg-white rounded-md shadow-xl border border-slate-200 py-2.5 z-50 animate-in fade-in zoom-in-95 duration-100"
             @click="showDropdown = false"
           >
             <RouterLink
               :to="`/profiles/${currentUser.id}`"
-              class="px-4 py-2 flex items-center gap-3 border-b border-slate-100 hover:bg-slate-50 cursor-pointer"
+              class="px-4 py-3 flex items-center gap-3.5 border-b border-slate-100 hover:bg-slate-50 cursor-pointer"
             >
               <img
                 :src="currentUser.avatar"
                 :alt="currentUser.name"
-                class="w-9 h-9 rounded-full object-cover ring-1 ring-emerald-500"
+                class="w-10 h-10 rounded-full object-cover ring-2 ring-emerald-600"
               />
               <div class="min-w-0">
-                <h4 class="text-xs font-bold text-slate-900 truncate">{{ currentUser.name }}</h4>
-                <span class="text-[11px] text-emerald-600 font-medium">Ver mi perfil</span>
+                <h4 class="text-sm font-bold text-slate-900 truncate">{{ currentUser.name }}</h4>
+                <span class="text-xs text-emerald-700 font-semibold">Ver mi perfil</span>
               </div>
             </RouterLink>
 
-            <div class="py-1">
+            <div class="py-1.5">
               <RouterLink
                 :to="`/profiles/${currentUser.id}`"
-                class="w-full px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left"
+                class="w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center gap-3 text-left"
               >
-                <UserIcon class="w-4 h-4 text-slate-400" />
+                <UserIcon class="w-5 h-5 text-slate-400" />
                 <span>Tu perfil</span>
               </RouterLink>
 
               <RouterLink
                 to="/feeds"
                 @click="feedStore.setFilter('saved')"
-                class="w-full px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left"
+                class="w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center gap-3 text-left"
               >
-                <Bookmark class="w-4 h-4 text-slate-400" />
+                <Bookmark class="w-5 h-5 text-slate-400" />
                 <span>Publicaciones guardadas</span>
               </RouterLink>
 
               <button
                 type="button"
                 @click="showDropdown = false"
-                class="w-full px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+                class="w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center gap-3 text-left cursor-pointer"
               >
-                <Settings class="w-4 h-4 text-slate-400" />
+                <Settings class="w-5 h-5 text-slate-400" />
                 <span>Configuración y privacidad</span>
               </button>
 
-              <div class="my-1 border-t border-slate-100" />
+              <div class="my-1.5 border-t border-slate-100" />
 
               <button
                 type="button"
                 @click="showDropdown = false"
-                class="w-full px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 text-left font-semibold cursor-pointer"
+                class="w-full px-4 py-2.5 text-sm font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-3 text-left cursor-pointer"
               >
-                <LogOut class="w-4 h-4 text-rose-500" />
+                <LogOut class="w-5 h-5 text-rose-500" />
                 <span>Cerrar sesión</span>
               </button>
             </div>
@@ -371,7 +368,7 @@
     </div>
 
     <!-- ========================================================
-         3. ANDROID MENU SCREEN (FROM USER IMAGE 1)
+         3. ANDROID MENU SCREEN
          ======================================================== -->
     <MobileMenuDrawer
       :isOpen="isMobileMenuOpen"
@@ -379,7 +376,7 @@
     />
 
     <!-- ========================================================
-         4. ANDROID SEARCH SCREEN (FROM USER IMAGE 3)
+         4. ANDROID SEARCH SCREEN
          ======================================================== -->
     <MobileSearchModal
       :isOpen="isSearchModalOpen"
@@ -405,7 +402,8 @@ import {
   ChevronDown,
   Menu,
   LogOut,
-  X
+  X,
+  Settings
 } from 'lucide-vue-next';
 import { useFeedStore } from '@/modules/feeds/store/feedStore';
 import { useNotificationStore } from '@/modules/notifications/store/notificationStore';

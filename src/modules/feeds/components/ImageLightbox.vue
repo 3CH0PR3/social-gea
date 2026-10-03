@@ -2,14 +2,14 @@
   <Teleport to="body">
     <div
       v-if="lightbox.isOpen && currentImage"
-    role="dialog"
-    aria-modal="true"
-    class="fixed inset-0 z-50 flex flex-col lg:flex-row bg-black select-none overflow-hidden animate-in fade-in duration-150"
-    tabindex="0"
-    @keydown.esc="feedStore.closeLightbox"
-    @keydown.left="feedStore.prevLightboxImage"
-    @keydown.right="feedStore.nextLightboxImage"
-  >
+      role="dialog"
+      aria-modal="true"
+      class="fixed inset-0 z-[99999] w-screen h-screen flex flex-col lg:flex-row bg-black select-none overflow-hidden animate-in fade-in duration-150"
+      tabindex="0"
+      @keydown.esc="feedStore.closeLightbox"
+      @keydown.left="feedStore.prevLightboxImage"
+      @keydown.right="feedStore.nextLightboxImage"
+    >
     <!-- LEFT THEATER AREA (Black canvas with full-size photo, zoom & navigation) -->
     <div class="flex-1 h-full bg-black relative flex items-center justify-center min-w-0 overflow-hidden">
       <!-- Top Left Controls (Close X on mobile; Brand logo on desktop) -->
@@ -376,11 +376,11 @@
           </div>
         </div>
 
-        <!-- 4. Post Action Buttons Bar (Reactions Popover, Comment, Share) -->
-        <div class="px-2 py-1 border-b border-slate-100 flex items-center justify-around relative">
+        <!-- 4. Post Action Buttons Bar (Icons + Numbers ONLY, NO TEXT) -->
+        <div class="px-2 py-1.5 border-b border-slate-100 flex items-center justify-around relative">
           <!-- Reaccionar Button with Facebook Popover -->
           <div
-            class="relative flex-1"
+            class="relative flex-1 flex justify-center"
             @mouseenter="delayShowPopover"
             @mouseleave="delayHidePopover"
           >
@@ -397,16 +397,17 @@
               type="button"
               @click="handleClickReactionButton"
               :class="[
-                'w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer hover:bg-slate-100',
+                'flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-colors cursor-pointer hover:bg-slate-100',
                 currentReactionConfig ? currentReactionConfig.colorClass : 'text-slate-600'
               ]"
+              title="Reaccionar"
             >
               <FacebookReactionIcon
                 :type="post.userReaction"
                 size="xs"
                 class="w-4 h-4"
               />
-              <span>{{ currentReactionConfig ? currentReactionConfig.label : 'Me gusta' }}</span>
+              <span class="font-bold text-xs">{{ totalPostReactions }}</span>
             </button>
           </div>
 
@@ -414,20 +415,22 @@
           <button
             type="button"
             @click="focusCommentInput"
-            class="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+            class="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+            title="Comentarios"
           >
             <MessageCircle class="w-4 h-4 text-slate-600" />
-            <span>Comentar</span>
+            <span class="font-bold text-xs">{{ post.comments ? post.comments.length : 0 }}</span>
           </button>
 
           <!-- Compartir Button -->
           <button
             type="button"
             @click="showShareModal = true"
-            class="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+            class="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+            title="Compartir publicación"
           >
             <Share2 class="w-4 h-4 text-slate-600" />
-            <span>Compartir</span>
+            <span class="font-bold text-xs">{{ post.sharesCount || 0 }}</span>
           </button>
         </div>
 
@@ -815,7 +818,7 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, watch } from 'vue';
+import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue';
 import { RouterLink } from 'vue-router';
 import {
   X,
@@ -865,13 +868,24 @@ useBodyScrollLock(() => lightbox.value.isOpen);
 const showMobileComments = ref(false);
 
 watch(
-  () => lightbox.value.isOpen,
+  () => lightbox.value.isOpen && !!currentImage.value,
   (open) => {
-    if (!open) {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
       showMobileComments.value = false;
     }
-  }
+  },
+  { immediate: true }
 );
+
+onBeforeUnmount(() => {
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+});
 
 const scrollContainer = ref(null);
 const commentInputRef = ref(null);

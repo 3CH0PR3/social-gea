@@ -94,11 +94,10 @@ export const useRadarStore = defineStore('radar', {
 
   actions: {
     async loadUsers() {
-      if (this.users.length > 0) return;
       this.isLoading = true;
       try {
         const data = await radarService.fetchUsers();
-        this.users = data;
+        this.users = [...data];
       } finally {
         this.isLoading = false;
       }

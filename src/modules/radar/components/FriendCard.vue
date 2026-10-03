@@ -132,10 +132,10 @@
           <button
             type="button"
             @click="radarStore.sendRequest(user.id)"
-            class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-xs active:scale-98"
+            class="flex-1 py-2 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-xs active:scale-98"
           >
             <UserPlus class="w-3.5 h-3.5" />
-            <span>Añadir a amigos</span>
+            <span>Agregar amigo</span>
           </button>
           <button
             type="button"

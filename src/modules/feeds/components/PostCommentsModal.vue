@@ -2,123 +2,181 @@
   <Teleport to="body">
     <div
       v-if="isOpen"
-    role="dialog"
-    aria-modal="true"
-    class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-white sm:bg-black/65 sm:backdrop-blur-xs animate-in fade-in duration-200"
-    @click="$emit('close')"
-  >
-    <div
-      class="relative w-full h-[100dvh] sm:h-auto sm:max-h-[92vh] sm:max-w-[620px] bg-white sm:rounded-2xl shadow-none sm:shadow-2xl overflow-hidden border-0 sm:border border-slate-200/90 flex flex-col overscroll-contain animate-in slide-in-from-bottom-2 sm:zoom-in-95 duration-200"
-      @click.stop
+      role="dialog"
+      aria-modal="true"
+      class="fixed inset-0 z-50 flex flex-col sm:items-center sm:justify-center p-0 sm:p-4 bg-white sm:bg-black/65 sm:backdrop-blur-xs w-full h-[100dvh] overflow-hidden"
+      @click.self="$emit('close')"
     >
-      <!-- 1. Modal Top Bar (Mobile: native app bar with back button; Desktop: centered title with close X) -->
-      <div class="relative py-3 px-3.5 sm:py-3.5 sm:px-4 border-b border-slate-200/80 flex items-center justify-between sm:justify-center bg-white sticky top-0 z-30 select-none">
-        <!-- Native Back Arrow for Mobile/Android -->
-        <button
-          type="button"
-          @click="$emit('close')"
-          class="sm:hidden p-1.5 -ml-1 text-slate-700 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
-          aria-label="Volver al feed"
-        >
-          <ArrowLeft class="w-5 h-5 stroke-[2.2]" />
-        </button>
+      <div
+        class="w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-[620px] bg-white sm:rounded-2xl shadow-none sm:shadow-2xl overflow-hidden border-0 sm:border border-slate-200/90 flex flex-col flex-1 sm:flex-initial overscroll-contain"
+        @click.stop
+      >
+        <!-- 1. Modal Top Bar (Mobile: native App Bar with back button; Desktop: centered title with close X) -->
+        <header class="h-14 px-3 sm:px-4 border-b border-slate-200/90 flex items-center justify-between bg-white shrink-0 z-30 select-none">
+          <!-- Native Back Arrow for Mobile/Android -->
+          <button
+            type="button"
+            @click="$emit('close')"
+            class="sm:hidden p-2 -ml-1 text-slate-700 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
+            aria-label="Volver al feed"
+          >
+            <ArrowLeft class="w-5 h-5 stroke-[2.2]" />
+          </button>
 
-        <h3 class="font-bold text-sm sm:text-base text-slate-900 tracking-tight truncate max-w-[240px] sm:max-w-none">
-          Publicación de {{ post.authorName }}
-        </h3>
+          <h3 class="font-bold text-sm sm:text-base text-slate-900 tracking-tight truncate flex-1 text-left sm:text-center px-2">
+            Publicación de {{ post.authorName }}
+          </h3>
 
-        <!-- Desktop Close Button -->
-        <button
-          type="button"
-          @click="$emit('close')"
-          class="hidden sm:flex absolute right-3.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 items-center justify-center transition-colors cursor-pointer"
-          title="Cerrar (Esc)"
-          aria-label="Cerrar"
-        >
-          <X class="w-5 h-5 stroke-[2.2]" />
-        </button>
+          <!-- Desktop & Mobile Close Button -->
+          <button
+            type="button"
+            @click="$emit('close')"
+            class="p-2 -mr-1 text-slate-600 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
+            title="Cerrar (Esc)"
+            aria-label="Cerrar"
+          >
+            <X class="w-5 h-5 stroke-[2.2]" />
+          </button>
+        </header>
 
-        <!-- Placeholder for mobile symmetric spacing -->
-        <div class="w-7 sm:hidden" />
-      </div>
+        <!-- 2. Scrollable Body: Full Post Details + Comments Stream -->
+        <div class="flex-1 overflow-y-auto overscroll-contain min-h-0" ref="scrollContainer">
+          <!-- Post Header: Author, Community, Time, 3-dots -->
+          <div class="p-4 flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <RouterLink
+                :to="`/profiles/${post.authorId}`"
+                @click="$emit('close')"
+                class="relative cursor-pointer shrink-0"
+              >
+                <SafeImage
+                  :src="post.authorAvatar"
+                  :alt="post.authorName"
+                  imgClass="w-10 h-10 rounded-full object-cover ring-1 ring-slate-200"
+                  containerClass="w-10 h-10 rounded-full"
+                />
+              </RouterLink>
 
-      <!-- 2. Scrollable Body: Full Post Details + Comments Stream -->
-      <div class="flex-1 overflow-y-auto overscroll-contain" ref="scrollContainer">
-        <!-- Post Header: Author, Community, Time, 3-dots -->
-        <div class="p-4 flex items-start justify-between">
-          <div class="flex items-center gap-3">
-            <RouterLink
-              :to="`/profiles/${post.authorId}`"
-              @click="$emit('close')"
-              class="relative cursor-pointer shrink-0"
-            >
-              <SafeImage
-                :src="post.authorAvatar"
-                :alt="post.authorName"
-                imgClass="w-10 h-10 rounded-full object-cover ring-1 ring-slate-200"
-                containerClass="w-10 h-10 rounded-full"
-              />
-            </RouterLink>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap leading-tight">
+                  <RouterLink
+                    :to="`/profiles/${post.authorId}`"
+                    @click="$emit('close')"
+                    class="text-sm font-bold text-slate-900 hover:underline cursor-pointer"
+                  >
+                    {{ post.authorName }}
+                  </RouterLink>
 
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-1.5 flex-wrap leading-tight">
-                <RouterLink
-                  :to="`/profiles/${post.authorId}`"
-                  @click="$emit('close')"
-                  class="text-sm font-bold text-slate-900 hover:underline cursor-pointer"
-                >
-                  {{ post.authorName }}
-                </RouterLink>
+                  <span
+                    v-if="post.authorVerified"
+                    title="Verificado"
+                    class="w-3.5 h-3.5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] font-bold"
+                  >
+                    ✓
+                  </span>
 
-                <span
-                  v-if="post.authorVerified"
-                  title="Verificado"
-                  class="w-3.5 h-3.5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] font-bold"
-                >
-                  ✓
-                </span>
+                  <span v-if="post.feeling" class="text-[11px] text-slate-500 font-normal inline-flex items-center gap-1">
+                    está {{ post.feeling.emoji }} {{ post.feeling.text }}
+                  </span>
+                </div>
 
-                <span v-if="post.feeling" class="text-[11px] text-slate-500 font-normal inline-flex items-center gap-1">
-                  está {{ post.feeling.emoji }} {{ post.feeling.text }}
-                </span>
-              </div>
-
-              <div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5 font-normal leading-none">
-                <span>{{ post.authorUsername ? `@${post.authorUsername}` : post.authorName }}</span>
-                <span>·</span>
-                <span>{{ post.timestamp }}</span>
-                <span>·</span>
-                <Globe class="w-3 h-3 text-slate-400" />
+                <div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5 font-normal leading-none">
+                  <span>{{ post.authorUsername ? `@${post.authorUsername}` : post.authorName }}</span>
+                  <span>·</span>
+                  <span>{{ post.timestamp }}</span>
+                  <span>·</span>
+                  <Globe class="w-3 h-3 text-slate-400" />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="relative">
-            <button
-              type="button"
-              @click="showOptionsMenu = !showOptionsMenu"
-              class="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
-              title="Opciones"
-            >
-              <MoreHorizontal class="w-4 h-4" />
-            </button>
-
-            <div
-              v-if="showOptionsMenu"
-              class="absolute right-0 top-8 w-52 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-40 animate-in fade-in zoom-in-95 duration-100"
-              @click="showOptionsMenu = false"
-            >
+            <!-- Post Options Dropdown (•••) -->
+            <div class="relative">
               <button
                 type="button"
-                @click="feedStore.toggleSavePost(post.id)"
-                class="w-full px-3.5 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+                @click="showOptionsMenu = !showOptionsMenu"
+                class="p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                title="Opciones"
               >
-                <Bookmark :class="['w-4 h-4', post.isSaved ? 'text-emerald-600 fill-emerald-600' : 'text-slate-400']" />
-                <span>{{ post.isSaved ? 'Quitar de guardados' : 'Guardar publicación' }}</span>
+                <MoreHorizontal class="w-4.5 h-4.5" />
               </button>
+
+              <div
+                v-if="showOptionsMenu"
+                class="absolute right-0 top-8 w-60 bg-white rounded-2xl shadow-2xl border border-slate-200 py-1.5 z-40 animate-in fade-in zoom-in-95 duration-100 divide-y divide-slate-100"
+                @click="showOptionsMenu = false"
+              >
+                <div class="py-1">
+                  <!-- Guardar / Quitar de guardados -->
+                  <button
+                    type="button"
+                    @click="feedStore.toggleSavePost(post.id)"
+                    class="w-full px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+                  >
+                    <Bookmark :class="['w-4 h-4', post.isSaved ? 'text-emerald-700 fill-emerald-700' : 'text-slate-500']" />
+                    <span>{{ post.isSaved ? 'Quitar de guardados' : 'Guardar publicación' }}</span>
+                  </button>
+
+                  <!-- Copiar enlace -->
+                  <button
+                    type="button"
+                    @click="handleCopyLink"
+                    class="w-full px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+                  >
+                    <Link class="w-4 h-4 text-slate-500" />
+                    <span>{{ copiedLink ? '¡Enlace copiado!' : 'Copiar enlace' }}</span>
+                  </button>
+                </div>
+
+                <div class="py-1">
+                  <!-- Ocultar publicación -->
+                  <button
+                    type="button"
+                    @click="handleHidePost"
+                    class="w-full px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+                  >
+                    <EyeOff class="w-4 h-4 text-slate-500" />
+                    <div>
+                      <div class="leading-tight">Ocultar publicación</div>
+                      <div class="text-[10.5px] text-slate-400 font-normal">Ver menos publicaciones como esta</div>
+                    </div>
+                  </button>
+
+                  <!-- Desactivar notificaciones -->
+                  <button
+                    type="button"
+                    @click="handleMutePost"
+                    class="w-full px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+                  >
+                    <BellOff class="w-4 h-4 text-slate-500" />
+                    <span>Desactivar notificaciones</span>
+                  </button>
+                </div>
+
+                <div class="py-1">
+                  <!-- Reportar publicación -->
+                  <button
+                    type="button"
+                    @click="handleReportPost"
+                    class="w-full px-3.5 py-2 text-xs font-semibold text-amber-600 hover:bg-amber-50 flex items-center gap-2.5 text-left cursor-pointer"
+                  >
+                    <Flag class="w-4 h-4 text-amber-500" />
+                    <span>Reportar publicación</span>
+                  </button>
+
+                  <!-- Eliminar publicación para mí -->
+                  <button
+                    type="button"
+                    @click="handleDeletePost"
+                    class="w-full px-3.5 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 text-left cursor-pointer"
+                  >
+                    <Trash2 class="w-4 h-4 text-rose-500" />
+                    <span>{{ isAuthor ? 'Eliminar publicación' : 'Eliminar publicación para mí' }}</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
         <!-- Post Body Content -->
         <!-- A. Colored Gradient Canvas (Like in user's screenshot) -->
@@ -798,7 +856,12 @@ import {
   ChevronDown,
   Camera,
   Smile,
-  Send
+  Send,
+  Link,
+  EyeOff,
+  Flag,
+  Trash2,
+  BellOff
 } from 'lucide-vue-next';
 import { useFeedStore } from '../store/feedStore';
 import { useNotificationStore } from '@/modules/notifications/store/notificationStore';
@@ -825,9 +888,41 @@ const props = defineProps({
 
 useBodyScrollLock(() => props.isOpen);
 
-defineEmits(['close']);
+const emit = defineEmits(['close']);
 const feedStore = useFeedStore();
 const notificationStore = useNotificationStore();
+
+const copiedLink = ref(false);
+const isAuthor = computed(() => props.post.authorId === feedStore.currentUser.id);
+
+function handleCopyLink() {
+  const url = `${window.location.origin}/feeds?post=${props.post.id}`;
+  if (navigator?.clipboard?.writeText) {
+    navigator.clipboard.writeText(url);
+  }
+  copiedLink.value = true;
+  setTimeout(() => {
+    copiedLink.value = false;
+  }, 2000);
+}
+
+function handleHidePost() {
+  feedStore.removePost(props.post.id);
+  emit('close');
+}
+
+function handleReportPost() {
+  alert('Gracias por avisarnos. Hemos recibido tu reporte y nuestro equipo lo revisará.');
+}
+
+function handleDeletePost() {
+  feedStore.removePost(props.post.id);
+  emit('close');
+}
+
+function handleMutePost() {
+  alert('Notificaciones desactivadas para esta publicación.');
+}
 
 const commentInputRef = ref(null);
 const scrollContainer = ref(null);

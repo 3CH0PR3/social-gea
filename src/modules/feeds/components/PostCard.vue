@@ -29,7 +29,7 @@
               ✓
             </span>
 
-            <span v-if="post.feeling" class="feed-post-feeling inline-flex items-center gap-1 text-[11px] text-slate-500 font-normal">
+            <span v-if="post.feeling" class="feed-post-feeling">
               está <span>{{ post.feeling.emoji }}</span> {{ post.feeling.text }}
             </span>
           </div>
@@ -38,17 +38,17 @@
             <span>{{ post.timestamp }}</span>
             <span aria-hidden="true" class="text-slate-300">·</span>
             <template v-if="post.location">
-              <span class="text-slate-500 truncate max-w-[140px] sm:max-w-[200px]">{{ post.location }}</span>
+              <span class="text-slate-500 truncate max-w-40 sm:max-w-xs">{{ post.location }}</span>
               <span aria-hidden="true" class="text-slate-300">·</span>
             </template>
             <span v-if="post.privacy === 'public'" title="Público" class="flex items-center">
-              <Globe class="w-3 h-3 text-slate-400" />
+              <Globe class="w-3.5 h-3.5 text-slate-400" />
             </span>
             <span v-else-if="post.privacy === 'friends'" title="Amigos" class="flex items-center">
-              <Users class="w-3 h-3 text-slate-400" />
+              <Users class="w-3.5 h-3.5 text-slate-400" />
             </span>
             <span v-else title="Solo yo" class="flex items-center">
-              <Lock class="w-3 h-3 text-slate-400" />
+              <Lock class="w-3.5 h-3.5 text-slate-400" />
             </span>
           </div>
         </div>
@@ -59,29 +59,29 @@
         <button
           type="button"
           @click="showOptionsMenu = !showOptionsMenu"
-          class="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+          class="p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
           title="Opciones"
           aria-label="Opciones"
         >
-          <MoreHorizontal class="w-4 h-4" />
+          <MoreHorizontal class="w-4.5 h-4.5" />
         </button>
 
         <div
           v-if="showOptionsMenu"
-          class="absolute right-0 top-10 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-30 animate-in fade-in zoom-in-95 duration-100"
+          class="absolute right-0 top-10 w-64 bg-white rounded-md shadow-xl border border-slate-200 py-1.5 z-30 animate-in fade-in zoom-in-95 duration-100"
           @click="showOptionsMenu = false"
         >
           <button
             type="button"
             @click="feedStore.toggleSavePost(post.id)"
-            class="w-full px-3.5 py-2.5 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+            class="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 text-left cursor-pointer"
           >
-            <Bookmark :class="['w-4 h-4', post.isSaved ? 'text-emerald-600 fill-emerald-600' : 'text-slate-400']" />
+            <Bookmark :class="['w-4 h-4', post.isSaved ? 'text-emerald-700 fill-emerald-700' : 'text-slate-400']" />
             <div>
-              <span class="font-semibold block text-slate-900">
+              <span class="font-bold block text-slate-900">
                 {{ post.isSaved ? 'Guardada en tus elementos' : 'Guardar publicación' }}
               </span>
-              <span class="text-[10px] text-slate-400">
+              <span class="text-xs text-slate-400">
                 {{ post.isSaved ? 'Toca para quitar de guardados' : 'Añadir esto a tus elementos guardados' }}
               </span>
             </div>
@@ -90,16 +90,16 @@
           <button
             type="button"
             @click="copyDirectLink"
-            class="w-full px-3.5 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer border-t border-slate-100"
+            class="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 text-left cursor-pointer border-t border-slate-100 font-medium"
           >
             <ExternalLink class="w-4 h-4 text-slate-400" />
-            <span>Copiar enlace directo</span>
+            <span>{{ copiedLink ? '¡Enlace copiado!' : 'Copiar enlace directo' }}</span>
           </button>
 
           <button
             type="button"
             @click="showShareModal = true"
-            class="w-full px-3.5 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+            class="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 text-left cursor-pointer font-medium"
           >
             <Code class="w-4 h-4 text-slate-400" />
             <span>Vincular código HTML</span>
@@ -109,7 +109,7 @@
             v-if="post.authorId === feedStore.currentUser.id"
             type="button"
             @click="feedStore.removePost(post.id)"
-            class="w-full px-3.5 py-2 text-xs text-red-600 hover:bg-red-50 flex items-center gap-2.5 text-left border-t border-slate-100 cursor-pointer"
+            class="w-full px-4 py-2.5 text-xs sm:text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 text-left border-t border-slate-100 cursor-pointer font-semibold"
           >
             <Trash2 class="w-4 h-4" />
             <span>Eliminar publicación</span>
@@ -143,7 +143,7 @@
       v-if="post.images && post.images.length > 0"
       :class="[
         'relative bg-slate-950 overflow-hidden',
-        post.images.length === 1 ? 'max-h-[550px]' : 'grid grid-cols-2 gap-1 max-h-[420px]'
+        post.images.length === 1 ? 'max-h-[550px]' : 'grid grid-cols-2 gap-1 max-h-[440px]'
       ]"
     >
       <div
@@ -165,7 +165,7 @@
         <div
           v-for="(img, idx) in post.images.slice(0, 4)"
           :key="idx"
-          class="h-44 sm:h-52 cursor-pointer overflow-hidden bg-slate-900"
+          class="h-48 sm:h-56 cursor-pointer overflow-hidden bg-slate-900"
           @click="feedStore.openLightbox(post.images, idx, post)"
         >
           <SafeImage
@@ -180,19 +180,19 @@
 
     <!-- 4. Post Action Bar -->
     <div class="feed-post-footer">
-      <!-- Reactions Popover -->
+      <!-- Reactions Popover (Floating animated dock) -->
       <div
         v-if="showReactionsPopover"
-        class="absolute -top-12 left-2 z-40"
+        class="absolute -top-14 left-2 z-40 animate-in fade-in zoom-in-95 duration-150"
         @mouseenter="clearPopoverTimer"
         @mouseleave="delayHidePopover"
       >
         <FacebookReactions @select="handleSelectReaction" />
       </div>
 
-      <!-- Left Side Actions: Like, Comment, Share -->
+      <!-- Left Side Actions: Like, Comment, Share (ONLY ICON + NUMBER, NO TEXT) -->
       <div class="feed-post-actions-group">
-        <!-- Like Button with Counter -->
+        <!-- Like Button with Counter ONLY -->
         <div
           class="relative"
           @mouseenter="delayShowPopover"
@@ -206,64 +206,65 @@
             @pointerleave="onPointerUp"
             @click="onButtonClick"
             :class="[
-              'feed-post-action-btn select-none active:scale-95 cursor-pointer',
-              currentReactionConfig ? currentReactionConfig.colorClass : ''
+              'feed-post-action-btn select-none active:scale-95 cursor-pointer outline-none focus:outline-none flex items-center gap-1.5',
+              currentReactionConfig ? currentReactionConfig.colorClass : 'text-slate-600'
             ]"
             title="Me gusta / Reaccionar"
           >
             <FacebookReactionIcon
               :type="post.userReaction"
-              size="xs"
-              class="w-4 h-4"
+              size="sm"
+              class="w-4.5 h-4.5 shrink-0"
             />
-            <span :class="['font-bold text-xs', currentReactionConfig ? currentReactionConfig.colorClass : 'text-slate-700']">
+            <span :class="['font-bold text-xs sm:text-sm', currentReactionConfig ? currentReactionConfig.colorClass : 'text-slate-700']">
               {{ totalReactions }}
             </span>
           </button>
         </div>
 
-        <!-- Comment Button with Counter -->
+        <!-- Comment Button with Counter ONLY -->
         <button
           type="button"
           @click="showCommentsModal = true"
-          class="feed-post-action-btn"
-          title="Comentar"
+          class="feed-post-action-btn cursor-pointer flex items-center gap-1.5"
+          title="Comentarios"
         >
-          <MessageCircle class="w-4 h-4 text-slate-600 stroke-[2.2]" />
-          <span class="font-bold text-xs text-slate-700">{{ post.comments.length }}</span>
+          <MessageCircle class="w-4.5 h-4.5 text-slate-600 stroke-[2.2]" />
+          <span class="font-bold text-xs sm:text-sm text-slate-700">{{ post.comments ? post.comments.length : 0 }}</span>
         </button>
 
-        <!-- Share Button with Counter -->
+        <!-- Share Button with Counter ONLY -->
         <button
           type="button"
           @click="showShareModal = true"
-          class="feed-post-action-btn"
+          class="feed-post-action-btn cursor-pointer flex items-center gap-1.5"
           title="Compartir publicación"
         >
-          <Share2 class="w-4 h-4 text-slate-600 stroke-[2.2]" />
-          <span class="font-bold text-xs text-slate-700">{{ post.sharesCount }}</span>
+          <Share2 class="w-4.5 h-4.5 text-slate-600 stroke-[2.2]" />
+          <span class="font-bold text-xs sm:text-sm text-slate-700">{{ post.sharesCount || 0 }}</span>
         </button>
       </div>
 
-      <!-- Right Side: Reaction Icons -->
+      <!-- Right Side: Reaction Icons Summary (Overlapping Badges + Total) -->
       <button
+        v-if="totalReactions > 0"
         type="button"
         @click="showReactionsModal = true"
-        class="flex items-center hover:scale-105 transition-transform cursor-pointer pl-2 py-1"
+        class="flex items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer pl-2 py-1 select-none"
         title="Ver todas las reacciones"
       >
-        <div v-if="topReactions.length > 0" class="flex items-center -space-x-1.5">
+        <div class="flex items-center -space-x-1">
           <FacebookReactionIcon
-            v-for="t in topReactions"
+            v-for="t in (topReactions.length > 0 ? topReactions : ['like'])"
             :key="t"
             :type="t"
             size="xs"
-            class="ring-1.5 ring-white rounded-full drop-shadow-2xs"
+            class="w-4 h-4 ring-1 ring-white rounded-full drop-shadow-xs"
           />
         </div>
-        <div v-else-if="totalReactions > 0" class="flex items-center -space-x-1.5">
-          <FacebookReactionIcon type="like" size="xs" class="ring-1.5 ring-white rounded-full drop-shadow-2xs" />
-        </div>
+        <span class="text-xs font-bold text-slate-500 hover:text-slate-800">
+          {{ totalReactions }}
+        </span>
       </button>
     </div>
 
@@ -326,6 +327,7 @@ const showReactionsModal = ref(false);
 const showShareModal = ref(false);
 const showOptionsMenu = ref(false);
 const showCommentsModal = ref(false);
+const copiedLink = ref(false);
 
 let popoverTimer = null;
 
@@ -401,7 +403,6 @@ function onButtonClick() {
 }
 
 function handleSelectReaction(type) {
-  // If user picks the reaction they already have, unclick/remove it!
   if (props.post.userReaction === type) {
     feedStore.toggleReaction(props.post.id, null);
   } else {
@@ -412,6 +413,9 @@ function handleSelectReaction(type) {
 
 function copyDirectLink() {
   navigator.clipboard.writeText(`${window.location.origin}/#/feeds?post=${props.post.id}`);
-  alert('¡Enlace copiado al portapapeles!');
+  copiedLink.value = true;
+  setTimeout(() => {
+    copiedLink.value = false;
+  }, 2000);
 }
 </script>

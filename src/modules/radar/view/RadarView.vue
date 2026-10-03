@@ -89,11 +89,11 @@ const activeSectionTitle = computed(() => {
 const activeSectionDescription = computed(() => {
   switch (radarStore.activeTab) {
     case 'friends':
-      return 'Personas con las que ya estás conectado en Conecta Radar';
+      return 'Personas que están en tu lista de amigos en Socialgea';
     case 'requests':
-      return 'Personas que te han enviado una solicitud para conectar';
+      return 'Personas que te han enviado una solicitud de amistad';
     case 'suggestions':
-      return 'Descubre y conecta con nuevas personas de tu ciudad o área';
+      return 'Descubre y agrega nuevos amigos de tu ciudad o área';
     default:
       return '';
   }

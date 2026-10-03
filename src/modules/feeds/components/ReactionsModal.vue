@@ -144,7 +144,7 @@
               </div>
             </div>
 
-            <!-- Follow / Connect status badge on mobile -->
+            <!-- Follow / Friend status badge on mobile -->
             <div v-if="isCurrentUser(user)" class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 font-bold text-[11px] shrink-0 select-none">
               Tú
             </div>
@@ -155,13 +155,13 @@
               :class="[
                 'flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold transition-colors shrink-0 cursor-pointer select-none',
                 connectedUserIds.includes(user.userId)
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                  : 'bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700'
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'bg-emerald-700 hover:bg-emerald-800 text-white'
               ]"
             >
-              <Check v-if="connectedUserIds.includes(user.userId)" class="w-3.5 h-3.5 text-emerald-600" />
-              <UserPlus v-else class="w-3.5 h-3.5 text-slate-500" />
-              <span>{{ connectedUserIds.includes(user.userId) ? 'Conectado' : 'Conectar' }}</span>
+              <Check v-if="connectedUserIds.includes(user.userId)" class="w-3.5 h-3.5 text-emerald-700" />
+              <UserPlus v-else class="w-3.5 h-3.5 text-white" />
+              <span>{{ connectedUserIds.includes(user.userId) ? 'Amigos' : 'Agregar amigo' }}</span>
             </button>
           </div>
         </div>
@@ -278,13 +278,13 @@
                 :class="[
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors shrink-0 cursor-pointer',
                   connectedUserIds.includes(item.userId)
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-xs'
                 ]"
               >
-                <Check v-if="connectedUserIds.includes(item.userId)" class="w-3.5 h-3.5 text-emerald-600" />
-                <UserPlus v-else class="w-3.5 h-3.5 text-slate-500" />
-                <span>{{ connectedUserIds.includes(item.userId) ? 'Conectado' : 'Conectar' }}</span>
+                <Check v-if="connectedUserIds.includes(item.userId)" class="w-3.5 h-3.5 text-emerald-700" />
+                <UserPlus v-else class="w-3.5 h-3.5 text-white" />
+                <span>{{ connectedUserIds.includes(item.userId) ? 'Amigos' : 'Agregar amigo' }}</span>
               </button>
             </div>
           </div>

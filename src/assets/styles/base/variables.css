@@ -81,10 +81,10 @@
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;
   --radius-full: 9999px;
-  --card-radius: var(--radius-2xl);
-  --card-radius-sm: var(--radius-xl);
-  --input-radius: var(--radius-xl);
-  --badge-radius: var(--radius-md);
+  --card-radius: var(--radius-md);
+  --card-radius-sm: var(--radius-md);
+  --input-radius: var(--radius-md);
+  --badge-radius: var(--radius-sm);
 
   /* Botones (padding y alturas fijos para toda la app) */
   --btn-min-h: 34px;

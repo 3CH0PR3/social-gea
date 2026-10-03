@@ -17,7 +17,7 @@
       <SidebarLeft v-else-if="!isProfileRoute" />
 
       <!-- Center Dynamic Router Stage -->
-      <main :class="['flex-1 w-full min-w-0', isProfileRoute ? 'w-full max-w-full sm:max-w-4xl' : isWideRoute ? 'max-w-7xl' : 'max-w-2xl']">
+      <main :class="['flex-1 w-full min-w-0', isProfileRoute ? 'w-full max-w-5xl xl:max-w-6xl mx-auto' : isWideRoute ? 'max-w-7xl' : 'max-w-2xl']">
         <RouterView />
       </main>
 

@@ -14,11 +14,15 @@
 @import "./components/navbar.css";
 @import "./components/sidebar-left.css";
 @import "./components/sidebar-right.css";
-@import "./components/mobile-menu-drawer.css";
-@import "./components/mobile-search-modal.css";
+@import "./responsive/menu-drawer.css";
+@import "./responsive/search-modal.css";
 @import "./components/safe-image.css";
 @import "./components/radar-logo.css";
 @import "./components/searchable-select.css";
 
 /* Layout */
 @import "./layout/layout.css";
+
+/* Responsive */
+@import "./responsive/android.css";
+@import "./responsive/desktop.css";

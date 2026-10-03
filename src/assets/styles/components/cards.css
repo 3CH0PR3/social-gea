@@ -4,11 +4,30 @@
 .sg-card, .card {
   background-color: var(--surface);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-2xl);
+  border-radius: var(--card-radius);
   box-shadow: var(--shadow-card);
   overflow: hidden;
   position: relative;
   transition: border-color 0.2s ease;
+}
+
+/* Story Animated Ring */
+@keyframes sg-story-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.sg-story-ring-animated {
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: conic-gradient(from 0deg, #047857 0%, #10b981 25%, #6ee7b7 50%, #10b981 75%, #047857 100%);
+  animation: sg-story-rotate 4.5s linear infinite;
+  z-index: 0;
 }
 
 .sg-card--flush {
