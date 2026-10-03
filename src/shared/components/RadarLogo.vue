@@ -1,21 +1,20 @@
 <template>
-  <div :class="['inline-flex items-center gap-2.5 select-none', customClass]">
+  <div :class="['sg-logo', customClass]">
     <div
-      class="relative flex items-center justify-center shrink-0 rounded-2xl overflow-hidden shadow-sm transition-transform duration-200 hover:scale-105"
+      class="sg-logo__icon"
       :style="{
         width: `${size}px`,
         height: `${size}px`,
-        background: 'linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)',
       }"
     >
       <div
         v-if="withRadarPulse"
-        class="absolute inset-0 bg-emerald-400/20 rounded-2xl animate-ping pointer-events-none"
+        class="sg-logo__pulse"
       />
 
       <svg
         viewBox="0 0 100 100"
-        class="w-[78%] h-[78%]"
+        class="sg-logo__svg"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -45,12 +44,10 @@
       </svg>
     </div>
 
-    <div v-if="showText" class="flex flex-col leading-tight">
-      <div class="flex items-center gap-1.5">
-        <span :class="['text-xl font-bold tracking-tight font-display', textColor]">
-          Socialgea
-        </span>
-      </div>
+    <div v-if="showText" class="sg-logo__text-wrap">
+      <span :class="['sg-logo__text', textColor]">
+        Socialgea
+      </span>
     </div>
   </div>
 </template>
@@ -59,19 +56,19 @@
 defineProps({
   size: {
     type: Number,
-    default: 40,
+    default: 44,
   },
   showText: {
     type: Boolean,
-    default: false,
+    default: true,
+  },
+  textColor: {
+    type: String,
+    default: '',
   },
   withRadarPulse: {
     type: Boolean,
     default: false,
-  },
-  textColor: {
-    type: String,
-    default: 'text-slate-900',
   },
   customClass: {
     type: String,

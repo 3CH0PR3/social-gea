@@ -1,0 +1,288 @@
+/* ========================================================
+   NAVBAR COMPONENT STYLES
+   ======================================================== */
+.sg-navbar-header, .sg-navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-default);
+  box-shadow: var(--shadow-2xs);
+  user-select: none;
+}
+
+.sg-navbar--hidden-mobile, .sg-navbar--desktop-only {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .sg-navbar--hidden-mobile, .sg-navbar--desktop-only {
+    display: block;
+  }
+}
+
+/* Mobile Line 1 */
+.sg-navbar-mobile-row1 {
+  padding: 0.625rem 1rem 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sg-navbar-mobile-brand {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--primary-700);
+  letter-spacing: -0.025em;
+  text-decoration: none;
+}
+
+.sg-navbar-mobile-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sg-navbar-circle-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  background: var(--surface-muted);
+  color: var(--text-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.sg-navbar-circle-btn:hover {
+  background: #e2e8f0;
+}
+
+.sg-navbar-circle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Mobile Line 2 */
+.sg-navbar-mobile-tabs, .sg-navbar__tabs {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: center;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.sg-navbar-mobile-tab, .sg-navbar__tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 0;
+  color: var(--text-muted);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.sg-navbar-mobile-tab--active, .sg-navbar__tab--active {
+  color: var(--primary-700) !important;
+}
+
+.sg-navbar-tab-indicator, .sg-navbar__tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-700);
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+}
+
+.sg-navbar-badge-dot {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.375rem;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.25rem;
+  border-radius: var(--radius-full);
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sg-navbar-badge-dot--primary {
+  background: var(--primary-700);
+}
+
+/* Desktop container */
+.sg-navbar-desktop-container, .sg-navbar__container {
+  display: none;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .sg-navbar-desktop-container, .sg-navbar__container {
+    display: flex;
+  }
+}
+
+.sg-navbar-desktop-zone1 {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+}
+
+.sg-navbar-search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: var(--surface-muted);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  padding: 0.375rem 0.625rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 9rem;
+}
+
+@media (min-width: 640px) {
+  .sg-navbar-search-box { width: 11rem; }
+}
+
+@media (min-width: 768px) {
+  .sg-navbar-search-box { width: 13rem; }
+}
+
+.sg-navbar-search-box:focus-within {
+  background: var(--surface);
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 2px var(--primary-100);
+}
+
+.sg-navbar-search-box input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-size: 0.75rem;
+  color: var(--text-strong);
+}
+
+.sg-navbar-search-box input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Desktop nav tabs */
+.sg-navbar-desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 100%;
+}
+
+.sg-navbar-desktop-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  height: 100%;
+  color: var(--text-muted);
+  border-radius: var(--radius-xl);
+  margin: 0.25rem 0;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+@media (min-width: 768px) {
+  .sg-navbar-desktop-link {
+    padding: 0 1.5rem;
+  }
+}
+
+.sg-navbar-desktop-link:hover {
+  color: var(--text-strong);
+  background: var(--surface-muted);
+}
+
+.sg-navbar-desktop-link--active {
+  color: var(--primary-700) !important;
+  font-weight: 700;
+  background: transparent !important;
+}
+
+/* Desktop dropdown */
+.sg-navbar-dropdown {
+  position: absolute;
+  right: 0;
+  top: 2.75rem;
+  width: 15rem;
+  background: var(--surface);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-modal);
+  border: 1px solid var(--border-default);
+  padding: 0.5rem 0;
+  z-index: 50;
+}
+
+.sg-navbar-dropdown-header {
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.sg-navbar-dropdown-header:hover {
+  background: var(--surface-muted);
+}
+
+.sg-navbar-dropdown-item {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  color: var(--text-body);
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sg-navbar-dropdown-item:hover {
+  background: var(--surface-muted);
+  color: var(--text-strong);
+}
+
+.sg-navbar-dropdown-item--danger {
+  color: #e11d48;
+  font-weight: 600;
+}
+
+.sg-navbar-dropdown-item--danger:hover {
+  background: #fff1f2;
+}
+
+.sg-navbar-dropdown-divider {
+  margin: 0.25rem 0;
+  border-top: 1px solid var(--border-subtle);
+}

@@ -23,19 +23,39 @@
     <div class="px-6 pb-6 pt-0 relative">
       <div class="flex flex-col sm:flex-row items-center sm:items-end justify-between -mt-16 sm:-mt-20 gap-4 mb-4">
         <div class="relative group">
-          <div class="w-32 h-32 rounded-3xl p-1 bg-white shadow-xl ring-4 ring-emerald-500/80 overflow-hidden">
-            <SafeImage
-              :src="user.avatar"
-              :alt="user.name"
-              imgClass="w-full h-full rounded-2xl object-cover"
-              containerClass="w-full h-full rounded-2xl"
-            />
+          <div
+            @click="handleAvatarClick"
+            :class="[
+              'w-32 h-32 rounded-3xl overflow-hidden shadow-xl transition-all duration-200 select-none',
+              hasActiveStory
+                ? 'p-1.5 bg-gradient-to-tr from-emerald-500 via-teal-400 to-green-500 ring-4 ring-emerald-500 ring-offset-2 ring-offset-white cursor-pointer hover:scale-105 active:scale-95'
+                : 'p-1 bg-white ring-4 ring-slate-100'
+            ]"
+            :title="hasActiveStory ? 'Toca para ver la historia' : user.name"
+          >
+            <div class="w-full h-full rounded-2xl overflow-hidden bg-white">
+              <SafeImage
+                :src="user.avatar"
+                :alt="user.name"
+                imgClass="w-full h-full rounded-2xl object-cover"
+                containerClass="w-full h-full rounded-2xl"
+              />
+            </div>
           </div>
+
+          <!-- Story badge indicator -->
+          <span
+            v-if="hasActiveStory"
+            class="absolute -top-2 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-[9.5px] font-extrabold px-2.5 py-0.5 rounded-full shadow-md uppercase tracking-wider pointer-events-none ring-2 ring-white"
+          >
+            Historia
+          </span>
+
           <button
             v-if="isOwnProfile"
             type="button"
-            @click="changeAvatar"
-            class="absolute bottom-2 right-2 p-2 rounded-xl bg-slate-900/80 text-white hover:bg-slate-900 shadow-md backdrop-blur-sm transition-colors"
+            @click.stop="changeAvatar"
+            class="absolute bottom-2 right-2 p-2 rounded-xl bg-slate-900/80 text-white hover:bg-slate-900 shadow-md backdrop-blur-sm transition-colors cursor-pointer"
             title="Cambiar foto de perfil"
           >
             <Camera class="w-4 h-4" />
@@ -189,6 +209,7 @@ import {
   Info
 } from 'lucide-vue-next';
 import { useProfileStore } from '../store/profileStore';
+import { useHistoryStore } from '@/modules/historys/store/historyStore';
 import SafeImage from '@/shared/components/SafeImage.vue';
 
 const props = defineProps({
@@ -212,10 +233,20 @@ const props = defineProps({
 
 const emit = defineEmits(['select-tab', 'open-chat']);
 const profileStore = useProfileStore();
+const historyStore = useHistoryStore();
 
 const isOwnProfile = computed(() => props.user.id === profileStore.currentUser.id);
+const hasActiveStory = computed(() => historyStore.hasStoryForUser(props.user.id));
 const isEditingBio = ref(false);
 const bioDraft = ref(props.user.bio || '');
+
+function handleAvatarClick() {
+  if (hasActiveStory.value) {
+    historyStore.openStoryForUser(props.user.id);
+  } else if (isOwnProfile.value) {
+    changeAvatar();
+  }
+}
 
 watch(() => props.user.bio, (newBio) => {
   bioDraft.value = newBio || '';

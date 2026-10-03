@@ -1,0 +1,42 @@
+[
+  {
+    "id": "user_1",
+    "name": "Elena Rostova",
+    "username": "elena_r",
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+    "timeAgo": "Hace 15 min",
+    "reaction": "❤️"
+  },
+  {
+    "id": "user_2",
+    "name": "Alejandro Morales",
+    "username": "alexmorales",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+    "timeAgo": "Hace 28 min",
+    "reaction": "🔥"
+  },
+  {
+    "id": "user_3",
+    "name": "Sofía Valenzuela",
+    "username": "sofi_val",
+    "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80",
+    "timeAgo": "Hace 42 min",
+    "reaction": "👏"
+  },
+  {
+    "id": "user_4",
+    "name": "Marcos Benítez",
+    "username": "marcosb_dev",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+    "timeAgo": "Hace 55 min",
+    "reaction": null
+  },
+  {
+    "id": "user_5",
+    "name": "Valentina Silva",
+    "username": "valensilva",
+    "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80",
+    "timeAgo": "Hace 1 hora",
+    "reaction": "❤️"
+  }
+]

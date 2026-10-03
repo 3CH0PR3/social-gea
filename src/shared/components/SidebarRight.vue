@@ -181,3 +181,4 @@ function openChat(user) {
   messengerStore.openWithUser(user);
 }
 </script>
+

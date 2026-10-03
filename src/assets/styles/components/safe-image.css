@@ -1,0 +1,81 @@
+/* ========================================================
+   SAFE IMAGE COMPONENT STYLES
+   ======================================================== */
+.sg-safe-image-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  color: var(--text-muted);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-default);
+  user-select: none;
+  min-height: 140px;
+}
+
+.sg-safe-image-fallback__icon {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+.sg-safe-image-fallback__text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sg-safe-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.sg-safe-image-skeleton {
+  position: absolute;
+  inset: 0;
+  background-color: #e2e8f0;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.sg-safe-image-img {
+  transition: opacity 0.3s ease;
+}
+
+.sg-safe-image-img--loading {
+  opacity: 0;
+}
+
+.sg-safe-image-img--loaded {
+  opacity: 1;
+}
+
+.sg-safe-image-zoom-btn {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  padding: 0.5rem;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  opacity: 0;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.sg-safe-image-wrapper:hover .sg-safe-image-zoom-btn {
+  opacity: 1;
+}
+
+.sg-safe-image-zoom-btn:hover {
+  background: rgba(0, 0, 0, 0.85);
+}

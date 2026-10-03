@@ -1,0 +1,49 @@
+/* ========================================================
+   RESPONSIVE: DESKTOP & TABLETS (>= 640px)
+   ======================================================== */
+
+@media (min-width: 640px) {
+  /* Diálogo modal flotante centrado elegante */
+  .sg-desktop-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: var(--overlay);
+    backdrop-filter: blur(4px);
+  }
+
+  .sg-desktop-dialog-panel {
+    background-color: var(--surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-modal);
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Barras laterales sticky en desktop */
+  .sg-desktop-sticky-sidebar {
+    position: sticky;
+    top: 4.5rem;
+    max-height: calc(100vh - 5rem);
+    user-select: none;
+    overflow-y: visible;
+  }
+
+  /* Grid del layout principal en desktop */
+  .sg-desktop-feed-layout {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 82rem;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+  }
+}

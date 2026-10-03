@@ -1,15 +1,15 @@
 <template>
-  <div v-if="!src || hasError" :class="['flex flex-col items-center justify-center p-6 bg-gradient-to-br from-slate-100 to-slate-200 text-slate-400 rounded-xl select-none min-h-[140px] border border-slate-200/80', containerClass]">
-    <ImageOff class="w-8 h-8 mb-2 stroke-slate-400" />
-    <span class="text-xs font-medium text-slate-500 text-center max-w-[200px] truncate">
+  <div v-if="!src || hasError" :class="['sg-safe-image-fallback', containerClass]">
+    <ImageOff class="sg-safe-image-fallback__icon" />
+    <span class="sg-safe-image-fallback__text">
       {{ fallbackText }}
     </span>
   </div>
 
-  <div v-else :class="['relative overflow-hidden group', containerClass]">
+  <div v-else :class="['sg-safe-image-wrapper', containerClass]">
     <div
       v-if="isLoading"
-      class="absolute inset-0 bg-slate-200 animate-pulse rounded-inherit"
+      class="sg-safe-image-skeleton"
     />
     <img
       :src="src"
@@ -19,8 +19,8 @@
       @load="isLoading = false"
       @error="onError"
       :class="[
-        'transition-opacity duration-300',
-        isLoading ? 'opacity-0' : 'opacity-100',
+        'sg-safe-image-img',
+        isLoading ? 'sg-safe-image-img--loading' : 'sg-safe-image-img--loaded',
         imgClass
       ]"
     />
@@ -28,7 +28,7 @@
       v-if="allowZoom && !isLoading && !hasError"
       type="button"
       @click="$emit('zoom', src)"
-      class="absolute bottom-3 right-3 p-2 rounded-lg bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm hover:bg-black/80"
+      class="sg-safe-image-zoom-btn"
       title="Ampliar imagen"
       aria-label="Ampliar imagen"
     >
@@ -58,11 +58,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  imgClass: {
+  containerClass: {
     type: String,
     default: '',
   },
-  containerClass: {
+  imgClass: {
     type: String,
     default: '',
   },
@@ -70,13 +70,16 @@ const props = defineProps({
 
 defineEmits(['zoom']);
 
-const hasError = ref(false);
 const isLoading = ref(true);
+const hasError = ref(false);
 
-watch(() => props.src, () => {
-  hasError.value = false;
-  isLoading.value = true;
-});
+watch(
+  () => props.src,
+  () => {
+    isLoading.value = true;
+    hasError.value = false;
+  }
+);
 
 function onError() {
   isLoading.value = false;

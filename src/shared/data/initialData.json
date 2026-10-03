@@ -1,0 +1,301 @@
+{
+  "currentUser": {
+    "id": "user_current",
+    "name": "Carlos Méndez",
+    "username": "carlosm",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+    "coverImage": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80",
+    "bio": "Diseñador de producto digital y creador en Socialgea. Construyendo comunidades de economía circular 🌐🌱",
+    "work": "Desarrollo de Software FullStack",
+    "education": "Universidad Nacional de Colombia",
+    "location": "Bogotá D.C., Colombia",
+    "hometown": "San Francisco, Zulia, Venezuela",
+    "joinedDate": "Mayo 2024",
+    "friendsCount": 468,
+    "postsCount": 83,
+    "followersCount": 1250,
+    "isOnline": true
+  },
+  "mockUsers": [
+    {
+      "id": "user_1",
+      "name": "Elena Rostova",
+      "username": "elena_r",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+      "bio": "Fotógrafa de viajes & Paisajismo alpino. Buscando siempre la mejor luz.",
+      "location": "Medellín, Colombia",
+      "joinedDate": "Enero 2023",
+      "friendsCount": 512,
+      "followersCount": 3420,
+      "isOnline": true,
+      "isFriend": true
+    },
+    {
+      "id": "user_2",
+      "name": "Alejandro Morales",
+      "username": "alexmorales",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80",
+      "bio": "Software Engineer | Entusiasta del open source, café de especialidad y TypeScript.",
+      "location": "Cali, Colombia",
+      "joinedDate": "Marzo 2023",
+      "friendsCount": 389,
+      "followersCount": 890,
+      "isOnline": true,
+      "isFriend": true
+    },
+    {
+      "id": "user_3",
+      "name": "Sofía Valenzuela",
+      "username": "sofi_val",
+      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1400&q=80",
+      "bio": "Arquitecta de interiores sustentables. Amante del arte botánico 🌱🏛️",
+      "location": "Bucaramanga, Colombia",
+      "joinedDate": "Octubre 2023",
+      "friendsCount": 640,
+      "followersCount": 2100,
+      "isOnline": false,
+      "isFriend": true
+    },
+    {
+      "id": "user_4",
+      "name": "Marcos Benítez",
+      "username": "marcosb_dev",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1400&q=80",
+      "bio": "Fullstack dev & ciclista de montaña. Explorador de redes distribuidas.",
+      "location": "Barranquilla, Colombia",
+      "joinedDate": "Julio 2023",
+      "friendsCount": 275,
+      "followersCount": 620,
+      "isOnline": true,
+      "isFriend": false,
+      "requestPending": true
+    },
+    {
+      "id": "user_5",
+      "name": "Valentina Silva",
+      "username": "valensilva",
+      "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",
+      "bio": "Community Manager & Creadora de contenido gastronómico 🥐☕",
+      "location": "Bogotá D.C., Colombia",
+      "joinedDate": "Noviembre 2023",
+      "friendsCount": 890,
+      "followersCount": 5400,
+      "isOnline": true,
+      "isFriend": false
+    }
+  ],
+  "presetImageGallery": [
+    {
+      "label": "Lago Glaciar Alpino",
+      "url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      "category": "Naturaleza"
+    },
+    {
+      "label": "Espacio de Trabajo Creativo",
+      "url": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80",
+      "category": "Tecnología"
+    },
+    {
+      "label": "Café de Especialidad",
+      "url": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80",
+      "category": "Estilo de Vida"
+    },
+    {
+      "label": "Atardecer Urbano",
+      "url": "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80",
+      "category": "Ciudad"
+    }
+  ],
+  "initialPosts": [
+    {
+      "id": "post_1",
+      "authorId": "user_1",
+      "authorName": "Elena Rostova",
+      "authorUsername": "elena_r",
+      "authorAvatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+      "authorVerified": true,
+      "timestamp": "Hace 25 minutos",
+      "privacy": "public",
+      "content": "Comenzando el fin de semana en este refugio de montaña. No hay nada como el aire puro y la desconexión total. ¿Ustedes prefieren montaña o playa para descansar? 🏔️🌲 #Naturaleza #Fotografía #WeekendVibes",
+      "images": [
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "location": "Parque Nacional Natural Chingaza",
+      "feeling": { "emoji": "🌿", "text": "en paz" },
+      "reactions": { "like": 84, "love": 42, "care": 16, "haha": 2, "wow": 29, "sad": 0, "angry": 0 },
+      "userReaction": "love",
+      "reactionsList": [],
+      "comments": [],
+      "sharesCount": 18,
+      "isSaved": true
+    },
+    {
+      "id": "post_2",
+      "authorId": "user_current",
+      "authorName": "Carlos Méndez",
+      "authorUsername": "carlosm",
+      "authorAvatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+      "authorVerified": true,
+      "timestamp": "Hace 2 horas",
+      "privacy": "public",
+      "content": "Lanzando oficialmente la nueva arquitectura modular de Socialgea en Vue 3. Ahora con separación estricta en módulos independientes, vinculación de imágenes vía HTML y todas las interacciones de Facebook (reacciones, historias, comentarios). ¡Comenta qué te parece! 📡💚 #Socialgea #Vue3 #ModularApp",
+      "images": [
+        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "location": "Socialgea Tech Hub, Bogotá",
+      "feeling": { "emoji": "🚀", "text": "entusiasmado" },
+      "reactions": { "like": 128, "love": 64, "care": 21, "haha": 3, "wow": 45, "sad": 0, "angry": 0 },
+      "userReaction": "like",
+      "reactionsList": [],
+      "comments": [],
+      "sharesCount": 32,
+      "isSaved": false
+    },
+    {
+      "id": "post_3",
+      "authorId": "user_2",
+      "authorName": "Alejandro Morales",
+      "authorUsername": "alexmorales",
+      "authorAvatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+      "authorVerified": false,
+      "timestamp": "Hace 4 horas",
+      "privacy": "friends",
+      "content": "Diseñando la arquitectura del radar de conexiones en tiempo real. Cuando combinas interfaces fluidas, diseño limpio y respuesta táctil, la experiencia social cobra vida propia. ¿Quién más está programando hoy? ☕👨‍💻",
+      "images": [
+        "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "location": "Valle del Cauca Tech District",
+      "feeling": { "emoji": "💻", "text": "productivo" },
+      "reactions": { "like": 48, "love": 19, "care": 5, "haha": 1, "wow": 7, "sad": 0, "angry": 0 },
+      "userReaction": null,
+      "reactionsList": [],
+      "comments": [],
+      "sharesCount": 5,
+      "isSaved": false
+    }
+  ],
+  "initialStories": [
+    {
+      "id": "story_current",
+      "authorId": "user_current",
+      "authorName": "Tu historia",
+      "authorAvatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+      "hasUnseen": false,
+      "items": [
+        {
+          "id": "s_c1",
+          "type": "image",
+          "mediaUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1080&q=80",
+          "textContent": "Configurando el nuevo radar de conexiones 📡⚡",
+          "createdAt": "Hace 1 hora"
+        }
+      ]
+    },
+    {
+      "id": "story_1",
+      "authorId": "user_1",
+      "authorName": "Elena Rostova",
+      "authorAvatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+      "hasUnseen": true,
+      "items": [
+        {
+          "id": "s_1_1",
+          "type": "image",
+          "mediaUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1080&q=80",
+          "textContent": "Amanecer en las montañas andinas. ¡La luz es increíble hoy! 🏔️✨",
+          "createdAt": "Hace 2 horas"
+        },
+        {
+          "id": "s_1_2",
+          "type": "text",
+          "textContent": "¿Alguna recomendación de senderos en Villa de Leyva?",
+          "backgroundColor": "linear-gradient(135deg, #059669 0%, #047857 100%)",
+          "textColor": "#ffffff",
+          "createdAt": "Hace 30 minutos"
+        }
+      ]
+    },
+    {
+      "id": "story_2",
+      "authorId": "user_2",
+      "authorName": "Alejandro Morales",
+      "authorAvatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+      "hasUnseen": true,
+      "items": [
+        {
+          "id": "s_2_1",
+          "type": "image",
+          "mediaUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1080&q=80",
+          "textContent": "Sesión de código nocturna con café filtrado ☕💻",
+          "createdAt": "Hace 4 horas"
+        }
+      ]
+    },
+    {
+      "id": "story_3",
+      "authorId": "user_3",
+      "authorName": "Sofía Valenzuela",
+      "authorAvatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80",
+      "hasUnseen": true,
+      "items": [
+        {
+          "id": "s_3_1",
+          "type": "image",
+          "mediaUrl": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1080&q=80",
+          "textContent": "Inaugurando nuevo estudio bioclimático 🌿📐",
+          "createdAt": "Hace 5 horas"
+        }
+      ]
+    }
+  ],
+  "initialNotifications": [
+    {
+      "id": "n_1",
+      "actorName": "Elena Rostova",
+      "actorAvatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+      "type": "like",
+      "targetPreview": "reaccionó 'Me encanta' a tu publicación: 'Lanzando oficialmente la nueva arquitectura...'",
+      "timestamp": "Hace 12 min",
+      "isRead": false
+    },
+    {
+      "id": "n_2",
+      "actorName": "Marcos Benítez",
+      "actorAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+      "type": "radar_match",
+      "targetPreview": "se conectó cerca de ti en Bogotá.",
+      "timestamp": "Hace 30 min",
+      "isRead": false
+    }
+  ],
+  "initialChats": [
+    {
+      "id": "chat_1",
+      "participant": {
+        "id": "user_1",
+        "name": "Elena Rostova",
+        "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80"
+      },
+      "unreadCount": 1,
+      "messages": [
+        {
+          "id": "m_1",
+          "senderId": "user_1",
+          "text": "¡Hola Carlos! Vi la nueva publicación en Socialgea, está genial.",
+          "timestamp": "14:20"
+        },
+        {
+          "id": "m_2",
+          "senderId": "user_current",
+          "text": "¡Hola Elena! Muchas gracias, ahora la app está construida en Vue 3 modular por features.",
+          "timestamp": "14:22"
+        }
+      ]
+    }
+  ]
+}

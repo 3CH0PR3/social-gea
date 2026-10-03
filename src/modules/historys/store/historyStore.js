@@ -38,6 +38,26 @@ export const useHistoryStore = defineStore('history', {
       this.isCreateModalOpen = false;
     },
 
+    hasStoryForUser(userId) {
+      if (!userId) return false;
+      const story = this.stories.find(
+        (s) => s.authorId === userId || (userId === this.currentUser?.id && (s.authorId === 'user_current' || s.authorName === 'Tu historia'))
+      );
+      return Boolean(story && story.items && story.items.length > 0);
+    },
+
+    openStoryForUser(userId) {
+      if (!userId) return false;
+      const idx = this.stories.findIndex(
+        (s) => s.authorId === userId || (userId === this.currentUser?.id && (s.authorId === 'user_current' || s.authorName === 'Tu historia'))
+      );
+      if (idx !== -1) {
+        this.openStoryViewer(idx);
+        return true;
+      }
+      return false;
+    },
+
     async addStoryItem(storyItem) {
       const createdItem = await historyService.createStory(storyItem, this.currentUser);
       const userStory = this.stories.find((s) => s.authorId === this.currentUser.id);

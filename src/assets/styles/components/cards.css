@@ -1,23 +1,24 @@
-/* Base Card Component (Reacts to --card-radius and --bg-card) */
-.card {
-  background-color: var(--bg-card);
+/* ========================================================
+   CARD SYSTEM (Socialgea .sg-card & .card)
+   ======================================================== */
+.sg-card, .card {
+  background-color: var(--surface);
   border: 1px solid var(--border-default);
-  border-radius: var(--card-radius);
+  border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-card);
   overflow: hidden;
   position: relative;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
-/* Interactive Card Modifier */
-.card-interactive:hover {
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--border-hover);
+.sg-card--flush {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
 }
 
-/* Card Sub-Sections */
-.card-header {
-  padding: 1rem;
+.sg-card__header, .card-header {
+  padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,22 +26,20 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.card-body {
-  padding: 1rem;
+.sg-card__body, .card-body {
+  padding: 1.25rem;
   flex: 1 1 auto;
 }
 
-.card-footer {
-  padding: 0.75rem 1rem;
+.sg-card__footer, .card-footer {
+  padding: 0.875rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--border-subtle);
-  background-color: var(--bg-card);
+  background-color: var(--surface-muted);
 }
 
-/* Small Radius Variant */
-.card-sm {
-  border-radius: var(--card-radius-sm);
-  padding: 0.75rem;
+.card-interactive:hover {
+  border-color: var(--border-hover);
 }

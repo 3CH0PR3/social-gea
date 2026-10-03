@@ -1,0 +1,97 @@
+/* ========================================================
+   SIDEBAR LEFT COMPONENT STYLES
+   ======================================================== */
+.sg-sidebar-left {
+  display: none;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 16rem;
+  flex-shrink: 0;
+  position: sticky;
+  top: 4.5rem;
+  user-select: none;
+  padding-right: 0.5rem;
+  overflow: visible;
+}
+
+@media (min-width: 1024px) {
+  .sg-sidebar-left {
+    display: flex;
+  }
+}
+
+.sg-sidebar-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem;
+  border-radius: var(--radius-2xl);
+  transition: background-color 0.15s ease;
+  width: 100%;
+  text-decoration: none;
+}
+
+.sg-sidebar-profile-link:hover {
+  background: rgba(226, 232, 240, 0.6);
+}
+
+.sg-sidebar-divider {
+  margin: 0.25rem 0;
+  border-top: 1px solid var(--border-default);
+}
+
+.sg-sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem;
+  border-radius: var(--radius-2xl);
+  width: 100%;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  color: var(--text-strong);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.sg-sidebar-nav-item:hover {
+  background: rgba(226, 232, 240, 0.5);
+}
+
+.sg-sidebar-nav-item--active {
+  background: var(--primary-50) !important;
+  color: var(--primary-700) !important;
+  font-weight: 700 !important;
+}
+
+.sg-sidebar-filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.75rem;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-body);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sg-sidebar-filter-btn:hover {
+  background: rgba(226, 232, 240, 0.6);
+}
+
+.sg-sidebar-filter-btn--active {
+  background: var(--primary-50) !important;
+  color: var(--primary-700) !important;
+  font-weight: 700 !important;
+}
+
+.sg-sidebar-footer {
+  margin-top: auto;
+  padding: 0.75rem 0.625rem;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}

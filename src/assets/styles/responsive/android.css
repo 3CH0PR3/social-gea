@@ -1,0 +1,86 @@
+/* ========================================================
+   RESPONSIVE: ANDROID & MOBILE WEB (< 640px)
+   ======================================================== */
+
+/* Contenedor de pantalla completa nativa: PROHIBIDO modal flotante con márgenes */
+.sg-mobile-screen,
+.mobile-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  width: 100%;
+  height: 100dvh; /* Nunca 100vh para evitar problemas con la barra de navegación del navegador */
+  background-color: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Top App Bar nativa táctil de Android */
+.sg-mobile-appbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 3.5rem;
+  padding: 0 0.75rem;
+  border-bottom: 1px solid var(--border-default);
+  background: var(--surface);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.sg-mobile-appbar__title {
+  flex: 1;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Área de contenido con scroll único en Android */
+.sg-mobile-scroll-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Barra inferior fija de acciones con safe-area */
+.sg-mobile-bottom-bar {
+  flex-shrink: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border-default);
+  padding: 0.75rem 1rem max(0.75rem, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Vistas móviles tipo hoja completa (como Perfil o Historias) */
+.sg-mobile-full-sheet {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--surface);
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Optimizaciones táctiles para botones de acción en Android */
+@media (max-width: 639px) {
+  .sg-btn {
+    min-height: 36px;
+  }
+
+  .sg-icon-btn,
+  .sg-navbar-circle-btn {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+  }
+}

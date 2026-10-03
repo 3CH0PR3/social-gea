@@ -41,6 +41,9 @@
 
     <!-- Story Container (Opens completely: 100dvh full-screen on mobile, immersive viewport on desktop) -->
     <div class="relative w-full h-[100dvh] sm:h-full sm:max-h-[96vh] sm:max-w-[460px] bg-black sm:rounded-2xl overflow-hidden shadow-2xl flex flex-col border-0 sm:border sm:border-white/10 select-none animate-in fade-in duration-200">
+      <!-- Top Scrim Gradient (Ensures author name and time are 100% visible on any background) -->
+      <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/90 via-black/55 to-transparent z-25 pointer-events-none" />
+
       <!-- Segmented Progress Bars -->
       <div class="absolute top-2.5 left-3 right-3 z-30 flex items-center gap-1.5">
         <div
@@ -57,19 +60,19 @@
         </div>
       </div>
 
-      <!-- Header (Author info + Play/Pause & Close X integrated seamlessly) -->
-      <div class="absolute top-5 left-3.5 right-3.5 z-30 flex items-center justify-between text-white drop-shadow-md select-none">
+      <!-- Header (Author info + Play/Pause & Close X integrated seamlessly with high contrast) -->
+      <div class="absolute top-5 left-3.5 right-3.5 z-30 flex items-center justify-between text-white select-none">
         <div class="flex items-center gap-2.5">
           <img
             :src="currentStory.authorAvatar"
             :alt="currentStory.authorName"
-            class="w-9 h-9 rounded-full object-cover ring-2 ring-emerald-500"
+            class="w-10 h-10 rounded-full object-cover ring-2 ring-emerald-500 shadow-md"
           />
           <div>
-            <h4 class="text-sm font-semibold tracking-tight leading-none text-white drop-shadow-sm">
+            <h4 class="text-sm font-extrabold tracking-tight leading-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
               {{ currentStory.authorName }}
             </h4>
-            <span class="text-[11px] text-white/80 font-medium drop-shadow-sm">
+            <span class="text-[11.5px] text-white/95 font-semibold drop-shadow-[0_1px_3px_rgba(0,0,0,0.95)] block mt-0.5">
               {{ currentItem?.createdAt || 'Reciente' }}
             </span>
           </div>
@@ -80,7 +83,7 @@
           <button
             type="button"
             @click.stop="isPaused = !isPaused"
-            class="p-2 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-md transition-colors cursor-pointer"
+            class="p-2 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-md transition-colors cursor-pointer"
             :title="isPaused ? 'Reanudar' : 'Pausar'"
           >
             <Play v-if="isPaused" class="w-4 h-4 fill-white" />
@@ -89,7 +92,7 @@
           <button
             type="button"
             @click.stop="historyStore.closeStoryViewer"
-            class="p-2 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-md transition-colors cursor-pointer"
+            class="p-2 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-md transition-colors cursor-pointer"
             title="Cerrar historia"
           >
             <X class="w-5 h-5 stroke-[2.2]" />
@@ -149,14 +152,20 @@
         v-if="isMyStory"
         class="relative z-30 px-4 py-3 bg-black border-t border-white/10 flex items-center justify-between"
       >
-        <div class="flex items-center gap-2 text-xs font-semibold text-white/90">
-          <Eye class="w-4 h-4 text-emerald-400" />
-          <span>{{ currentItem?.viewersCount || 4 }} visualizaciones</span>
-        </div>
+        <button
+          type="button"
+          @click.stop="openViewersSheet"
+          class="flex items-center gap-2 text-xs font-bold text-white/95 hover:text-white bg-white/10 hover:bg-white/20 active:scale-95 px-3.5 py-1.5 rounded-full transition-all cursor-pointer border border-white/10 shadow-xs"
+        >
+          <Eye class="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{{ currentItem?.viewersCount || viewersData.length }} visualizaciones</span>
+          <ChevronUp class="w-3.5 h-3.5 text-white/70 ml-0.5 shrink-0" />
+        </button>
+
         <button
           type="button"
           @click="handleDeleteItem"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-red-500/80 text-white/90 hover:text-white text-xs font-medium backdrop-blur-md transition-colors cursor-pointer"
+          class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-red-500/80 text-white/90 hover:text-white text-xs font-semibold backdrop-blur-md transition-colors cursor-pointer"
           title="Eliminar esta historia"
         >
           <Trash2 class="w-3.5 h-3.5" />
@@ -199,6 +208,14 @@
           </button>
         </form>
       </div>
+
+      <!-- Story Viewers Bottom Sheet (Smooth Slide-Up Drawer) -->
+      <StoryViewersSheet
+        :isOpen="isViewersSheetOpen"
+        :viewers="viewersData"
+        @close="closeViewersSheet"
+        @select-user="handleSelectViewer"
+      />
     </div>
   </div>
   </Teleport>
@@ -206,13 +223,17 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
-import { X, ChevronLeft, ChevronRight, Pause, Play, Send, Eye, Trash2 } from 'lucide-vue-next';
+import { useRouter } from 'vue-router';
+import { X, ChevronLeft, ChevronRight, ChevronUp, Pause, Play, Send, Eye, Trash2 } from 'lucide-vue-next';
 import { useHistorys } from '../composables/useHistorys';
 import { useHistoryStore } from '../store/historyStore';
 import { useMessengerStore } from '@/modules/messenger/store/messengerStore';
 import { useBodyScrollLock } from '@/shared/composables/useBodyScrollLock';
+import StoryViewersSheet from './StoryViewersSheet.vue';
 import SafeImage from '@/shared/components/SafeImage.vue';
+import viewersData from '@/shared/data/storyViewers.json';
 
+const router = useRouter();
 const { stories, viewer } = useHistorys();
 const historyStore = useHistoryStore();
 const messengerStore = useMessengerStore();
@@ -222,9 +243,26 @@ useBodyScrollLock(() => viewer.value?.isOpen);
 const currentStoryIdx = ref(0);
 const currentItemIdx = ref(0);
 const isPaused = ref(false);
+const isViewersSheetOpen = ref(false);
 const progress = ref(0);
 const replyText = ref('');
 const floatingEmojis = ref([]);
+
+function openViewersSheet() {
+  isPaused.value = true;
+  isViewersSheetOpen.value = true;
+}
+
+function closeViewersSheet() {
+  isViewersSheetOpen.value = false;
+  isPaused.value = false;
+}
+
+function handleSelectViewer(user) {
+  closeViewersSheet();
+  historyStore.closeStoryViewer();
+  router.push(`/profiles/${user.id}`);
+}
 
 let animFrame = null;
 let startTime = Date.now();

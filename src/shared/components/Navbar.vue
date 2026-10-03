@@ -2,7 +2,7 @@
   <header
     :class="[
       'sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-2xs select-none',
-      isProfileRoute ? 'hidden sm:block' : ''
+      isFullMobileRoute ? 'hidden sm:block' : ''
     ]"
   >
     <!-- ========================================================
@@ -163,15 +163,13 @@
 
     <!-- ========================================================
          2. DESKTOP NAVBAR (PRESERVED FOR DESKTOP >= sm)
+         - Dock shows only the round icon and search input (no text)
          ======================================================== -->
     <div class="hidden sm:flex max-w-7xl mx-auto px-4 h-14 items-center justify-between gap-4">
-      <!-- Zone 1: Logo & Search -->
+      <!-- Zone 1: Logo & Search (Only icon and search, no text) -->
       <div class="flex items-center gap-2.5 shrink-0">
-        <RouterLink to="/feeds" class="flex items-center gap-2 focus:outline-none" aria-label="Ir a Inicio">
+        <RouterLink to="/feeds" class="flex items-center focus:outline-none" aria-label="Ir a Inicio">
           <RadarLogo :size="38" :showText="false" />
-          <span class="text-xl font-black text-emerald-600 font-display tracking-tight">
-            socialgea
-          </span>
         </RouterLink>
 
         <!-- Compact Search Bar -->
@@ -222,7 +220,7 @@
           to="/historys"
           class="relative flex items-center justify-center px-4 md:px-6 h-full transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100/70 rounded-xl my-1"
           active-class="text-emerald-600 font-bold !bg-transparent"
-          title="Historias"
+          title="Historias de amigos"
         >
           <Sparkles class="w-5 h-5" />
           <span
@@ -311,7 +309,7 @@
 
           <div
             v-if="showDropdown"
-            class="absolute right-0 top-11 w-56 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-100"
+            class="absolute right-0 top-11 w-60 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-100"
             @click="showDropdown = false"
           >
             <RouterLink
@@ -337,6 +335,7 @@
                 <UserIcon class="w-4 h-4 text-slate-400" />
                 <span>Tu perfil</span>
               </RouterLink>
+
               <RouterLink
                 to="/feeds"
                 @click="feedStore.setFilter('saved')"
@@ -345,6 +344,26 @@
                 <Bookmark class="w-4 h-4 text-slate-400" />
                 <span>Publicaciones guardadas</span>
               </RouterLink>
+
+              <button
+                type="button"
+                @click="showDropdown = false"
+                class="w-full px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 text-left cursor-pointer"
+              >
+                <Settings class="w-4 h-4 text-slate-400" />
+                <span>Configuración y privacidad</span>
+              </button>
+
+              <div class="my-1 border-t border-slate-100" />
+
+              <button
+                type="button"
+                @click="showDropdown = false"
+                class="w-full px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 flex items-center gap-2.5 text-left font-semibold cursor-pointer"
+              >
+                <LogOut class="w-4 h-4 text-rose-500" />
+                <span>Cerrar sesión</span>
+              </button>
             </div>
           </div>
         </div>
@@ -385,6 +404,7 @@ import {
   Bookmark,
   ChevronDown,
   Menu,
+  LogOut,
   X
 } from 'lucide-vue-next';
 import { useFeedStore } from '@/modules/feeds/store/feedStore';
@@ -418,4 +438,7 @@ const isEmpresasActive = computed(() => route.path.startsWith('/empresas'));
 const isNotificationsActive = computed(() => route.path.startsWith('/notifications'));
 const isMarketplaceActive = computed(() => route.path.startsWith('/marketplace'));
 const isProfileRoute = computed(() => route.path.startsWith('/profiles'));
+const isFullMobileRoute = computed(() => {
+  return route.path.startsWith('/profiles') || route.path.startsWith('/historys');
+});
 </script>

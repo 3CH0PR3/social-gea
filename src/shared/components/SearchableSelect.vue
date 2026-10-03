@@ -1,7 +1,7 @@
 <template>
-  <div class="relative w-full" ref="containerRef">
-    <label v-if="label" class="block text-xs font-semibold text-slate-700 mb-1">
-      {{ label }} <span v-if="required" class="text-rose-500">*</span>
+  <div class="sg-select-container" ref="containerRef">
+    <label v-if="label" class="sg-select-label">
+      {{ label }} <span v-if="required" class="sg-select-label__req">*</span>
     </label>
 
     <!-- Trigger Button -->
@@ -9,11 +9,9 @@
       type="button"
       @click="toggleDropdown"
       :class="[
-        'w-full px-3.5 py-2.5 text-xs rounded-xl border transition-all flex items-center justify-between text-left cursor-pointer bg-white',
-        isOpen
-          ? 'border-indigo-500 ring-2 ring-indigo-500/20 text-slate-800'
-          : 'border-slate-200/90 hover:border-slate-300 text-slate-700',
-        !modelValue && 'text-slate-400'
+        'sg-select-trigger',
+        isOpen && 'sg-select-trigger--open',
+        !modelValue && 'sg-select-trigger--placeholder'
       ]"
     >
       <span class="truncate">
@@ -23,35 +21,35 @@
       <ChevronDown v-else class="w-4 h-4 text-slate-400 shrink-0 ml-1" />
     </button>
 
-    <!-- Dropdown Menu (Matches Screenshot 2, 3, 4) -->
+    <!-- Dropdown Menu -->
     <div
       v-if="isOpen"
-      class="absolute left-0 right-0 top-full mt-1.5 bg-white rounded-xl shadow-xl border border-slate-200/90 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-100"
+      class="sg-select-dropdown animate-in fade-in zoom-in-95 duration-100"
     >
       <!-- Search Input inside dropdown -->
-      <div class="p-2 border-b border-slate-100">
-        <div class="relative flex items-center">
-          <Search class="w-4 h-4 text-slate-400 absolute left-2.5 pointer-events-none" />
+      <div class="sg-select-search-box">
+        <div class="sg-select-search-input-wrap">
+          <Search class="sg-select-search-icon" />
           <input
             ref="searchInputRef"
             type="text"
             v-model="searchQuery"
             placeholder="Buscar..."
-            class="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-indigo-300 bg-white focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 text-slate-800"
+            class="sg-select-search-input"
           />
         </div>
       </div>
 
       <!-- Options List -->
-      <div class="max-h-52 overflow-y-auto py-1">
+      <div class="sg-select-options-list">
         <!-- Reset / Placeholder Option -->
         <button
           type="button"
           @click="selectOption('')"
-          class="w-full px-3.5 py-2 text-xs text-left text-indigo-600 hover:bg-slate-50 flex items-center justify-between font-medium cursor-pointer"
+          class="sg-select-option sg-select-option--reset"
         >
           <span class="truncate">{{ placeholder }}</span>
-          <Check v-if="!modelValue" class="w-4 h-4 text-indigo-600 shrink-0" />
+          <Check v-if="!modelValue" class="w-4 h-4 shrink-0" />
         </button>
 
         <!-- Dynamic Options -->
@@ -61,18 +59,17 @@
           type="button"
           @click="selectOption(opt.value)"
           :class="[
-            'w-full px-3.5 py-2 text-xs text-left flex items-center justify-between transition-colors cursor-pointer',
-            modelValue === opt.value
-              ? 'bg-indigo-50/70 text-indigo-900 font-semibold'
-              : 'text-slate-700 hover:bg-slate-50'
+            'sg-select-option',
+            modelValue === opt.value && 'sg-select-option--selected'
           ]"
         >
           <span class="truncate">{{ opt.label }}</span>
-          <Check v-if="modelValue === opt.value" class="w-4 h-4 text-indigo-600 shrink-0" />
+          <Check v-if="modelValue === opt.value" class="w-4 h-4 shrink-0" />
         </button>
 
-        <div v-if="filteredOptions.length === 0" class="px-3.5 py-3 text-center text-xs text-slate-400">
-          No se encontraron opciones
+        <!-- Empty State -->
+        <div v-if="filteredOptions.length === 0" class="sg-select-empty">
+          No se encontraron resultados
         </div>
       </div>
     </div>
@@ -80,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { ChevronDown, ChevronUp, Search, Check } from 'lucide-vue-next';
 
 const props = defineProps({
@@ -94,34 +91,48 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: 'Seleccione una opción',
-  },
-  required: {
-    type: Boolean,
-    default: false,
+    default: 'Selecciona una opción...',
   },
   options: {
     type: Array,
     default: () => [],
   },
+  required: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'change']);
 
-const containerRef = ref(null);
-const searchInputRef = ref(null);
 const isOpen = ref(false);
 const searchQuery = ref('');
+const containerRef = ref(null);
+const searchInputRef = ref(null);
+
+const normalizedOptions = computed(() => {
+  return props.options.map((opt) => {
+    if (typeof opt === 'string') {
+      return { value: opt, label: opt };
+    }
+    return {
+      value: opt.value ?? opt.id ?? opt.name,
+      label: opt.label ?? opt.name ?? opt.value,
+    };
+  });
+});
 
 const selectedLabel = computed(() => {
-  const found = props.options.find((o) => o.value === props.modelValue);
+  const found = normalizedOptions.value.find((o) => o.value === props.modelValue);
   return found ? found.label : '';
 });
 
 const filteredOptions = computed(() => {
-  if (!searchQuery.value.trim()) return props.options;
-  const q = searchQuery.value.toLowerCase();
-  return props.options.filter((o) => o.label.toLowerCase().includes(q));
+  if (!searchQuery.value.trim()) return normalizedOptions.value;
+  const q = searchQuery.value.toLowerCase().trim();
+  return normalizedOptions.value.filter((o) =>
+    o.label.toLowerCase().includes(q)
+  );
 });
 
 function toggleDropdown() {
@@ -136,6 +147,7 @@ function toggleDropdown() {
 
 function selectOption(val) {
   emit('update:modelValue', val);
+  emit('change', val);
   isOpen.value = false;
   searchQuery.value = '';
 }
@@ -150,7 +162,7 @@ onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside);
 });
 </script>

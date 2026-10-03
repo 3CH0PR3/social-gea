@@ -85,19 +85,40 @@
       <div class="px-4 pb-4">
         <div class="flex items-end justify-between -mt-16 mb-2">
           <div class="relative">
-            <div class="w-32 h-32 rounded-full p-1 bg-white shadow-xl ring-2 ring-slate-100 overflow-hidden">
-              <SafeImage
-                :src="activeProfile.avatar"
-                :alt="activeProfile.name"
-                imgClass="w-full h-full rounded-full object-cover"
-                containerClass="w-full h-full"
-              />
+            <!-- Avatar Container: If hasActiveStory, vibrant emerald gradient story ring! -->
+            <div
+              @click="handleAvatarClick"
+              :class="[
+                'w-32 h-32 rounded-full overflow-hidden transition-all duration-200 select-none',
+                hasActiveStory
+                  ? 'p-1.5 bg-gradient-to-tr from-emerald-500 via-teal-400 to-green-500 ring-4 ring-emerald-500 ring-offset-2 ring-offset-white cursor-pointer active:scale-95 shadow-xl'
+                  : 'p-1 bg-white shadow-xl ring-2 ring-slate-100'
+              ]"
+              :title="hasActiveStory ? 'Toca para ver la historia' : activeProfile.name"
+            >
+              <div class="w-full h-full rounded-full overflow-hidden bg-white">
+                <SafeImage
+                  :src="activeProfile.avatar"
+                  :alt="activeProfile.name"
+                  imgClass="w-full h-full rounded-full object-cover"
+                  containerClass="w-full h-full"
+                />
+              </div>
             </div>
+
+            <!-- Story indicator badge on avatar -->
+            <span
+              v-if="hasActiveStory"
+              class="absolute -top-1 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-sm uppercase tracking-wider pointer-events-none ring-2 ring-white"
+            >
+              Historia
+            </span>
+
             <!-- Round camera icon button on bottom right of avatar -->
             <button
               v-if="isOwnProfile"
               type="button"
-              @click="changeAvatar"
+              @click.stop="changeAvatar"
               class="w-9 h-9 rounded-full bg-slate-900/85 hover:bg-black text-white flex items-center justify-center backdrop-blur-xs shadow-md transition-transform active:scale-95 absolute bottom-1 right-1 cursor-pointer ring-2 ring-white"
               title="Cambiar foto de perfil"
               aria-label="Cambiar foto de perfil"
@@ -132,12 +153,12 @@
           </div>
         </div>
 
-        <!-- Action buttons row: Agregar a historia & Editar perfil -->
+        <!-- Action buttons row: Agregar a historia (Green) & Editar perfil -->
         <div class="pt-3.5 flex items-center gap-2">
           <button
             type="button"
-            @click="triggerCreateStory"
-            class="flex-1 py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-bold text-xs shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer min-h-[38px]"
+            @click="isCreateStoryModalOpen = true"
+            class="flex-1 py-2 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold text-xs shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer min-h-[36px]"
           >
             <PlusCircle class="w-4 h-4 stroke-[2.2]" />
             <span>Agregar a historia</span>
@@ -146,7 +167,7 @@
           <button
             type="button"
             @click="isEditingProfile = true"
-            class="flex-1 py-2 px-3 rounded-xl bg-slate-200 hover:bg-slate-300 active:scale-98 text-slate-800 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer min-h-[38px]"
+            class="flex-1 py-2 px-3.5 rounded-xl bg-slate-200 hover:bg-slate-300 active:scale-98 text-slate-800 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer min-h-[36px]"
           >
             <Edit3 class="w-4 h-4 text-slate-600" />
             <span>Editar perfil</span>
@@ -415,6 +436,14 @@
       :friends="allFriends"
       @close="isFriendsModalOpen = false"
     />
+
+    <!-- ========================================================
+         5. CREATE STORY MODAL (Directly from Profile)
+         ======================================================== -->
+    <CreateStoryModal
+      :isOpen="isCreateStoryModalOpen"
+      @close="isCreateStoryModalOpen = false"
+    />
   </div>
 </template>
 
@@ -437,12 +466,14 @@ import {
 import { useProfile } from '../composables/useProfile';
 import { useFeedStore } from '@/modules/feeds/store/feedStore';
 import { useMessengerStore } from '@/modules/messenger/store/messengerStore';
+import { useHistoryStore } from '@/modules/historys/store/historyStore';
 import ProfileHeader from '../components/ProfileHeader.vue';
 import ProfilePhotos from '../components/ProfilePhotos.vue';
 import ProfileInfo from '../components/ProfileInfo.vue';
 import PostCard from '@/modules/feeds/components/PostCard.vue';
 import MobileSearchModal from '@/shared/components/MobileSearchModal.vue';
 import MobileFriendsModal from '../components/MobileFriendsModal.vue';
+import CreateStoryModal from '@/modules/historys/components/CreateStoryModal.vue';
 import SafeImage from '@/shared/components/SafeImage.vue';
 
 const route = useRoute();
@@ -450,11 +481,25 @@ const router = useRouter();
 const { activeProfile, activeTab, loadProfile } = useProfile();
 const feedStore = useFeedStore();
 const messengerStore = useMessengerStore();
+const historyStore = useHistoryStore();
 
 const isSearchModalOpen = ref(false);
 const isFriendsModalOpen = ref(false);
+const isCreateStoryModalOpen = ref(false);
 const isEditingProfile = ref(false);
 const showMoreOptions = ref(false);
+
+const hasActiveStory = computed(() => {
+  return historyStore.hasStoryForUser(activeProfile.value?.id);
+});
+
+function handleAvatarClick() {
+  if (hasActiveStory.value) {
+    historyStore.openStoryForUser(activeProfile.value.id);
+  } else if (isOwnProfile.value) {
+    changeAvatar();
+  }
+}
 
 onMounted(() => {
   feedStore.loadPosts();

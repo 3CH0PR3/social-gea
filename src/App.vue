@@ -7,7 +7,7 @@
     <div
       :class="[
         'max-w-7xl mx-auto w-full flex items-start justify-center gap-6',
-        isProfileRoute ? 'p-0 sm:px-4 sm:py-6' : 'px-2 sm:px-4 py-4 sm:py-6'
+        isStandaloneMobileRoute ? 'p-0 sm:px-4 sm:py-6' : 'px-2 sm:px-4 py-4 sm:py-6'
       ]"
     >
       <!-- Left Sidebar (Contextual for Empresas, Radar/Amigos, Marketplace or General Feeds) -->
@@ -36,6 +36,9 @@
       :isOpen="isComposerOpen"
       @close="isComposerOpen = false"
     />
+
+    <!-- Global Story Viewer (Teleported to body) -->
+    <StoryViewer />
   </div>
 </template>
 
@@ -51,6 +54,7 @@ import SidebarMarketplace from '@/modules/marketplace/components/SidebarMarketpl
 import MessengerDrawer from '@/modules/messenger/components/MessengerDrawer.vue';
 import PostComposer from '@/modules/feeds/components/PostComposer.vue';
 import ImageLightbox from '@/modules/feeds/components/ImageLightbox.vue';
+import StoryViewer from '@/modules/historys/components/StoryViewer.vue';
 import { useFeedStore } from '@/modules/feeds/store/feedStore';
 import { useHistoryStore } from '@/modules/historys/store/historyStore';
 import { useNotificationStore } from '@/modules/notifications/store/notificationStore';
@@ -61,6 +65,9 @@ const isEmpresasRoute = computed(() => route.path.startsWith('/empresas'));
 const isFriendsRoute = computed(() => route.path.startsWith('/radar') || route.path.startsWith('/friends'));
 const isMarketplaceRoute = computed(() => route.path.startsWith('/marketplace'));
 const isProfileRoute = computed(() => route.path.startsWith('/profiles'));
+const isStandaloneMobileRoute = computed(() => {
+  return route.path.startsWith('/profiles') || route.path.startsWith('/historys');
+});
 const isWideRoute = computed(() => {
   return (
     route.path.startsWith('/empresas') ||

@@ -1,0 +1,135 @@
+/* ========================================================
+   MODAL DUAL SYSTEM (Socialgea: Android 100dvh vs Desktop)
+   ======================================================== */
+
+/* ANDROID (< 640px): pantalla completa nativa, no es un modal flotante */
+.sg-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.sg-modal__panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.sg-modal__appbar {                 /* Top App Bar nativa */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 3.5rem;
+  padding: 0 0.75rem;
+  border-bottom: 1px solid var(--border-default);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.sg-modal__header {
+  display: none;
+}
+
+.sg-modal__title {
+  flex: 1;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.875rem;              /* text-sm */
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.sg-modal__body {                   /* ÚNICO scroll del modal */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sg-modal__footer {                 /* barra de acciones fija abajo */
+  flex-shrink: 0;
+  padding: 0.75rem 1rem max(0.75rem, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border-default);
+  background: var(--surface);
+}
+
+.sg-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-body);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.sg-icon-btn:hover {
+  background: var(--surface-muted);
+  color: var(--text-strong);
+}
+.sg-icon-btn:active {
+  background: #e2e8f0;
+}
+
+/* DESKTOP (>= 640px): diálogo centrado */
+@media (min-width: 640px) {
+  .sg-modal {
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: var(--overlay);
+    backdrop-filter: blur(4px);
+  }
+
+  .sg-modal__panel {
+    height: auto;
+    max-height: 90vh;
+    max-width: var(--modal-max-w, 32rem);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-modal);
+  }
+
+  .sg-modal__appbar {
+    display: none;
+  }
+
+  .sg-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--border-default);
+    flex-shrink: 0;
+  }
+
+  .sg-modal__footer {
+    padding-bottom: 0.875rem;
+  }
+
+  .sg-modal--sm { --modal-max-w: 24rem; }
+  .sg-modal--md { --modal-max-w: 32rem; }
+  .sg-modal--lg { --modal-max-w: 48rem; }
+  .sg-modal--xl { --modal-max-w: 64rem; }
+}
+
+.sg-fade-enter-active, .sg-fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+.sg-fade-enter-from, .sg-fade-leave-to {
+  opacity: 0;
+}
