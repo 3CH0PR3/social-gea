@@ -18,7 +18,16 @@
     "jsx": "react-jsx",
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
+      ],
+      "@social/*": [
+        "./src/context/social/*"
+      ],
+      "@layouts/*": [
+        "./src/layout/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
       ]
     },
     "allowImportingTsExtensions": true,

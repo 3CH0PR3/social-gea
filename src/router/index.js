@@ -1,15 +1,15 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import SocialLayout from '@/layouts/SocialLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { feedRoutes } from '@/modules/feeds/router/feedRoutes';
-import { historyRoutes } from '@/modules/historys/router/historyRoutes';
-import { profileRoutes } from '@/modules/profiles/router/profileRoutes';
-import { radarRoutes } from '@/modules/radar/router/radarRoutes';
-import { notificationRoutes } from '@/modules/notifications/router/notificationRoutes';
-import { messengerRoutes } from '@/modules/messenger/router/messengerRoutes';
-import { empresaRoutes } from '@/modules/empresas/router/empresaRoutes';
-import { marketplaceRoutes } from '@/modules/marketplace/router/marketplaceRoutes';
-import { authRoutes } from '@/modules/auth/router/auth.routes';
+import { feedRoutes } from '@/context/social/pages/feed/router/feedRoutes';
+import { historyRoutes } from '@/context/social/pages/historys/router/historyRoutes';
+import { profileRoutes } from '@/context/social/pages/profiles/router/profileRoutes';
+import { radarRoutes } from '@/context/social/pages/radar/router/radarRoutes';
+import { notificationRoutes } from '@/context/social/pages/notifications/router/notificationRoutes';
+import { messengerRoutes } from '@/context/social/pages/messenger/router/messengerRoutes';
+import { empresaRoutes } from '@/context/social/pages/empresas/router/empresaRoutes';
+import { marketplaceRoutes } from '@/context/social/pages/marketplace/router/marketplaceRoutes';
+import { authRoutes } from '@/context/social/auth/router/auth.routes';
 
 const routes = [
   {

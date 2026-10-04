@@ -237,7 +237,7 @@ import {
   UserX
 } from 'lucide-vue-next';
 import { useBodyScrollLock } from '@/shared/composables/useBodyScrollLock';
-import { useRadarStore } from '@/modules/radar/store/radarStore';
+import { useRadarStore } from '@/context/social/pages/radar/store/radarStore';
 import SafeImage from './SafeImage.vue';
 
 const props = defineProps({

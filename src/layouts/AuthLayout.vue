@@ -54,7 +54,7 @@
 <script setup>
 import { RouterView, RouterLink } from 'vue-router';
 import { Leaf } from 'lucide-vue-next';
-import AuthHeroBanner from '@/modules/auth/components/AuthHeroBanner.vue';
+import AuthHeroBanner from '@/context/social/auth/components/AuthHeroBanner.vue';
 </script>
 
 <style scoped>
