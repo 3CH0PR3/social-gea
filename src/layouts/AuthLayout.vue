@@ -24,9 +24,9 @@
 
       <!-- Center Form Stage with instant snappy transition -->
       <main class="my-auto py-4">
-        <RouterView v-slot="{ Component }">
+        <RouterView v-slot="{ Component, route }">
           <Transition name="auth-quick" mode="out-in">
-            <component :is="Component" />
+            <component :is="Component" :key="route?.path || 'auth'" v-if="Component" />
           </Transition>
         </RouterView>
       </main>

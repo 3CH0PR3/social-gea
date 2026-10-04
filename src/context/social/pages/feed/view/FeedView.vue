@@ -69,8 +69,6 @@
       :isOpen="historyStore.isCreateModalOpen"
       @close="historyStore.closeCreateModal"
     />
-
-    <StoryViewer />
   </div>
 </template>
 
@@ -82,7 +80,6 @@ import { useFeed } from '../composables/useFeed';
 import { useFeedStore } from '../store/feedStore';
 import { useHistoryStore } from '@/context/social/pages/historys/store/historyStore';
 import StoriesBar from '@/context/social/pages/historys/components/StoriesBar.vue';
-import StoryViewer from '@/context/social/pages/historys/components/StoryViewer.vue';
 import CreateStoryModal from '@/context/social/pages/historys/components/CreateStoryModal.vue';
 import PostCard from '../components/PostCard.vue';
 import PostComposer from '../components/PostComposer.vue';

@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { historyService } from '../services/historyService';
 import { CURRENT_USER } from '@/shared/data/initialData';
@@ -16,6 +16,9 @@ export const useStoriesStore = defineStore('social.stories', () => {
   });
   const isLoading = ref(false);
   const errorMsg = ref(null);
+
+  const isViewerOpen = computed(() => viewer.value.isOpen);
+  const viewerStartIndex = computed(() => viewer.value.initialIndex);
 
   const executeAsync = async (fn) => {
     errorMsg.value = null;
@@ -97,6 +100,9 @@ export const useStoriesStore = defineStore('social.stories', () => {
       type: storyItem.type || 'image',
       mediaUrl: storyItem.mediaUrl,
       caption: storyItem.caption || '',
+      textContent: storyItem.textContent || '',
+      backgroundColor: storyItem.backgroundGradient || storyItem.backgroundColor || '',
+      textColor: storyItem.textColor || '#ffffff',
       timestamp: 'Ahora',
       duration: 5,
     };
@@ -120,11 +126,27 @@ export const useStoriesStore = defineStore('social.stories', () => {
     closeCreateModal();
   };
 
+  const addStoryItem = addStory;
+  const createStory = addStory;
+
+  const deleteStoryItem = (storyId, itemId) => {
+    const story = stories.value.find((s) => s.id === storyId);
+    if (story) {
+      story.items = story.items.filter((it) => it.id !== itemId);
+      if (story.items.length === 0) {
+        stories.value = stories.value.filter((s) => s.id !== storyId);
+        closeStoryViewer();
+      }
+    }
+  };
+
   return {
     stories,
     currentUser,
     isCreateModalOpen,
     viewer,
+    isViewerOpen,
+    viewerStartIndex,
     isLoading,
     errorMsg,
     executeAsync,
@@ -136,6 +158,9 @@ export const useStoriesStore = defineStore('social.stories', () => {
     hasStoryForUser,
     openStoryForUser,
     addStory,
+    addStoryItem,
+    createStory,
+    deleteStoryItem,
   };
 });
 

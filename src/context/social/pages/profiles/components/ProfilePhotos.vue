@@ -2,10 +2,10 @@
   <div class="bg-white rounded-md p-6 border border-slate-200 shadow-xs space-y-4">
     <div class="flex items-center justify-between border-b border-slate-100 pb-3">
       <h3 class="font-extrabold text-slate-900 text-base sm:text-lg font-display">Fotos</h3>
-      <span class="text-xs sm:text-sm text-slate-500 font-semibold">{{ photos.length }} fotos</span>
+      <span class="text-xs sm:text-sm text-slate-500 font-semibold">{{ photos?.length || 0 }} fotos</span>
     </div>
 
-    <p v-if="photos.length === 0" class="text-xs sm:text-sm text-slate-400 text-center py-10">
+    <p v-if="!photos || photos.length === 0" class="text-xs sm:text-sm text-slate-400 text-center py-10">
       Aún no se han compartido fotos en este perfil.
     </p>
 

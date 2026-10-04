@@ -162,12 +162,12 @@
               <span class="text-slate-800 font-bold">{{ activeProfile.mutualCount ? `${activeProfile.mutualCount} en común` : activeProfile.mutualInfo }}</span>
             </template>
             <span>·</span>
-            <span>{{ userPosts.length || activeProfile.postsCount || 55 }} publicaciones</span>
+            <span>{{ (userPosts && userPosts.length) || activeProfile?.postsCount || 55 }} publicaciones</span>
           </div>
 
           <!-- Mutual Friends Faces Row (Like Facebook Mobile Reference in Images 2 & 4) -->
           <div
-            v-if="!isOwnProfile && mutualFriendsList.length > 0"
+            v-if="!isOwnProfile && mutualFriendsList && mutualFriendsList.length > 0"
             class="flex items-center gap-2 pt-1"
           >
             <div class="flex items-center -space-x-2 shrink-0">
@@ -416,7 +416,7 @@
                   Amigos
                 </h3>
                 <p class="text-xs text-slate-400 font-semibold">
-                  {{ activeProfile.friendsCount || currentProfileFriends.length }} amigos
+                  {{ activeProfile?.friendsCount || (currentProfileFriends && currentProfileFriends.length) || 0 }} amigos
                 </p>
               </div>
               <button
@@ -496,7 +496,7 @@
             <!-- User's Posts list -->
             <div class="space-y-4 pt-1">
               <div
-                v-if="userPosts.length === 0"
+                v-if="!userPosts || userPosts.length === 0"
                 class="bg-white rounded-md p-8 text-center text-slate-400 border border-slate-200 space-y-2"
               >
                 <FileText class="w-8 h-8 mx-auto text-slate-300 stroke-[1.5]" />
@@ -541,8 +541,8 @@
       <ProfileHeader
         :user="activeProfile"
         :activeTab="activeTab"
-        :postsCount="userPosts.length"
-        :photosCount="userPhotos.length"
+        :postsCount="userPosts ? userPosts.length : 0"
+        :photosCount="userPhotos ? userPhotos.length : 0"
         @select-tab="activeTab = $event"
         @open-chat="openChat"
         @create-story="isCreateStoryModalOpen = true"
@@ -647,7 +647,7 @@
                   Amigos
                 </h3>
                 <p class="text-xs text-slate-400 font-semibold">
-                  {{ activeProfile.friendsCount || currentProfileFriends.length }} amigos
+                  {{ activeProfile?.friendsCount || (currentProfileFriends && currentProfileFriends.length) || 0 }} amigos
                 </p>
               </div>
               <button
@@ -682,14 +682,14 @@
           </div>
 
           <!-- CARD 4: FOTOS (THUMBNAILS) -->
-          <div v-if="userPhotos.length > 0" class="bg-white rounded-md p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+          <div v-if="userPhotos && userPhotos.length > 0" class="bg-white rounded-md p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
                 <h3 class="font-extrabold text-slate-900 text-base sm:text-lg font-display">
                   Fotos
                 </h3>
                 <p class="text-xs text-slate-400 font-semibold">
-                  {{ userPhotos.length }} fotos
+                  {{ userPhotos ? userPhotos.length : 0 }} fotos
                 </p>
               </div>
               <button
@@ -771,7 +771,7 @@
           <!-- User Posts List -->
           <div class="space-y-4">
             <div
-              v-if="userPosts.length === 0"
+              v-if="!userPosts || userPosts.length === 0"
               class="bg-white rounded-md p-12 text-center text-slate-400 border border-slate-200 shadow-xs space-y-2"
             >
               <FileText class="w-10 h-10 mx-auto text-slate-300 stroke-[1.5]" />

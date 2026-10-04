@@ -287,7 +287,7 @@
               title="Comentar"
             >
               <MessageCircle class="w-4 h-4 text-slate-600 stroke-[2.2]" />
-              <span class="text-xs font-bold">{{ post.comments.length }}</span>
+              <span class="text-xs font-bold">{{ post.comments?.length || 0 }}</span>
             </button>
 
             <!-- Share button -->

@@ -357,7 +357,7 @@ function prevStory() {
   } else if (currentStoryIdx.value > 0) {
     currentStoryIdx.value--;
     const prev = stories.value[currentStoryIdx.value];
-    currentItemIdx.value = prev ? prev.items.length - 1 : 0;
+    currentItemIdx.value = prev?.items?.length ? prev.items.length - 1 : 0;
     startTimer();
   }
 }

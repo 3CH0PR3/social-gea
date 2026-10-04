@@ -177,12 +177,12 @@ const messengerStore = useMessengerStore();
 const searchQuery = ref('');
 const activeMenuFriendId = ref(null);
 const toastMessage = ref('');
-const friendList = ref([...props.friends]);
+const friendList = ref(Array.isArray(props.friends) ? [...props.friends] : []);
 
 watch(
   () => props.friends,
   (newFriends) => {
-    friendList.value = [...newFriends];
+    friendList.value = Array.isArray(newFriends) ? [...newFriends] : [];
   },
   { deep: true, immediate: true }
 );
