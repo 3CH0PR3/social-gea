@@ -158,7 +158,7 @@
           class="flex items-center gap-2 text-xs font-bold text-white/95 hover:text-white bg-white/10 hover:bg-white/20 active:scale-95 px-3.5 py-1.5 rounded-full transition-all cursor-pointer border border-white/10 shadow-xs"
         >
           <Eye class="w-4 h-4 text-emerald-400 shrink-0" />
-          <span>{{ currentItem?.viewersCount || viewersData.length }} visualizaciones</span>
+          <span>{{ currentItem?.viewersCount || (viewersData?.length || 0) }} visualizaciones</span>
           <ChevronUp class="w-3.5 h-3.5 text-white/70 ml-0.5 shrink-0" />
         </button>
 
@@ -334,7 +334,7 @@ function nextStory() {
   pausedProgress = 0;
   startTime = Date.now();
 
-  if (currentItemIdx.value < (currentStory.value?.items.length || 0) - 1) {
+  if (currentItemIdx.value < (currentStory.value?.items?.length || 0) - 1) {
     currentItemIdx.value++;
     startTimer();
   } else if (currentStoryIdx.value < stories.value.length - 1) {

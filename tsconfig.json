@@ -24,7 +24,16 @@
         "./src/context/social/*"
       ],
       "@layouts/*": [
-        "./src/layout/*"
+        "./src/layouts/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@api/*": [
+        "./src/config/api/*"
+      ],
+      "@http/*": [
+        "./src/shared/http/*"
       ],
       "@shared/*": [
         "./src/shared/*"

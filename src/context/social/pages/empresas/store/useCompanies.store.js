@@ -241,13 +241,23 @@ export const useEmpresasStore = defineStore('social.companies', () => {
     // Methods
     executeAsync,
     openDetailModal,
+    openDetail: openDetailModal,
     closeDetailModal,
+    closeDetail: closeDetailModal,
     openSubscribeModal,
+    openSubscribe: openSubscribeModal,
     closeSubscribeModal,
+    closeSubscribe: closeSubscribeModal,
     subscribeToEmpresa,
+    submitSubscription: subscribeToEmpresa,
     cancelSubscription,
+    openCancelConfirm: () => { isCancelModalOpen.value = true; },
+    closeCancelConfirm: () => { isCancelModalOpen.value = false; },
+    openApplicationDetails: () => { isApplicationDetailModalOpen.value = true; },
+    closeApplicationDetails: () => { isApplicationDetailModalOpen.value = false; },
     setCategory,
     setSearchQuery,
+    setSearch: setSearchQuery,
     showToast,
   };
 });

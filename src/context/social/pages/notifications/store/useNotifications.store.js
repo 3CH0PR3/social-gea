@@ -33,9 +33,24 @@ export const useNotificationsStore = defineStore('social.notifications', () => {
     },
   ]);
 
+  const filter = ref('all'); // 'all' | 'unread'
+  const isLoading = ref(false);
+  const errorMsg = ref(null);
+
   const unreadCount = computed(() => {
     return notifications.value.filter((n) => n.unread).length;
   });
+
+  const filteredNotifications = computed(() => {
+    if (filter.value === 'unread') {
+      return notifications.value.filter((n) => n.unread);
+    }
+    return notifications.value;
+  });
+
+  const setFilter = (newFilter) => {
+    filter.value = newFilter;
+  };
 
   const markAllAsRead = () => {
     notifications.value.forEach((n) => {
@@ -54,7 +69,12 @@ export const useNotificationsStore = defineStore('social.notifications', () => {
 
   return {
     notifications,
+    filter,
+    filteredNotifications,
     unreadCount,
+    isLoading,
+    errorMsg,
+    setFilter,
     markAllAsRead,
     markAsRead,
     loadNotifications,

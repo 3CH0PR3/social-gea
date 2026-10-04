@@ -33,7 +33,7 @@
           <div class="flex-1 min-w-0">
             <h4 class="text-xs font-bold text-slate-900 truncate">{{ c.participant.name }}</h4>
             <p class="text-[11px] text-slate-500 truncate mt-0.5">
-              {{ c.messages[c.messages.length - 1]?.text || 'Conversación iniciada' }}
+              {{ (c.messages && c.messages.length) ? c.messages[c.messages.length - 1]?.text : 'Conversación iniciada' }}
             </p>
           </div>
         </div>
