@@ -1,1 +1,1 @@
-export { useStoriesStore, useHistoryStore } from '@/context/social/pages/stories/store/useStories.store.js';
+export { useStoriesStore, useHistoryStore } from './useStories.store.js';

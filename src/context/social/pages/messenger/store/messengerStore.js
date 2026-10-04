@@ -1,1 +1,1 @@
-export { useMessengerStore } from '@/context/social/pages/messages/store/useMessenger.store.js';
+export { useMessengerStore } from './useMessenger.store.js';
