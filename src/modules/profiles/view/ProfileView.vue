@@ -891,6 +891,7 @@ import { useProfile } from '../composables/useProfile';
 import { useFeedStore } from '@/modules/feeds/store/feedStore';
 import { useMessengerStore } from '@/modules/messenger/store/messengerStore';
 import { useHistoryStore } from '@/modules/historys/store/historyStore';
+import { getPreviousNonProfileRoute, popProfileRoute } from '@/router';
 import { MOCK_USERS } from '@/shared/data/initialData';
 import ProfileHeader from '../components/ProfileHeader.vue';
 import ProfilePhotos from '../components/ProfilePhotos.vue';
@@ -1010,10 +1011,20 @@ const mutualFriendsList = computed(() => {
 });
 
 function handleBack() {
-  if (window.history.length > 1) {
-    router.back();
+  // 1. If viewing own profile, clicking back should ALWAYS exit out to the Feed or originating section
+  if (isOwnProfile.value) {
+    const target = getPreviousNonProfileRoute();
+    router.push(target);
+    return;
+  }
+
+  // 2. If viewing a friend's profile:
+  // If the user came from another profile, pop to that profile; otherwise return to the non-profile route (Feed, Amigos, etc.)
+  const target = popProfileRoute();
+  if (target && target !== route.fullPath) {
+    router.push(target);
   } else {
-    router.push('/feeds');
+    router.push(getPreviousNonProfileRoute());
   }
 }
 

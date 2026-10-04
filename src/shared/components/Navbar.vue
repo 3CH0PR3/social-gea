@@ -355,7 +355,7 @@
 
               <button
                 type="button"
-                @click="showDropdown = false"
+                @click="handleLogout"
                 class="w-full px-4 py-2.5 text-sm font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-3 text-left cursor-pointer"
               >
                 <LogOut class="w-5 h-5 text-rose-500" />
@@ -387,7 +387,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { RouterLink, useRoute } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import {
   Search,
   Home,
@@ -408,6 +408,7 @@ import {
 import { useFeedStore } from '@/modules/feeds/store/feedStore';
 import { useNotificationStore } from '@/modules/notifications/store/notificationStore';
 import { useMessengerStore } from '@/modules/messenger/store/messengerStore';
+import { useAuthStore } from '@/modules/auth/stores/useAuth.store';
 import MobileMenuDrawer from './MobileMenuDrawer.vue';
 import MobileSearchModal from './MobileSearchModal.vue';
 import RadarLogo from './RadarLogo.vue';
@@ -418,7 +419,9 @@ defineEmits(['open-create-post']);
 const feedStore = useFeedStore();
 const notificationStore = useNotificationStore();
 const messengerStore = useMessengerStore();
+const authStore = useAuthStore();
 const route = useRoute();
+const router = useRouter();
 
 const showDropdown = ref(false);
 const showMobileSearch = ref(false);
@@ -426,6 +429,12 @@ const isMobileMenuOpen = ref(false);
 const isSearchModalOpen = ref(false);
 
 const currentUser = feedStore.currentUser;
+
+function handleLogout() {
+  showDropdown.value = false;
+  authStore.logout();
+  router.push('/auth/login');
+}
 
 const unreadNotifs = computed(() => notificationStore.unreadCount);
 const unreadMessages = computed(() => messengerStore.unreadCount);

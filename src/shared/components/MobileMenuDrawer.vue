@@ -300,7 +300,7 @@
 
           <button
             type="button"
-            @click="$emit('close')"
+            @click="handleLogout"
             class="w-full p-3.5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors cursor-pointer text-red-600"
           >
             <div class="flex items-center gap-3">
@@ -349,6 +349,7 @@ import {
 } from 'lucide-vue-next';
 import { useBodyScrollLock } from '@/shared/composables/useBodyScrollLock';
 import { useFeedStore } from '@/modules/feeds/store/feedStore';
+import { useAuthStore } from '@/modules/auth/stores/useAuth.store';
 import SafeImage from './SafeImage.vue';
 
 const props = defineProps({
@@ -361,6 +362,7 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 const router = useRouter();
 const feedStore = useFeedStore();
+const authStore = useAuthStore();
 const currentUser = feedStore.currentUser;
 
 useBodyScrollLock(() => props.isOpen);
@@ -372,6 +374,12 @@ const showSettings = ref(false);
 function handleNavigate(path) {
   emit('close');
   router.push(path);
+}
+
+function handleLogout() {
+  emit('close');
+  authStore.logout();
+  router.push('/auth/login');
 }
 
 function goToSaved() {

@@ -1,0 +1,21 @@
+/*
+ * ── Profile ─────────────────────────────────────────────────────────────────
+ */
+
+@layer components {
+  .profile-cover {
+    @apply h-48 sm:h-72 w-full overflow-hidden bg-slate-800 relative;
+  }
+
+  .profile-avatar-wrapper {
+    @apply relative -mt-16 sm:-mt-24 mb-3 sm:mb-4 inline-block;
+  }
+
+  .profile-avatar {
+    @apply w-28 h-28 sm:w-40 sm:h-40 rounded-full object-cover ring-4 ring-white shadow-lg;
+  }
+
+  .profile-camera-btn {
+    @apply absolute bottom-1 right-1 w-9 h-9 rounded-full bg-slate-900/80 hover:bg-slate-900 text-white flex items-center justify-center transition shadow-md cursor-pointer;
+  }
+}

@@ -1,4 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import SocialLayout from '@/layouts/SocialLayout.vue';
+import AuthLayout from '@/layouts/AuthLayout.vue';
 import { feedRoutes } from '@/modules/feeds/router/feedRoutes';
 import { historyRoutes } from '@/modules/historys/router/historyRoutes';
 import { profileRoutes } from '@/modules/profiles/router/profileRoutes';
@@ -7,21 +9,47 @@ import { notificationRoutes } from '@/modules/notifications/router/notificationR
 import { messengerRoutes } from '@/modules/messenger/router/messengerRoutes';
 import { empresaRoutes } from '@/modules/empresas/router/empresaRoutes';
 import { marketplaceRoutes } from '@/modules/marketplace/router/marketplaceRoutes';
+import { authRoutes } from '@/modules/auth/router/auth.routes';
 
 const routes = [
-  ...feedRoutes,
-  ...historyRoutes,
-  ...profileRoutes,
-  ...radarRoutes,
-  ...notificationRoutes,
-  ...messengerRoutes,
-  ...empresaRoutes,
-  ...marketplaceRoutes,
+  {
+    path: '/auth',
+    component: AuthLayout,
+    redirect: '/auth/login',
+    children: [
+      ...authRoutes,
+    ],
+  },
+  {
+    path: '/login',
+    redirect: '/auth/login',
+  },
+  {
+    path: '/register',
+    redirect: '/auth/register',
+  },
+  {
+    path: '/',
+    component: SocialLayout,
+    children: [
+      ...feedRoutes,
+      ...historyRoutes,
+      ...profileRoutes,
+      ...radarRoutes,
+      ...notificationRoutes,
+      ...messengerRoutes,
+      ...empresaRoutes,
+      ...marketplaceRoutes,
+    ],
+  },
   {
     path: '/:pathMatch(.*)*',
     redirect: '/feeds',
   },
 ];
+
+let previousNonProfileRoute = '/feeds';
+let profileHistoryStack = [];
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -37,5 +65,31 @@ const router = createRouter({
     return { top: 0, behavior: 'smooth' };
   },
 });
+
+router.afterEach((to, from) => {
+  if (from && from.path && !from.path.startsWith('/profiles')) {
+    previousNonProfileRoute = from.fullPath || from.path;
+    profileHistoryStack = [];
+  }
+
+  if (to && to.path && to.path.startsWith('/profiles')) {
+    if (profileHistoryStack[profileHistoryStack.length - 1] !== to.fullPath) {
+      profileHistoryStack.push(to.fullPath);
+    }
+  }
+});
+
+export function getPreviousNonProfileRoute() {
+  return previousNonProfileRoute || '/feeds';
+}
+
+export function popProfileRoute() {
+  if (profileHistoryStack.length > 1) {
+    profileHistoryStack.pop(); // remove active profile
+    return profileHistoryStack.pop() || previousNonProfileRoute || '/feeds';
+  }
+  profileHistoryStack = [];
+  return previousNonProfileRoute || '/feeds';
+}
 
 export default router;

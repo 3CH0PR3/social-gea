@@ -1,0 +1,33 @@
+/*
+ * ── Social Layout ───────────────────────────────────────────────────────────
+ */
+
+@layer components {
+  .soc-layout {
+    @apply min-h-screen bg-[#f0f2f5] text-slate-900 flex flex-col antialiased selection:bg-emerald-600 selection:text-white;
+  }
+
+  .soc-container {
+    @apply max-w-7xl mx-auto w-full flex items-start justify-center gap-6 px-2 sm:px-4 py-4 sm:py-6;
+  }
+
+  .soc-main-grid {
+    @apply max-w-7xl mx-auto w-full flex items-start justify-center gap-6 px-2 sm:px-4 py-4 sm:py-6;
+  }
+
+  .soc-feed {
+    @apply flex-1 w-full min-w-0 max-w-2xl;
+  }
+
+  .soc-feed-wide {
+    @apply flex-1 w-full min-w-0 max-w-7xl;
+  }
+
+  .soc-sidebar-left {
+    @apply hidden lg:block w-72 shrink-0 sticky top-18 select-none;
+  }
+
+  .soc-sidebar-right {
+    @apply hidden xl:block w-72 shrink-0 sticky top-18 select-none;
+  }
+}

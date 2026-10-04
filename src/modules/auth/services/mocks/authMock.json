@@ -1,0 +1,22 @@
+{
+  "currentUser": {
+    "id": "user_current",
+    "name": "Carlos Méndez",
+    "firstName": "Carlos",
+    "lastName": "Méndez",
+    "email": "carlos.mendez@socialgea.co",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+    "coverImage": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+    "ecoPoints": 1420,
+    "role": "ecoleader",
+    "twoFactorEnabled": true,
+    "phone": "+57 312 450 8921",
+    "location": "Bogotá D.C., Colombia"
+  },
+  "authTokens": {
+    "accessToken": "gea_jwt_mock_token_xyz_8921",
+    "refreshToken": "gea_refresh_token_mock_4421",
+    "expiresIn": 86400
+  },
+  "mockOtpCode": "742819"
+}

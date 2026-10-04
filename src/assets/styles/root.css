@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+/* 1. Base Variables & Tokens */
+@import "./base/variables.css";
+@import "./variables/variables.css";
+
+/* 2. Base Resets & Typography */
+@import "./base/reset.css";
+@import "./base/base.css";
+
+/* 3. Component Layer Rules */
+@import "./components/badges.css";
+@import "./components/buttons.css";
+@import "./components/cards.css";
+@import "./components/forms.css";
+@import "./components/inputs.css";
+@import "./components/feed.css";
+@import "./components/modal.css";
+@import "./components/navigation.css";
+@import "./components/overlays.css";
+@import "./components/profile.css";
+@import "./components/feedback.css";
+@import "./components/driver-tour.css";
+@import "./components/tables.css";
+
+/* 4. Navigation & Shared Components */
+@import "./components/navbar.css";
+@import "./components/sidebar-left.css";
+@import "./components/sidebar-right.css";
+@import "./components/safe-image.css";
+@import "./components/radar-logo.css";
+@import "./components/searchable-select.css";
+
+/* 5. Layout Rules */
+@import "./layout/layout.css";
+@import "./layouts/social.css";
+@import "./layouts/auth.css";
+
+/* 6. Responsive Rules */
+@import "./responsive/android.css";
+@import "./responsive/desktop.css";
+@import "./responsive/menu-drawer.css";
+@import "./responsive/search-modal.css";
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-active: var(--color-primary-active);
+  --color-primary-subtle: var(--color-primary-subtle);
+  --color-primary-contrast: var(--color-primary-contrast);
+  --radius-card: var(--card-radius, 1rem);
+  --radius-btn: var(--btn-radius, 0.75rem);
+  --radius-input: var(--input-radius, 0.75rem);
+}

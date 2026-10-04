@@ -122,6 +122,38 @@
           </div>
         </div>
       </div>
+
+      <!-- Section: Seguridad y 2FA -->
+      <div class="space-y-4 pt-4 border-t border-slate-100">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">
+          Seguridad de la cuenta
+        </h3>
+
+        <div class="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="space-y-0.5 pr-4">
+            <span class="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+              <span>Autenticación en dos pasos (2FA)</span>
+              <span v-if="form.twoFactorEnabled" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                Activo
+              </span>
+            </span>
+            <p class="text-xs text-slate-500">
+              Solicitar siempre un código OTP de 6 dígitos al iniciar sesión.
+            </p>
+          </div>
+
+          <label class="relative inline-flex items-center cursor-pointer shrink-0">
+            <input
+              type="checkbox"
+              v-model="form.twoFactorEnabled"
+              class="sr-only peer"
+            />
+            <div
+              class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"
+            />
+          </label>
+        </div>
+      </div>
     </div>
 
     <template #actions>
@@ -148,6 +180,7 @@
 <script setup>
 import { reactive, watch } from 'vue';
 import BaseModal from '@/shared/components/BaseModal.vue';
+import { useAuthStore } from '@/modules/auth/stores/useAuth.store';
 
 const props = defineProps({
   modelValue: {
@@ -161,6 +194,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'save']);
+const authStore = useAuthStore();
 
 const form = reactive({
   name: props.user.name || '',
@@ -173,6 +207,7 @@ const form = reactive({
   workRole: props.user.workRole || 'FullStack',
   workDuration: props.user.workDuration || 'Desde el 25 jul. 2020 hasta la fecha · 6 años y 2 meses',
   education: props.user.education || 'Universidad Nacional de Colombia',
+  twoFactorEnabled: props.user.twoFactorEnabled ?? true,
 });
 
 watch(
@@ -189,12 +224,14 @@ watch(
       form.workRole = u.workRole || 'FullStack';
       form.workDuration = u.workDuration || 'Desde el 25 jul. 2020 hasta la fecha · 6 años y 2 meses';
       form.education = u.education || 'Universidad Nacional de Colombia';
+      form.twoFactorEnabled = u.twoFactorEnabled ?? true;
     }
   },
   { deep: true, immediate: true }
 );
 
 function saveChanges() {
+  authStore.toggleTwoFactor(form.twoFactorEnabled, props.user?.email);
   emit('save', { ...form });
   emit('update:modelValue', false);
 }

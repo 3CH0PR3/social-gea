@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import router from './router';
 import App from './App.vue';
-import './index.css';
+import '@/assets/styles/root.css';
 
 document.documentElement.dataset.theme = import.meta.env.VITE_APP_THEME ?? 'green';
 

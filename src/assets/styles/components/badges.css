@@ -1,47 +1,33 @@
-/* ========================================================
-   BADGE SYSTEM (Socialgea .sg-badge & .badge)
-   ======================================================== */
-.sg-badge, .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.125rem 0.5rem;
-  border-radius: var(--badge-radius);
-  font-family: var(--font-sans);
-  font-size: 0.625rem; /* 10px */
-  font-weight: 700;
-  line-height: 1.25;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-}
+/*
+ * ── Badges ──────────────────────────────────────────────────────────────────
+ */
 
-.sg-badge--primary, .badge-primary {
-  background: var(--primary-50);
-  color: var(--primary-700);
-}
+@layer components {
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold select-none;
+  }
 
-.sg-badge--success {
-  background: #ecfdf5;
-  color: #047857;
-}
+  .badge-primary {
+    @apply bg-emerald-50 text-emerald-800 border border-emerald-200;
+  }
 
-.sg-badge--reward {
-  background: #fef3c7;
-  color: #92400e;
-}
+  .badge-success {
+    @apply bg-emerald-600 text-white shadow-2xs;
+  }
 
-.sg-badge--muted, .badge-neutral {
-  background: #f1f5f9;
-  color: var(--text-muted);
-}
+  .badge-warning {
+    @apply bg-amber-50 text-amber-800 border border-amber-200;
+  }
 
-.badge-solid-primary {
-  background-color: var(--primary-700);
-  color: #ffffff;
-}
+  .badge-danger {
+    @apply bg-rose-50 text-rose-700 border border-rose-200;
+  }
 
-.badge-danger {
-  background-color: var(--color-danger);
-  color: #ffffff;
+  .badge-neutral {
+    @apply bg-slate-100 text-slate-700 border border-slate-200;
+  }
+
+  .badge-eco {
+    @apply bg-emerald-100 text-emerald-900 border border-emerald-300 font-bold;
+  }
 }
