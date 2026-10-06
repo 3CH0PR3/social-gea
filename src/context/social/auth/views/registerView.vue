@@ -160,7 +160,7 @@
       </button>
 
       <!-- Bottom Link -->
-      <div class="text-center text-xs pt-2">
+      <div class="text-center text-xs pt-2 space-y-2">
         <p class="text-slate-500">
           ¿Ya tienes cuenta?
           <RouterLink
@@ -170,6 +170,12 @@
             Inicia sesión
           </RouterLink>
         </p>
+        <RouterLink
+          to="/landing"
+          class="text-xs text-emerald-800 hover:text-emerald-900 font-bold block"
+        >
+          🌱 Conoce cómo funciona el reciclaje y los premios en Colombia →
+        </RouterLink>
       </div>
     </form>
   </div>

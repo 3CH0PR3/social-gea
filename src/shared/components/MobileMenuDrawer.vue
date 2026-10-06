@@ -298,6 +298,28 @@
             <ChevronRight class="w-4 h-4 text-slate-400" />
           </button>
 
+          <!-- Landing Page Shortcut -->
+          <button
+            type="button"
+            @click="handleNavigate('/landing')"
+            class="w-full p-3.5 flex items-center justify-between text-left hover:bg-emerald-50/50 transition-colors cursor-pointer text-emerald-800"
+          >
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                <Compass class="w-4.5 h-4.5" />
+              </div>
+              <div class="min-w-0">
+                <span class="text-xs font-bold block truncate">
+                  Conoce Socialgea (Landing)
+                </span>
+                <span class="text-[10px] text-slate-500 block truncate">
+                  Premios, simulador y empresas
+                </span>
+              </div>
+            </div>
+            <ChevronRight class="w-4 h-4 text-emerald-600" />
+          </button>
+
           <button
             type="button"
             @click="handleLogout"
@@ -345,7 +367,8 @@ import {
   Settings,
   HelpCircle,
   LogOut,
-  X
+  X,
+  Compass
 } from 'lucide-vue-next';
 import { useBodyScrollLock } from '@/shared/composables/useBodyScrollLock';
 import { useFeedStore } from '@/context/social/pages/feed/store/feedStore';

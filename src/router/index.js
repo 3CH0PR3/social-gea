@@ -10,8 +10,10 @@ import { messengerRoutes } from '@/context/social/pages/messenger/router/messeng
 import { empresaRoutes } from '@/context/social/pages/empresas/router/empresaRoutes';
 import { marketplaceRoutes } from '@/context/social/pages/marketplace/router/marketplaceRoutes';
 import { authRoutes } from '@/context/social/auth/router/auth.routes';
+import { landingRoutes } from '@/context/social/pages/landing/router/landingRoutes';
 
 const routes = [
+  ...landingRoutes,
   {
     path: '/auth',
     component: AuthLayout,

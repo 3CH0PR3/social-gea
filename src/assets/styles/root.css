@@ -51,4 +51,28 @@
   --radius-card: var(--card-radius, 1rem);
   --radius-btn: var(--btn-radius, 0.75rem);
   --radius-input: var(--input-radius, 0.75rem);
+  --width-8xl: 88rem;
+  --width-9xl: 96rem;
+  --width-10xl: 104rem;
+  --max-width-7xl: 80rem;
+  --max-width-8xl: 88rem;
+  --max-width-9xl: 96rem;
+  --max-width-10xl: 104rem;
 }
+
+.max-w-7xl {
+  max-width: 80rem; /* 1280px */
+}
+
+.max-w-8xl {
+  max-width: 88rem; /* 1408px */
+}
+
+.max-w-9xl {
+  max-width: 96rem; /* 1536px */
+}
+
+.max-w-10xl {
+  max-width: 104rem; /* 1664px */
+}
+

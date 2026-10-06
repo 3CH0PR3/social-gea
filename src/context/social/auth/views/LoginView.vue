@@ -108,6 +108,15 @@
             ¿Olvidaste tu contraseña?
           </RouterLink>
         </div>
+
+        <div class="pt-3 border-t border-slate-100 mt-2 text-center">
+          <RouterLink
+            to="/landing"
+            class="text-xs text-emerald-800 hover:text-emerald-900 font-bold block"
+          >
+            🌱 Conoce cómo ganar EcoPuntos y premios en Socialgea Colombia →
+          </RouterLink>
+        </div>
       </form>
     </template>
 

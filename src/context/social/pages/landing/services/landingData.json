@@ -1,0 +1,319 @@
+{
+  "stats": {
+    "usersCount": "18.420+",
+    "tonnesRecycled": "512",
+    "copRedeemed": "$ 234.500.000 COP",
+    "alliedCompanies": "34",
+    "citiesCovered": "16 municipios"
+  },
+  "materialRates": [
+    {
+      "id": "pet",
+      "name": "PET Transparente",
+      "example": "Botellas de agua, gaseosas, jugos",
+      "pointsPerKg": 20,
+      "defaultKg": 15,
+      "icon": "Package",
+      "badge": "Más abundante"
+    },
+    {
+      "id": "carton",
+      "name": "Cartón & Papel",
+      "example": "Cajas corrugadas, archivo, plegadiza",
+      "pointsPerKg": 10,
+      "defaultKg": 25,
+      "icon": "Layers",
+      "badge": "Fácil acumulación"
+    },
+    {
+      "id": "raee",
+      "name": "Chatarra RAEE",
+      "example": "Cables, teclados, fuentes, celulares viejos",
+      "pointsPerKg": 60,
+      "defaultKg": 5,
+      "icon": "Cpu",
+      "badge": "Máximo valor"
+    },
+    {
+      "id": "aluminio",
+      "name": "Latas & Aluminio",
+      "example": "Latas de bebidas, envases de hojalata",
+      "pointsPerKg": 30,
+      "defaultKg": 8,
+      "icon": "Flame",
+      "badge": "Alto rendimiento"
+    },
+    {
+      "id": "vidrio",
+      "name": "Vidrio Transparente / Ámbar",
+      "example": "Botellas de bebidas, frascos conserveros",
+      "pointsPerKg": 12,
+      "defaultKg": 20,
+      "icon": "Wine",
+      "badge": "100% reciclable"
+    }
+  ],
+  "departments": [
+    {
+      "id": "bogota",
+      "name": "Bogotá D.C.",
+      "municipalities": ["Bogotá D.C.", "Suba", "Chapinero", "Usaquén", "Kennedy", "Fontibón"]
+    },
+    {
+      "id": "antioquia",
+      "name": "Antioquia",
+      "municipalities": ["Medellín", "Envigado", "Itagüí", "Bello", "Rionegro", "Sabaneta"]
+    },
+    {
+      "id": "valle",
+      "name": "Valle del Cauca",
+      "municipalities": ["Cali", "Palmira", "Yumbo", "Buga", "Tuluá", "Jamundí"]
+    },
+    {
+      "id": "atlantico",
+      "name": "Atlántico",
+      "municipalities": ["Barranquilla", "Soledad", "Puerto Colombia", "Malambo"]
+    },
+    {
+      "id": "santander",
+      "name": "Santander",
+      "municipalities": ["Bucaramanga", "Floridablanca", "Girón", "Piedecuesta"]
+    },
+    {
+      "id": "cundinamarca",
+      "name": "Cundinamarca",
+      "municipalities": ["Soacha", "Chía", "Zipaquirá", "Facatativá", "Mosquera", "Madrid"]
+    },
+    {
+      "id": "risaralda",
+      "name": "Risaralda",
+      "municipalities": ["Pereira", "Dosquebradas", "Santa Rosa de Cabal"]
+    }
+  ],
+  "featuredCompanies": [
+    {
+      "id": "emp_1",
+      "name": "Recicladora Metropolitana Bogotá S.A.S",
+      "department": "Bogotá D.C.",
+      "municipality": "Bogotá D.C.",
+      "address": "Carrera 68D # 19-42, Parque Industrial Sur",
+      "materials": ["PET", "Cartón", "RAEE", "Metales"],
+      "incentive": "20 Pts/kg + Bono trimestral",
+      "rating": 4.9,
+      "affiliatesCount": 3840,
+      "verified": true,
+      "phone": "+57 (1) 745-8900",
+      "openHours": "Lunes a Sábado: 7:30 AM - 5:30 PM",
+      "badge": "Empresa Líder Certificada"
+    },
+    {
+      "id": "emp_2",
+      "name": "BioVidrio Regeneración Colombia",
+      "department": "Cundinamarca",
+      "municipality": "Soacha",
+      "address": "Autopista Sur km 14, Zona Cazucá",
+      "materials": ["Vidrio", "Envases", "PET"],
+      "incentive": "15 Pts/kg + Canje directo",
+      "rating": 4.8,
+      "affiliatesCount": 1920,
+      "verified": true,
+      "phone": "+57 (1) 840-2345",
+      "openHours": "Lunes a Viernes: 8:00 AM - 5:00 PM",
+      "badge": "Cero Residuos 2026"
+    },
+    {
+      "id": "emp_3",
+      "name": "Antioquia Circular E.S.P.",
+      "department": "Antioquia",
+      "municipality": "Medellín",
+      "address": "Calle 29 # 44-105, Barrio Colombia",
+      "materials": ["PET", "Cartón", "Plásticos Rígidos", "Aluminio"],
+      "incentive": "22 Pts/kg + Puntos dobles en eventos",
+      "rating": 4.9,
+      "affiliatesCount": 4210,
+      "verified": true,
+      "phone": "+57 (4) 448-9102",
+      "openHours": "Lunes a Sábado: 8:00 AM - 6:00 PM",
+      "badge": "Sello Verde Antioquia"
+    },
+    {
+      "id": "emp_4",
+      "name": "TechCycle Colombia RAEE",
+      "department": "Bogotá D.C.",
+      "municipality": "Fontibón",
+      "address": "Zona Franca Calle 13A # 106-25",
+      "materials": ["RAEE", "Cables", "Baterías", "Electrónica"],
+      "incentive": "60 Pts/kg + Certificado de disposición",
+      "rating": 5.0,
+      "affiliatesCount": 2650,
+      "verified": true,
+      "phone": "+57 (1) 518-9920",
+      "openHours": "Lunes a Viernes: 8:00 AM - 4:30 PM",
+      "badge": "Especialista en Tecnología"
+    },
+    {
+      "id": "emp_5",
+      "name": "EcoPuntos Valle del Cauca",
+      "department": "Valle del Cauca",
+      "municipality": "Cali",
+      "address": "Avenida 3N # 48N-12, Barrio San Vicente",
+      "materials": ["PET", "Cartón", "Vidrio", "Aluminio"],
+      "incentive": "18 Pts/kg + Premios locales",
+      "rating": 4.8,
+      "affiliatesCount": 2980,
+      "verified": true,
+      "phone": "+57 (2) 660-3411",
+      "openHours": "Lunes a Sábado: 8:00 AM - 5:30 PM",
+      "badge": "Alianza CVC Sostenible"
+    },
+    {
+      "id": "emp_6",
+      "name": "Caribe Verde Economía Circular",
+      "department": "Atlántico",
+      "municipality": "Barranquilla",
+      "address": "Vía 40 # 73-290, Corredor Industrial",
+      "materials": ["PET Marino", "Plásticos HDPE", "Cartón", "Latas"],
+      "incentive": "25 Pts/kg en campaña Costas Limpias",
+      "rating": 4.9,
+      "affiliatesCount": 1840,
+      "verified": true,
+      "phone": "+57 (5) 368-7744",
+      "openHours": "Lunes a Viernes: 7:00 AM - 4:00 PM",
+      "badge": "Iniciativa Costas Limpias"
+    },
+    {
+      "id": "emp_7",
+      "name": "Santander Limpio & Verde",
+      "department": "Santander",
+      "municipality": "Bucaramanga",
+      "address": "Carrera 15 # 22-54, Centro",
+      "materials": ["Cartón", "PET", "Vidrio"],
+      "incentive": "19 Pts/kg + Talleres gratuitos",
+      "rating": 4.7,
+      "affiliatesCount": 1340,
+      "verified": true,
+      "phone": "+57 (7) 634-1122",
+      "openHours": "Lunes a Sábado: 8:00 AM - 5:00 PM",
+      "badge": "Cooperativa Comunitaria"
+    },
+    {
+      "id": "emp_8",
+      "name": "Eje Cafetero Circular E.S.P.",
+      "department": "Risaralda",
+      "municipality": "Pereira",
+      "address": "Variante La Romelia - El Pollo km 3",
+      "materials": ["PET", "Cartón", "Vidrio", "Sacos de Café"],
+      "incentive": "20 Pts/kg + Café orgánico",
+      "rating": 4.9,
+      "affiliatesCount": 1620,
+      "verified": true,
+      "phone": "+57 (6) 329-8800",
+      "openHours": "Lunes a Sábado: 8:00 AM - 5:00 PM",
+      "badge": "Agro-Circular Certificada"
+    }
+  ],
+  "upcomingEvents": [
+    {
+      "id": "evt_1",
+      "title": "Gran Reciclatón Bogotá Capital 2026",
+      "enterprise": "Recicladora Metropolitana Bogotá",
+      "city": "Bogotá D.C.",
+      "location": "Plaza de los Artesanos & Parque Simón Bolívar",
+      "date": "18 de Octubre, 2026",
+      "multiplier": "2X Puntos",
+      "highlight": "Entrega más de 15 kg de PET y recibe 500 Pts de bono inmediato.",
+      "category": "Jornada Masiva"
+    },
+    {
+      "id": "evt_2",
+      "title": "Reto RAEE Antioquia: Despeja tu Casa",
+      "enterprise": "Antioquia Circular E.S.P.",
+      "city": "Medellín",
+      "location": "Plaza Mayor & Estaciones Metro seleccionadas",
+      "date": "25 de Octubre, 2026",
+      "multiplier": "3X Puntos RAEE",
+      "highlight": "Recibe hasta 180 Pts por kg en aparatos electrónicos en desuso.",
+      "category": "Tecnología & RAEE"
+    },
+    {
+      "id": "evt_3",
+      "title": "Cali Respira: Torneo Barrial de Reciclaje",
+      "enterprise": "EcoPuntos Valle del Cauca",
+      "city": "Cali",
+      "location": "Parque Panamericano (Las Banderas)",
+      "date": "2 de Noviembre, 2026",
+      "multiplier": "Premios Colectivos",
+      "highlight": "Los conjuntos y barrios con más kg acumulados reciben kits comunitarios.",
+      "category": "Competencia Vecinal"
+    },
+    {
+      "id": "evt_4",
+      "title": "Costas Limpias Barranquilla & Malecón",
+      "enterprise": "Caribe Verde",
+      "city": "Barranquilla",
+      "location": "Gran Malecón del Río",
+      "date": "15 de Noviembre, 2026",
+      "multiplier": "Bono Especial",
+      "highlight": "Recolección de plásticos ribereños con canje directo de bicicletas urbanas.",
+      "category": "Impacto Ambiental"
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "t1",
+      "name": "Carolina Morales",
+      "city": "Bogotá D.C. · Usaquén",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
+      "role": "Ama de casa y líder comunitaria",
+      "quote": "En mi conjunto juntamos las cajas de domicilios y botellas PET. En dos meses acumulé 1.400 EcoPuntos con la Recicladora Metropolitana y canjeé una freidora de aire digital. ¡Todo llegó sin costo!",
+      "pointsEarned": "1.420 EcoPuntos",
+      "rewardReceived": "Freidora de Aire Digital 4.5L"
+    },
+    {
+      "id": "t2",
+      "name": "Julián David Cárdenas",
+      "city": "Medellín · El Poblado",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+      "role": "Desarrollador de Software",
+      "quote": "Teníamos monitores y cables viejos en la oficina que nadie usaba. Los entregamos a la empresa aliada en Itagüí y acreditamos puntos para todo el equipo. Canjeamos termos y accesorios.",
+      "pointsEarned": "3.890 EcoPuntos",
+      "rewardReceived": "Monitor Reacondicionado + 4 Termos"
+    },
+    {
+      "id": "t3",
+      "name": "Valentina Quintero",
+      "city": "Cali · San Fernando",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+      "role": "Estudiante universitaria",
+      "quote": "Lo que más me gusta es la red social: comparto fotos de mis entregas, veo los eventos del fin de semana y compito con mis amigos en el ranking de mi comuna. Es adictivo hacer el bien.",
+      "pointsEarned": "890 EcoPuntos",
+      "rewardReceived": "Plancha Cerámica Iónica"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "¿Tiene algún costo registrarme o pertenecer a Socialgea?",
+      "a": "No, es 100% gratuito. Socialgea es una red social financiada por empresas recicladoras e industrias que compran materia prima secundaria para cerrar el ciclo de la economía circular en Colombia."
+    },
+    {
+      "q": "¿Por qué es obligatorio suscribirme a una empresa de mi localidad?",
+      "a": "Porque el reciclaje es físico y territorial. Al suscribirte a una empresa o centro de acopio certificado en tu departamento y municipio, sabes con exactitud dónde entregar o solicitar recolección, y ellos certifican en báscula oficial el peso exacto para cargarte los EcoPuntos al instante."
+    },
+    {
+      "q": "¿Cómo se calculan y entregan los EcoPuntos?",
+      "a": "Cada material tiene una tasa transparente por kilo (ej. 20 Pts/kg de PET, 60 Pts/kg de RAEE). Cuando entregas el material en tu centro afiliado, el operador escanea tu código de usuario en Socialgea y tus puntos aparecen en tiempo real en tu billetera de la red social."
+    },
+    {
+      "q": "¿Cómo se canjean los premios y cuánto tarda la entrega?",
+      "a": "Cuando alcanzas los puntos requeridos para el producto deseado en el catálogo, presionas 'Canjear premio' y generas tu comprobante oficial CANJE-XXXXXX. Puedes retirarlo gratis en el centro de acopio afiliado o solicitar envío asegurado a tu domicilio en cualquier ciudad de Colombia (2 a 4 días hábiles)."
+    },
+    {
+      "q": "¿Puedo participar en los eventos y retos aunque sea nuevo?",
+      "a": "¡Claro que sí! Desde el primer día puedes unirte a reciclatones comunitarias, retos de empresas y jornadas con multiplicador de puntos 2X o 3X para subir de nivel rápidamente."
+    },
+    {
+      "q": "¿Puedo transferir o donar mis puntos a amigos o causas ecológicas?",
+      "a": "Sí, la plataforma cuenta con transferencias de EcoPuntos entre amigos de la red social y donaciones a fundaciones protectoras de fauna y páramos colombianos."
+    }
+  ]
+}

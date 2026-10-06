@@ -351,6 +351,15 @@
                 <span>Configuración y privacidad</span>
               </button>
 
+              <RouterLink
+                to="/landing"
+                @click="showDropdown = false"
+                class="w-full px-4 py-2.5 text-sm font-semibold text-emerald-800 hover:bg-emerald-50 flex items-center gap-3 text-left"
+              >
+                <Compass class="w-5 h-5 text-emerald-700" />
+                <span>Landing de Socialgea</span>
+              </RouterLink>
+
               <div class="my-1.5 border-t border-slate-100" />
 
               <button
@@ -403,7 +412,8 @@ import {
   Menu,
   LogOut,
   X,
-  Settings
+  Settings,
+  Compass
 } from 'lucide-vue-next';
 import { useFeedStore } from '@/context/social/pages/feed/store/feedStore';
 import { useNotificationStore } from '@/context/social/pages/notifications/store/notificationStore';
