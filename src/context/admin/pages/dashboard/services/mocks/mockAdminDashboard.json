@@ -1,0 +1,85 @@
+{
+  "summary": {
+    "totalTonnesRecycled": 412.8,
+    "tonnesMonthlyDelta": "+14.6%",
+    "totalEcoPointsIssued": 8256000,
+    "ecoPointsMonthlyDelta": "+18.2%",
+    "totalEcoPointsRedeemed": 5912400,
+    "ecoPointsRedeemedDelta": "+11.4%",
+    "activeUsers": 14820,
+    "usersMonthlyDelta": "+9.8%",
+    "verifiedCompanies": 84,
+    "pendingReports": 7
+  },
+  "materialsRecycledKg": [
+    { "id": "pet", "name": "Plástico PET Transparente", "kg": 164200, "percentage": 39.8, "pointsIssued": 3284000, "color": "#047857" },
+    { "id": "carton", "name": "Cartón Corrugado & Papel", "kg": 132400, "percentage": 32.1, "pointsIssued": 1324000, "color": "#b45309" },
+    { "id": "raee", "name": "Chatarra Electrónica RAEE", "kg": 48600, "percentage": 11.8, "pointsIssued": 1701000, "color": "#0369a1" },
+    { "id": "vidrio", "name": "Vidrio Reutilizable", "kg": 42100, "percentage": 10.2, "pointsIssued": 336800, "color": "#0f766e" },
+    { "id": "aluminio", "name": "Aluminio & Latas", "kg": 25500, "percentage": 6.1, "pointsIssued": 1606200, "color": "#6d28d9" }
+  ],
+  "monthlyTrend": [
+    { "month": "May", "tonnes": 52.4, "pointsIssued": 1048000, "pointsRedeemed": 720000 },
+    { "month": "Jun", "tonnes": 58.1, "pointsIssued": 1162000, "pointsRedeemed": 810000 },
+    { "month": "Jul", "tonnes": 63.8, "pointsIssued": 1276000, "pointsRedeemed": 940000 },
+    { "month": "Ago", "tonnes": 71.2, "pointsIssued": 1424000, "pointsRedeemed": 1050000 },
+    { "month": "Sep", "tonnes": 79.5, "pointsIssued": 1590000, "pointsRedeemed": 1180000 },
+    { "month": "Oct", "tonnes": 87.8, "pointsIssued": 1756000, "pointsRedeemed": 1212400 }
+  ],
+  "topMunicipalities": [
+    { "rank": 1, "city": "Bogotá D.C.", "department": "Cundinamarca", "tonnes": 142.6, "users": 5820, "companies": 28 },
+    { "rank": 2, "city": "Medellín", "department": "Antioquia", "tonnes": 108.3, "users": 3940, "companies": 22 },
+    { "rank": 3, "city": "Cali", "department": "Valle del Cauca", "tonnes": 74.9, "users": 2310, "companies": 14 },
+    { "rank": 4, "city": "Bucaramanga", "department": "Santander", "tonnes": 46.2, "users": 1520, "companies": 11 },
+    { "rank": 5, "city": "Barranquilla", "department": "Atlántico", "tonnes": 40.8, "users": 1230, "companies": 9 }
+  ],
+  "recentActivities": [
+    {
+      "id": "ACT-1092",
+      "type": "weighing",
+      "user": "Carlos Méndez",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
+      "company": "Recicladora Metropolitana",
+      "city": "Bogotá D.C.",
+      "detail": "18.5 kg PET Transparente",
+      "points": "+370 Pts",
+      "timestamp": "Hace 4 min",
+      "status": "verified"
+    },
+    {
+      "id": "ACT-1091",
+      "type": "redemption",
+      "user": "María Paula Restrepo",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80",
+      "company": "Almacén Central Socialgea",
+      "city": "Medellín",
+      "detail": "Freidora de Aire 4.5L Digital",
+      "voucher": "CANJE-MED-8419",
+      "points": "-1.850 Pts",
+      "timestamp": "Hace 12 min",
+      "status": "processing"
+    },
+    {
+      "id": "ACT-1090",
+      "type": "report",
+      "user": "Sistema Automático",
+      "avatar": null,
+      "company": null,
+      "city": "Cali",
+      "detail": "Reporte acumulado en publicación #POST-9281 por posible pesaje adulterado",
+      "timestamp": "Hace 25 min",
+      "status": "pending_review"
+    },
+    {
+      "id": "ACT-1089",
+      "type": "company_registered",
+      "user": "EcoCartón del Valle S.A.S",
+      "avatar": "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=150&q=80",
+      "company": "EcoCartón del Valle",
+      "city": "Palmira, Valle",
+      "detail": "Nueva empresa solicitó validación de báscula #VAL-092",
+      "timestamp": "Hace 1 hora",
+      "status": "pending_validation"
+    }
+  ]
+}

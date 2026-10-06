@@ -68,6 +68,7 @@ export const EVENTS = {
   // EcoPoints & Rewards
   POINTS_UPDATED: 'points:updated',
   REWARD_REDEEMED: 'reward:redeemed',
+  REWARDS_SYNCED: 'rewards:synced',
 
   // Companies & Subscriptions
   SUBSCRIPTION_UPDATED: 'subscription:updated',

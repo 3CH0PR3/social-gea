@@ -61,23 +61,28 @@
             </div>
           </div>
 
-          <!-- 3 Thumbnail Buttons (Amazon gallery style) -->
-          <div class="grid grid-cols-3 gap-2">
+          <!-- Thumbnail Buttons (Amazon gallery style: 3 o 4 cuadritos interactivos) -->
+          <div
+            :class="[
+              'grid gap-2',
+              productImages.length >= 4 ? 'grid-cols-4' : 'grid-cols-3'
+            ]"
+          >
             <button
               v-for="(imgUrl, idx) in productImages"
               :key="idx"
               type="button"
               @click="activeImageIdx = idx"
               :class="[
-                'relative h-18 rounded-xl overflow-hidden border-2 transition-all cursor-pointer bg-slate-100',
+                'relative h-18 rounded-md overflow-hidden border-2 transition-all cursor-pointer bg-slate-100',
                 activeImageIdx === idx
                   ? 'border-amber-500 ring-2 ring-amber-400/50 scale-[1.02] shadow-xs'
-                  : 'border-slate-200 opacity-75'
+                  : 'border-slate-200 opacity-75 hover:opacity-100'
               ]"
             >
               <SafeImage
                 :src="imgUrl"
-                :alt="`Vista ${idx + 1}`"
+                :alt="`Miniatura ${idx + 1}`"
                 imgClass="w-full h-full object-cover"
                 containerClass="w-full h-full"
               />
@@ -227,14 +232,19 @@
                   </div>
                 </div>
 
-                <div class="grid grid-cols-3 gap-2.5">
+                <div
+                  :class="[
+                    'grid gap-2.5',
+                    productImages.length >= 4 ? 'grid-cols-4' : 'grid-cols-3'
+                  ]"
+                >
                   <button
                     v-for="(imgUrl, idx) in productImages"
                     :key="idx"
                     type="button"
                     @click="activeImageIdx = idx"
                     :class="[
-                      'relative h-20 rounded-xl overflow-hidden border-2 transition-all cursor-pointer bg-slate-100',
+                      'relative h-20 rounded-md overflow-hidden border-2 transition-all cursor-pointer bg-slate-100',
                       activeImageIdx === idx
                         ? 'border-amber-500 ring-2 ring-amber-400/50 scale-[1.02] shadow-xs'
                         : 'border-slate-200 hover:border-slate-300 opacity-75 hover:opacity-100'
@@ -242,7 +252,7 @@
                   >
                     <SafeImage
                       :src="imgUrl"
-                      :alt="`Vista ${idx + 1}`"
+                      :alt="`Miniatura ${idx + 1}`"
                       imgClass="w-full h-full object-cover"
                       containerClass="w-full h-full"
                     />
@@ -401,9 +411,12 @@ watch(
 const productImages = computed(() => {
   if (!props.reward) return [];
   if (Array.isArray(props.reward.images) && props.reward.images.length > 0) {
-    return props.reward.images.slice(0, 3);
+    return props.reward.images.slice(0, 4);
   }
-  return [props.reward.image, props.reward.image, props.reward.image];
+  if (props.reward.image) {
+    return [props.reward.image];
+  }
+  return [];
 });
 
 const activeImageUrl = computed(() => {

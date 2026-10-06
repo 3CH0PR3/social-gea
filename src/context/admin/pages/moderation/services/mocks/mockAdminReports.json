@@ -1,0 +1,110 @@
+[
+  {
+    "id": "REP-901",
+    "targetType": "post",
+    "targetId": "POST-4412",
+    "reportedUser": {
+      "id": "USR-8821",
+      "name": "Alejandro Gómez",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
+      "city": "Bogotá D.C.",
+      "role": "Reciclador Bronce"
+    },
+    "reporter": {
+      "id": "USR-1022",
+      "name": "Valentina Duque"
+    },
+    "reason": "Fraude de pesaje / Falsificación",
+    "description": "Publicó una foto de sacos de chatarra bajada de internet afirmando que le dieron 2.000 puntos en báscula.",
+    "contentPreview": {
+      "text": "Miren los 150 kg de cobre que entregué hoy en la recicladora, ¡me dieron 2.000 EcoPuntos de una! 💰🚲",
+      "image": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=400&q=80",
+      "createdAt": "Hace 2 horas"
+    },
+    "reportsCount": 5,
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2026-10-06 08:30"
+  },
+  {
+    "id": "REP-902",
+    "targetType": "comment",
+    "targetId": "COM-1102",
+    "reportedUser": {
+      "id": "USR-7719",
+      "name": "Julián Sarmiento",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
+      "city": "Medellín",
+      "role": "Usuario"
+    },
+    "reporter": {
+      "id": "USR-3312",
+      "name": "Carolina Morales"
+    },
+    "reason": "Lenguaje ofensivo / Agresión verbal",
+    "description": "Insultó repetidamente a una usuaria que compartía fotos de su huerta comunitaria.",
+    "contentPreview": {
+      "text": "Esa huerta se ve asquerosa, no sirves para sembrar nada, dedícate a otra cosa perdedora.",
+      "parentPostId": "POST-3911",
+      "createdAt": "Ayer 19:40"
+    },
+    "reportsCount": 3,
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-10-05 21:10"
+  },
+  {
+    "id": "REP-903",
+    "targetType": "story",
+    "targetId": "STY-0921",
+    "reportedUser": {
+      "id": "USR-5501",
+      "name": "Camilo Torres",
+      "avatar": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=150&q=80",
+      "city": "Cali",
+      "role": "Reciclador Plata"
+    },
+    "reporter": {
+      "id": "USR-9901",
+      "name": "Felipe Caicedo"
+    },
+    "reason": "Contenido spam / Venta no autorizada",
+    "description": "Historia promocionando esquemas de apuestas y criptomonedas no relacionados con reciclaje.",
+    "contentPreview": {
+      "text": "Gana 10 millones en 2 días invirtiendo en este enlace, escríbanme al DM ya mismo.",
+      "image": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=400&q=80",
+      "createdAt": "Hace 5 horas"
+    },
+    "reportsCount": 7,
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2026-10-06 05:15"
+  },
+  {
+    "id": "REP-904",
+    "targetType": "post",
+    "targetId": "POST-2109",
+    "reportedUser": {
+      "id": "USR-4410",
+      "name": "Daniela Ospina",
+      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80",
+      "city": "Bucaramanga",
+      "role": "Reciclador Oro"
+    },
+    "reporter": {
+      "id": "USR-2018",
+      "name": "Andrés Silva"
+    },
+    "reason": "Spam repetitivo",
+    "description": "Publicó 8 veces la misma foto en menos de 10 minutos para subir en el ranking.",
+    "contentPreview": {
+      "text": "Reciclando en el barrio Cabecera con toda la energía!",
+      "image": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=400&q=80",
+      "createdAt": "Hace 1 día"
+    },
+    "reportsCount": 2,
+    "status": "resolved_dismissed",
+    "priority": "low",
+    "createdAt": "2026-10-04 14:00"
+  }
+]

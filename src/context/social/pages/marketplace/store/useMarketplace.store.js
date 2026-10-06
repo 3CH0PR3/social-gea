@@ -1,13 +1,13 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { MOCK_MARKETPLACE_ITEMS } from '../data/mockMarketplace';
+import { RewardsStorageService } from '@/shared/services/rewardsStorage.service';
 import { useEventBus, EVENTS } from '@/shared/composables/useEventBus';
 
 export const useMarketplaceStore = defineStore('social.marketplace', () => {
   const eventBus = useEventBus();
 
   // State
-  const items = ref([...MOCK_MARKETPLACE_ITEMS]);
+  const items = ref(RewardsStorageService.list());
   const searchQuery = ref('');
   const selectedCategory = ref('');
   const selectedPointsRange = ref('');
@@ -15,6 +15,15 @@ export const useMarketplaceStore = defineStore('social.marketplace', () => {
   const userPoints = ref(1250);
   const isLoading = ref(false);
   const errorMsg = ref(null);
+
+  // Escuchar sincronización en tiempo real desde el admin o cualquier otra vista
+  eventBus.on(EVENTS.REWARDS_SYNCED, (payload) => {
+    if (payload?.items && Array.isArray(payload.items)) {
+      items.value = payload.items;
+    } else {
+      items.value = RewardsStorageService.list();
+    }
+  });
 
   const userClassifications = ref([
     {
@@ -232,5 +241,8 @@ export const useMarketplaceStore = defineStore('social.marketplace', () => {
     openRedeemModal,
     closeRedeemModal,
     redeemActiveItem,
+    reloadRewards: () => {
+      items.value = RewardsStorageService.list();
+    },
   };
 });

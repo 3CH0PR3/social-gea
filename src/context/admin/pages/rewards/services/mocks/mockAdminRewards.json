@@ -1,0 +1,130 @@
+[
+  {
+    "id": "REW-001",
+    "title": "Freidora de Aire 4.5L Digital Eco-Inverter",
+    "description": "Freidora de aire de bajo consumo eléctrico A+++. Capacidad de 4.5 litros con panel táctil y 8 programas automáticos.",
+    "category": "Electrodomésticos",
+    "pointsPrice": 1850,
+    "priceCOP": 277500,
+    "recyclingEquivalent": "Equivale a 92.5 kg de PET",
+    "stock": 14,
+    "status": "active",
+    "supplier": "Socialgea Central & ElectroHogar Colombia",
+    "image": "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80"
+    ],
+    "totalRedeemed": 48,
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": "REW-002",
+    "title": "Bicicleta Urbana Rin 28 Marco Restaurado",
+    "description": "Bicicleta de movilidad sostenible ensamblada con marco recuperado y pulido al horno. 6 velocidades Shimano y sillín ergonómico.",
+    "category": "Movilidad",
+    "pointsPrice": 3200,
+    "priceCOP": 480000,
+    "recyclingEquivalent": "Equivale a 160 kg de PET",
+    "stock": 5,
+    "status": "active",
+    "supplier": "BiciCircular Medellín",
+    "image": "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=600&q=80"
+    ],
+    "totalRedeemed": 19,
+    "createdAt": "2026-01-20"
+  },
+  {
+    "id": "REW-003",
+    "title": "Smartwatch EcoTrack Ritmo Cardíaco & GPS",
+    "description": "Reloj inteligente resistente al agua con correa de silicón vegetal reciclado. Mide huella de carbono y pasos diarios.",
+    "category": "Tecnología",
+    "pointsPrice": 1400,
+    "priceCOP": 210000,
+    "recyclingEquivalent": "Equivale a 70 kg de PET",
+    "stock": 22,
+    "status": "active",
+    "supplier": "TechCycle Colombia",
+    "image": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80"
+    ],
+    "totalRedeemed": 63,
+    "createdAt": "2026-02-01"
+  },
+  {
+    "id": "REW-004",
+    "title": "Plancha de Cabello Cerámica Iónica 450°F",
+    "description": "Plancha alisadora con placas de turmalina iónica anti-frizz. Control de temperatura digital y apagado automático.",
+    "category": "Hogar",
+    "pointsPrice": 950,
+    "priceCOP": 142500,
+    "recyclingEquivalent": "Equivale a 47.5 kg de PET",
+    "stock": 18,
+    "status": "active",
+    "supplier": "ElectroHogar Colombia",
+    "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80"
+    ],
+    "totalRedeemed": 84,
+    "createdAt": "2026-02-05"
+  },
+  {
+    "id": "REW-005",
+    "title": "Audífonos Inalámbricos Bluetooth Plástico Marino",
+    "description": "Auriculares TWS con cancelación activa de ruido fabricados con 65% de plásticos recuperados de costas del Caribe.",
+    "category": "Tecnología",
+    "pointsPrice": 1100,
+    "priceCOP": 165000,
+    "recyclingEquivalent": "Equivale a 55 kg de PET",
+    "stock": 0,
+    "status": "out_of_stock",
+    "supplier": "OcéanoLimpio S.A.S",
+    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=600&q=80"
+    ],
+    "totalRedeemed": 51,
+    "createdAt": "2026-02-10"
+  },
+  {
+    "id": "REW-006",
+    "title": "Compostera Doméstica Giratoria 50 Litros",
+    "description": "Compostera de doble compartimento para convertir residuos orgánicos en abono fértil sin malos olores.",
+    "category": "Hogar",
+    "pointsPrice": 1650,
+    "priceCOP": 247500,
+    "recyclingEquivalent": "Equivale a 82.5 kg de PET",
+    "stock": 7,
+    "status": "active",
+    "supplier": "BioSiembra Bogotá",
+    "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=600&q=80"
+    ],
+    "totalRedeemed": 27,
+    "createdAt": "2026-02-14"
+  },
+  {
+    "id": "REW-007",
+    "title": "Parlante Bluetooth con Celda Solar Incorporada",
+    "description": "Altavoz resistente a salpicaduras IPX5 con panel solar integrado y batería de 20 horas continuas.",
+    "category": "Tecnología",
+    "pointsPrice": 1250,
+    "priceCOP": 187500,
+    "recyclingEquivalent": "Equivale a 62.5 kg de PET",
+    "stock": 11,
+    "status": "draft",
+    "supplier": "SolarLife Colombia",
+    "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=600&q=80"
+    ],
+    "totalRedeemed": 0,
+    "createdAt": "2026-02-28"
+  }
+]

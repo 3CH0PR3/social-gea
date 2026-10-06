@@ -20,7 +20,7 @@
           <!-- Lead Paragraph -->
           <p class="sg-landing-hero__lead">
             Únete a la primera red social comunitaria donde separar PET, cartón, RAEE y vidrio te acredita
-            <strong class="text-slate-900 font-extrabold">EcoPuntos</strong> verificados por empresas recicladoras de tu municipio.
+            <strong class="text-emerald-800 font-bold">EcoPuntos</strong> verificados por empresas recicladoras de tu municipio.
             Canjéalos sin costo por freidoras de aire, neveras, bicicletas y herramientas de tecnología.
           </p>
 
@@ -44,7 +44,7 @@
           </div>
 
           <!-- Trust Badges -->
-          <div class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-xs sm:text-sm text-slate-700 font-semibold">
+          <div class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-xs sm:text-sm text-slate-600 font-medium">
             <div class="flex items-center gap-1.5">
               <ShieldCheck class="w-4 h-4 text-emerald-700 shrink-0" />
               <span>Pesaje verificado en báscula</span>
@@ -134,7 +134,7 @@
                 </span>
                 <span class="text-[11px] text-slate-500 font-semibold">Ayer 15:40</span>
               </div>
-              <div class="text-xs sm:text-sm text-slate-800 space-y-1">
+              <div class="text-xs sm:text-sm text-slate-600 space-y-1">
                 <div class="flex justify-between">
                   <span>18.5 kg PET Transparente</span>
                   <span class="font-bold text-emerald-800">+370 Pts</span>

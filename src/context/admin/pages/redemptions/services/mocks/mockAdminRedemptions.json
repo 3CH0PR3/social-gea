@@ -1,0 +1,62 @@
+[
+  {
+    "voucherCode": "CANJE-BOG-94821",
+    "userName": "Carolina Morales",
+    "userEmail": "carolina.morales@gmail.com",
+    "userCity": "Bogotá D.C.",
+    "rewardTitle": "Freidora de Aire 4.5L Digital Eco-Inverter",
+    "rewardImage": "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=150&q=80",
+    "pointsDeducted": 1850,
+    "deliveryType": "pickup_center",
+    "pickupCenter": "Recicladora Metropolitana de Bogotá S.A.S",
+    "carrierGuide": null,
+    "status": "ready_for_pickup",
+    "createdAt": "2026-10-05 15:42",
+    "notes": "Usuario presentará cédula de ciudadanía original en ventanilla 2."
+  },
+  {
+    "voucherCode": "CANJE-MED-84192",
+    "userName": "Mateo Saldarriaga",
+    "userEmail": "mateo.saldarriaga@outlook.com",
+    "userCity": "Medellín, Antioquia",
+    "rewardTitle": "Smartwatch EcoTrack Ritmo Cardíaco & GPS",
+    "rewardImage": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=150&q=80",
+    "pointsDeducted": 1400,
+    "deliveryType": "home_delivery",
+    "pickupCenter": null,
+    "carrierGuide": "ENV-CO-99218491 (Coordinadora)",
+    "status": "shipped",
+    "createdAt": "2026-10-04 11:20",
+    "notes": "Despachado desde bodega central Guayabal Medellín."
+  },
+  {
+    "voucherCode": "CANJE-CALI-10294",
+    "userName": "Johana Caicedo",
+    "userEmail": "johana.caicedo@univalle.edu.co",
+    "userCity": "Cali, Valle del Cauca",
+    "rewardTitle": "Plancha de Cabello Cerámica Iónica 450°F",
+    "rewardImage": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=150&q=80",
+    "pointsDeducted": 950,
+    "deliveryType": "pickup_center",
+    "pickupCenter": "EcoValle Recuperaciones Ambientales",
+    "carrierGuide": null,
+    "status": "delivered",
+    "createdAt": "2026-10-02 09:15",
+    "notes": "Entregado satisfactoriamente. Firma digital registrada."
+  },
+  {
+    "voucherCode": "CANJE-BGA-33910",
+    "userName": "Fabián Vargas",
+    "userEmail": "fabian.vargas@uis.edu.co",
+    "userCity": "Bucaramanga, Santander",
+    "rewardTitle": "Bicicleta Urbana Rin 28 Marco Restaurado",
+    "rewardImage": "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=150&q=80",
+    "pointsDeducted": 3200,
+    "deliveryType": "home_delivery",
+    "pickupCenter": null,
+    "carrierGuide": "ENV-SER-449102 (Servientrega)",
+    "status": "processing",
+    "createdAt": "2026-10-06 07:10",
+    "notes": "En embalaje con protección de burbuja de plástico recuperado."
+  }
+]

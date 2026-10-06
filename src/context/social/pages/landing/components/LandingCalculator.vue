@@ -84,7 +84,7 @@
 
             <!-- Annual Accumulation -->
             <div class="p-3.5 rounded-md bg-white border border-slate-200 flex items-center justify-between text-xs sm:text-sm">
-              <span class="text-slate-700 font-semibold">Acumulación en 1 año (12 meses):</span>
+              <span class="text-slate-600 font-medium">Acumulación en 1 año (12 meses):</span>
               <strong class="font-bold text-slate-900 sg-landing-num text-xs sm:text-sm">
                 {{ monthlyPoints * 12 }} Pts (~$ {{ formatCop(estimatedCop * 12) }} COP)
               </strong>
@@ -92,7 +92,7 @@
 
             <!-- Recommended Rewards you can claim -->
             <div class="space-y-2.5">
-              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <Sparkles class="w-4 h-4 text-amber-600" />
                 Premios a tu alcance con este ritmo:
               </h4>

@@ -11,9 +11,11 @@ import { empresaRoutes } from '@/context/social/pages/empresas/router/empresaRou
 import { marketplaceRoutes } from '@/context/social/pages/marketplace/router/marketplaceRoutes';
 import { authRoutes } from '@/context/social/auth/router/auth.routes';
 import { landingRoutes } from '@/context/social/pages/landing/router/landingRoutes';
+import { adminRoutes } from '@/context/admin/router/admin.routes';
 
 const routes = [
   ...landingRoutes,
+  ...adminRoutes,
   {
     path: '/auth',
     component: AuthLayout,

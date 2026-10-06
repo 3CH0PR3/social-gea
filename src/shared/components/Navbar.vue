@@ -360,6 +360,15 @@
                 <span>Landing de Socialgea</span>
               </RouterLink>
 
+              <RouterLink
+                to="/admin"
+                @click="showDropdown = false"
+                class="w-full px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 flex items-center gap-3 text-left"
+              >
+                <ShieldCheck class="w-5 h-5 text-emerald-700" />
+                <span>Panel de Administración</span>
+              </RouterLink>
+
               <div class="my-1.5 border-t border-slate-100" />
 
               <button
@@ -413,7 +422,8 @@ import {
   LogOut,
   X,
   Settings,
-  Compass
+  Compass,
+  ShieldCheck
 } from 'lucide-vue-next';
 import { useFeedStore } from '@/context/social/pages/feed/store/feedStore';
 import { useNotificationStore } from '@/context/social/pages/notifications/store/notificationStore';

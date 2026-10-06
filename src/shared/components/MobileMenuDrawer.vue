@@ -249,6 +249,23 @@
               <span class="text-[10px] text-slate-400 block truncate">Publicaciones globales</span>
             </div>
           </button>
+
+          <!-- Consola Admin -->
+          <button
+            type="button"
+            @click="handleNavigate('/admin/dashboard')"
+            class="p-3 bg-white rounded-2xl border border-slate-200/80 shadow-2xs hover:border-slate-300 active:scale-[0.98] transition-all flex flex-col justify-between h-22 text-left cursor-pointer group col-span-2 sm:col-span-1"
+          >
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-800 text-white flex items-center justify-center shadow-xs">
+              <ShieldCheck class="w-4.5 h-4.5" />
+            </div>
+            <div>
+              <span class="text-xs font-bold text-slate-800 group-hover:text-emerald-700 block truncate">
+                Consola Admin
+              </span>
+              <span class="text-[10px] text-emerald-700 font-semibold block truncate">Catálogo, métricas & moderación</span>
+            </div>
+          </button>
         </div>
 
         <!-- 3. Bottom Section: Configuración y Privacidad Accordion (Like Image 1) -->
@@ -368,7 +385,8 @@ import {
   HelpCircle,
   LogOut,
   X,
-  Compass
+  Compass,
+  ShieldCheck
 } from 'lucide-vue-next';
 import { useBodyScrollLock } from '@/shared/composables/useBodyScrollLock';
 import { useFeedStore } from '@/context/social/pages/feed/store/feedStore';
