@@ -1,28 +1,28 @@
 <template>
-  <div class="sg-admin-card p-4 sm:p-5 flex items-start justify-between">
-    <div>
-      <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+  <div class="sg-admin-card p-3 sm:p-5 flex items-start justify-between gap-2">
+    <div class="min-w-0 flex-1">
+      <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500 block truncate">
         {{ label }}
       </span>
-      <h3 class="text-xl sm:text-2xl font-black text-slate-900 mt-1 tabular-nums">
+      <h3 class="text-base sm:text-2xl font-black text-slate-900 mt-0.5 sm:mt-1 tabular-nums truncate">
         {{ value }}
       </h3>
-      <div v-if="delta" class="flex items-center gap-1.5 mt-2 text-xs font-bold">
+      <div v-if="delta" class="flex items-center gap-1 mt-1.5 sm:mt-2 text-[10px] sm:text-xs font-bold">
         <span
           :class="isNegative ? 'text-red-700 bg-red-50' : 'text-emerald-800 bg-emerald-50'"
-          class="px-1.5 py-0.5 rounded"
+          class="px-1.5 py-0.2 rounded"
         >
           {{ delta }}
         </span>
-        <span class="text-slate-400 font-medium">vs mes anterior</span>
+        <span class="text-slate-400 font-medium hidden sm:inline">vs mes anterior</span>
       </div>
     </div>
 
     <div
       :class="iconBg || 'bg-slate-100 text-slate-700'"
-      class="w-10 h-10 rounded-md flex items-center justify-center shrink-0"
+      class="w-8 h-8 sm:w-10 sm:h-10 rounded-md flex items-center justify-center shrink-0"
     >
-      <component :is="icon" class="w-5 h-5" />
+      <component :is="icon" class="w-4 h-4 sm:w-5 sm:h-5" />
     </div>
   </div>
 </template>

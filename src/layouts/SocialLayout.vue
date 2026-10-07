@@ -74,6 +74,7 @@ const isWideRoute = computed(() => {
     route.path.startsWith('/radar') ||
     route.path.startsWith('/friends') ||
     route.path.startsWith('/marketplace') ||
+    route.path.startsWith('/referrals') ||
     route.path.startsWith('/profiles') ||
     route.path.startsWith('/historys')
   );

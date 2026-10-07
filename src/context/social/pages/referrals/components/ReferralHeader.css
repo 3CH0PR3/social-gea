@@ -1,0 +1,115 @@
+.sg-referral-header {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-default, #e2e8f0);
+  border-radius: var(--radius-md, 0.375rem);
+  box-shadow: var(--shadow-card, 0 1px 0 rgb(15 23 42 / 0.04));
+  padding: 1.25rem;
+}
+
+.sg-referral-header__top {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .sg-referral-header__top {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+
+.sg-referral-header__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--text-strong, #0f172a);
+}
+
+.sg-referral-header__desc {
+  margin: 0.375rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--text-body, #475569);
+  max-width: 38rem;
+}
+
+.sg-referral-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm, 0.25rem);
+  background: var(--primary-50, #ecfdf5);
+  color: var(--primary-700, #047857);
+  margin-bottom: 0.5rem;
+}
+
+.sg-referral-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .sg-referral-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.sg-referral-stat-card {
+  padding: 0.75rem;
+  background: var(--surface-muted, #f8fafc);
+  border: 1px solid var(--border-default, #e2e8f0);
+  border-radius: var(--radius-md, 0.375rem);
+}
+
+.sg-referral-stat-card__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-muted, #64748b);
+  display: block;
+}
+
+.sg-referral-stat-card__val {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-strong, #0f172a);
+  font-variant-numeric: tabular-nums;
+  margin-top: 0.25rem;
+}
+
+.sg-referral-share-box {
+  margin-top: 1rem;
+  padding: 0.875rem 1rem;
+  background: #f0fdf4;
+  border: 1px dashed var(--primary-700, #047857);
+  border-radius: var(--radius-md, 0.375rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .sg-referral-share-box {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.sg-referral-code-chip {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--primary-800, #065f46);
+  background: #ffffff;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--border-default, #e2e8f0);
+  border-radius: var(--radius-sm, 0.25rem);
+  letter-spacing: 0.05em;
+}

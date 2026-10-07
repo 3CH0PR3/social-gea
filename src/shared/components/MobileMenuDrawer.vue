@@ -233,6 +233,23 @@
             </div>
           </button>
 
+          <!-- Referidos y Puntos -->
+          <button
+            type="button"
+            @click="handleNavigate('/referrals')"
+            class="p-3 bg-white rounded-2xl border border-slate-200/80 shadow-2xs hover:border-slate-300 active:scale-[0.98] transition-all flex flex-col justify-between h-22 text-left cursor-pointer group"
+          >
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-700 text-white flex items-center justify-center shadow-xs">
+              <UserPlus class="w-4.5 h-4.5" />
+            </div>
+            <div>
+              <span class="text-xs font-bold text-slate-800 group-hover:text-emerald-700 block truncate">
+                Referidos
+              </span>
+              <span class="text-[10px] text-amber-700 font-semibold block truncate">+150 Pts por amigo</span>
+            </div>
+          </button>
+
           <!-- Feeds principal -->
           <button
             type="button"
@@ -380,6 +397,7 @@ import {
   Bookmark,
   History,
   Gift,
+  UserPlus,
   LayoutDashboard,
   Settings,
   HelpCircle,

@@ -36,6 +36,11 @@ export const useLightboxStore = defineStore('social.lightbox', () => {
     activeIndex.value = (activeIndex.value - 1 + images.value.length) % images.value.length;
   };
 
+  const setIndex = (index) => {
+    if (images.value.length === 0) return;
+    activeIndex.value = Math.max(0, Math.min(index, images.value.length - 1));
+  };
+
   return {
     isOpen,
     images,
@@ -46,5 +51,6 @@ export const useLightboxStore = defineStore('social.lightbox', () => {
     close,
     next,
     prev,
+    setIndex,
   };
 });

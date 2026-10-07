@@ -143,23 +143,33 @@ export const useEmpresasStore = defineStore('social.companies', () => {
     selectedEmpresaForSubscribe.value = null;
   };
 
-  const subscribeToEmpresa = async (empresa, formData = {}) => {
+  const subscribeToEmpresa = async (empresaOrId, formData = {}) => {
     return executeAsync(async () => {
+      const empresa = (typeof empresaOrId === 'object' && empresaOrId !== null)
+        ? empresaOrId
+        : empresas.value.find((e) => e.id === empresaOrId) || empresas.value[0] || {};
+
       const subRecord = {
         id: 'sub_' + Date.now(),
-        empresaId: empresa.id,
-        empresaName: empresa.name,
-        empresaLogo: empresa.logo,
-        empresaLocation: empresa.location,
-        empresaIncentive: empresa.incentive,
+        empresaId: empresa?.id || 'emp_01',
+        empresaName: empresa?.name || 'Empresa de Reciclaje',
+        empresaLogo: empresa?.logo || '',
+        empresaLocation: empresa?.location || '',
+        empresaIncentive: empresa?.incentive || empresa?.incentiveRate || '+20 Pts por kg de PET',
+        subscribedAt: new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'short', day: 'numeric' }),
         date: new Date().toISOString(),
         status: 'activa',
         userRole: formData.userRole || 'Reciclador urbano',
-        materialsOffered: formData.materialsOffered || empresa.materials.slice(0, 2),
+        materialsOffered: formData.materialsOffered || (Array.isArray(empresa?.materials) ? empresa.materials.slice(0, 2) : ['PET Transparente', 'Cartón']),
         collectionMode: formData.collectionMode || 'Entrega en punto físico',
         phone: formData.phone || '',
         notes: formData.notes || '',
         numacro: formData.numacro || '',
+        nuis: formData.nuis || '',
+        address: formData.address || '',
+        userUsage: formData.userUsage || '',
+        userType: formData.userType || '',
+        multiuser: formData.multiuser || '',
         documentType: formData.documentType || 'Cédula de Ciudadanía',
         documentNumber: formData.documentNumber || '',
         neighborhood: formData.neighborhood || '',
@@ -170,7 +180,7 @@ export const useEmpresasStore = defineStore('social.companies', () => {
       subscriptionHistory.value.unshift(subRecord);
       saveSubscriptionToStorage();
 
-      showToast(`¡Te has vinculado exitosamente a ${empresa.name}!`);
+      showToast(`¡Te has vinculado exitosamente a ${subRecord.empresaName}!`);
       eventBus.emit(EVENTS.SUBSCRIPTION_UPDATED, subRecord);
       closeSubscribeModal();
       return subRecord;

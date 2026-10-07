@@ -1,43 +1,40 @@
 <template>
-  <div
+  <article
     @click="$emit('click', notification)"
-    :class="[
-      'p-4 flex items-start gap-3.5 hover:bg-slate-50 active:bg-slate-100 transition-colors cursor-pointer select-none',
-      !notification.isRead ? 'bg-emerald-50/40' : 'bg-white'
-    ]"
+    class="sg-notif-card"
+    :class="{ 'sg-notif-card--unread': !notification.isRead }"
   >
-    <div class="relative shrink-0">
+    <div class="sg-notif-card__avatar-wrap">
       <SafeImage
         :src="notification.actorAvatar"
         :alt="notification.actorName"
-        imgClass="w-11 h-11 rounded-full object-cover ring-1 ring-slate-200"
-        containerClass="w-11 h-11 rounded-full"
+        imgClass="sg-notif-card__avatar"
+        containerClass="w-full h-full rounded-full"
       />
-      <span class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-white shadow-xs flex items-center justify-center border border-slate-100">
-        <Heart v-if="notification.type === 'like'" class="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
-        <MessageCircle v-else-if="notification.type === 'comment'" class="w-3.5 h-3.5 text-sky-500 fill-sky-500" />
-        <UserPlus v-else-if="notification.type === 'friend_request'" class="w-3.5 h-3.5 text-emerald-500" />
-        <Radar v-else-if="notification.type === 'radar_match'" class="w-3.5 h-3.5 text-emerald-500 animate-spin" style="animation-duration: 4s;" />
-        <Sparkles v-else class="w-3.5 h-3.5 text-amber-500" />
+      <span class="sg-notif-card__badge">
+        <Heart v-if="notification.type === 'like'" class="w-3 h-3 text-rose-600 fill-rose-600" />
+        <MessageCircle v-else-if="notification.type === 'comment'" class="w-3 h-3 text-sky-600 fill-sky-600" />
+        <UserPlus v-else-if="notification.type === 'friend_request'" class="w-3 h-3 text-emerald-700" />
+        <Sparkles v-else-if="notification.type === 'points'" class="w-3 h-3 text-amber-600 fill-amber-500" />
+        <Gift v-else-if="notification.type === 'redeem'" class="w-3 h-3 text-amber-700" />
+        <Bell v-else class="w-3 h-3 text-slate-600" />
       </span>
     </div>
 
-    <div class="flex-1 min-w-0">
-      <p class="text-xs text-slate-800 leading-snug">
-        <strong class="font-bold text-slate-900">{{ notification.actorName }}</strong>
-        {{ notification.targetPreview }}
+    <div class="sg-notif-card__content">
+      <p class="sg-notif-card__text">
+        <span class="sg-notif-card__actor">{{ notification.actorName }}</span>
+        <span class="sg-notif-card__preview">{{ notification.targetPreview }}</span>
       </p>
-      <span class="text-[11px] text-slate-400 font-medium block mt-1">
-        {{ notification.timestamp }}
-      </span>
+      <time class="sg-notif-card__time">{{ notification.timestamp }}</time>
     </div>
 
-    <span v-if="!notification.isRead" class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0 mt-2" />
-  </div>
+    <span v-if="!notification.isRead" class="sg-notif-card__dot" aria-label="No leída" />
+  </article>
 </template>
 
 <script setup>
-import { Heart, MessageCircle, UserPlus, Radar, Sparkles } from 'lucide-vue-next';
+import { Heart, MessageCircle, UserPlus, Sparkles, Gift, Bell } from 'lucide-vue-next';
 import SafeImage from '@/shared/components/SafeImage.vue';
 
 defineProps({
@@ -49,3 +46,5 @@ defineProps({
 
 defineEmits(['click']);
 </script>
+
+<style src="./NotificationCard.css"></style>

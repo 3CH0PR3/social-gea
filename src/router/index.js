@@ -9,6 +9,7 @@ import { notificationRoutes } from '@/context/social/pages/notifications/router/
 import { messengerRoutes } from '@/context/social/pages/messenger/router/messengerRoutes';
 import { empresaRoutes } from '@/context/social/pages/empresas/router/empresaRoutes';
 import { marketplaceRoutes } from '@/context/social/pages/marketplace/router/marketplaceRoutes';
+import { referralRoutes } from '@/context/social/pages/referrals/router/referralRoutes';
 import { authRoutes } from '@/context/social/auth/router/auth.routes';
 import { landingRoutes } from '@/context/social/pages/landing/router/landingRoutes';
 import { adminRoutes } from '@/context/admin/router/admin.routes';
@@ -44,6 +45,7 @@ const routes = [
       ...messengerRoutes,
       ...empresaRoutes,
       ...marketplaceRoutes,
+      ...referralRoutes,
     ],
   },
   {

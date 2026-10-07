@@ -57,52 +57,52 @@
             <div>
               <span class="text-slate-400 block text-[11px]">NUIS (Id Suscriptor)</span>
               <span class="font-bold text-slate-900 font-mono text-xs">
-                {{ activeSubscription.formData.nuis || '10928472' }}
+                {{ activeSubscription?.formData?.nuis || activeSubscription?.nuis || '10928472' }}
               </span>
             </div>
             <div>
               <span class="text-slate-400 block text-[11px]">Numacro (Macro-ruta)</span>
               <span class="font-bold text-slate-900">
-                {{ activeSubscription.formData.numacro || 'MAC-01' }}
+                {{ activeSubscription?.formData?.numacro || activeSubscription?.numacro || 'MAC-01' }}
               </span>
             </div>
           </div>
 
           <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
             <span class="text-slate-400 block text-[11px]">Dirección del predio</span>
-            <span class="font-semibold text-slate-800">{{ activeSubscription.formData.address }}</span>
+            <span class="font-semibold text-slate-800">{{ activeSubscription?.formData?.address || activeSubscription?.address || 'Calle 72 # 11-45' }}</span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 p-3.5 rounded-xl bg-slate-50 border border-slate-100">
             <div>
               <span class="text-slate-400 block text-[11px]">Uso del usuario</span>
               <span class="font-semibold text-indigo-700">
-                {{ activeSubscription.formData.userUsage || '1 — Residencial' }}
+                {{ activeSubscription?.formData?.userUsage || activeSubscription?.userUsage || '1 — Residencial' }}
               </span>
             </div>
             <div>
               <span class="text-slate-400 block text-[11px]">Tipo de usuario</span>
               <span class="font-semibold text-slate-800">
-                {{ activeSubscription.formData.userType || '2 — Pequeño generador' }}
+                {{ activeSubscription?.formData?.userType || activeSubscription?.userType || '2 — Pequeño generador' }}
               </span>
             </div>
             <div>
               <span class="text-slate-400 block text-[11px]">Multiusuario</span>
               <span class="font-semibold text-slate-800">
-                {{ activeSubscription.formData.multiuser || '2 — No multiusuario' }}
+                {{ activeSubscription?.formData?.multiuser || activeSubscription?.multiuser || '2 — No multiusuario' }}
               </span>
             </div>
           </div>
 
-          <div v-if="activeSubscription.formData.materialsSelected && activeSubscription.formData.materialsSelected.length" class="p-3 rounded-xl bg-slate-50 border border-slate-100">
+          <div v-if="activeSubscription?.formData?.materialsSelected?.length || activeSubscription?.materialsOffered?.length" class="p-3 rounded-xl bg-slate-50 border border-slate-100">
             <span class="text-slate-400 block text-[11px] mb-1.5">Materiales valorizados</span>
             <div class="flex flex-wrap gap-1.5">
               <span
-                v-for="matId in activeSubscription.formData.materialsSelected"
-                :key="matId"
+                v-for="matId in (activeSubscription?.formData?.materialsSelected || activeSubscription?.materialsOffered || [])"
+                :key="typeof matId === 'object' ? matId.label || matId.name : matId"
                 class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-900 font-medium text-[11px]"
               >
-                {{ getMaterialLabel(matId) }}
+                {{ getMaterialLabel(typeof matId === 'object' ? matId.label || matId.name : matId) }}
               </span>
             </div>
           </div>

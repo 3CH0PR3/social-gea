@@ -1,30 +1,46 @@
 <template>
   <header class="sg-admin-topbar">
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2.5">
       <!-- Mobile hamburger to toggle sidebar -->
       <button
         type="button"
         @click="$emit('toggle-sidebar')"
-        class="lg:hidden w-9 h-9 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center cursor-pointer"
+        class="lg:hidden w-9 h-9 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center cursor-pointer shrink-0"
         aria-label="Abrir menú"
       >
         <Menu class="w-5 h-5" />
       </button>
 
-      <div>
-        <h2 class="text-sm font-extrabold text-slate-900 leading-tight">
-          Administración Socialgea
-        </h2>
-        <span class="text-[11px] text-slate-500 font-medium hidden sm:inline">
-          Ecosistema Circular & Moderación en Vivo
-        </span>
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-full bg-emerald-700 text-white flex items-center justify-center font-black text-xs shrink-0 lg:hidden">
+          sg
+        </div>
+        <div>
+          <h2 class="text-xs sm:text-sm font-extrabold text-slate-900 leading-tight">
+            Administración Socialgea
+          </h2>
+          <span class="text-[11px] text-slate-500 font-medium hidden sm:inline">
+            Ecosistema Circular & Moderación en Vivo
+          </span>
+        </div>
       </div>
     </div>
 
     <!-- Right Controls -->
     <div class="flex items-center gap-2 sm:gap-4">
-      <!-- Role Switcher Simulator (para pruebas rápidas de permisos) -->
-      <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-md text-xs">
+      <!-- Active role pill on mobile (< 640px) -->
+      <button
+        type="button"
+        @click="$emit('toggle-sidebar')"
+        class="sm:hidden px-2 py-1 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-extrabold flex items-center gap-1 cursor-pointer"
+        title="Ver opciones y rol en el menú"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+        <span class="max-w-[70px] truncate">{{ isSuperAdmin ? 'Admin' : isModerator ? 'Mod' : 'Empresa' }}</span>
+      </button>
+
+      <!-- Role Switcher Simulator en Desktop (>= 640px) -->
+      <div class="hidden sm:flex items-center gap-1.5 bg-slate-100 p-1 rounded-md text-xs">
         <span class="text-[10px] font-bold text-slate-500 uppercase px-1 hidden md:inline">
           Rol:
         </span>
@@ -44,13 +60,13 @@
       <div class="relative">
         <button
           type="button"
-          @click="isDropdownOpen = !isDropdownOpen"
+          @click="onProfileClick"
           class="flex items-center gap-2 p-1 rounded-md hover:bg-slate-100 cursor-pointer"
         >
           <img
             :src="adminUser?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'"
             :alt="adminUser?.name"
-            class="w-8 h-8 rounded-full object-cover ring-1 ring-slate-300"
+            class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover ring-1 ring-slate-300"
           />
           <div class="hidden sm:block text-left">
             <span class="text-xs font-bold text-slate-900 block leading-tight">
@@ -60,7 +76,7 @@
               {{ adminUser?.label || adminUser?.roleLabel || 'Staff' }}
             </span>
           </div>
-          <ChevronDown class="w-3.5 h-3.5 text-slate-400" />
+          <ChevronDown class="w-3.5 h-3.5 text-slate-400 hidden sm:block" />
         </button>
 
         <!-- Dropdown menu -->
@@ -112,11 +128,19 @@ import { useRouter, RouterLink } from 'vue-router';
 import { Menu, ChevronDown, Compass, LayoutDashboard, LogOut } from 'lucide-vue-next';
 import { useAdminAuth } from '../pages/auth/composables/useAdminAuth';
 
-defineEmits(['toggle-sidebar']);
+const emit = defineEmits(['toggle-sidebar']);
 
 const router = useRouter();
-const { adminUser, switchRole, logout } = useAdminAuth();
+const { adminUser, isSuperAdmin, isModerator, switchRole, logout } = useAdminAuth();
 const isDropdownOpen = ref(false);
+
+function onProfileClick() {
+  if (window.innerWidth < 640) {
+    emit('toggle-sidebar');
+  } else {
+    isDropdownOpen.value = !isDropdownOpen.value;
+  }
+}
 
 function onRoleChange(newRole) {
   switchRole(newRole);

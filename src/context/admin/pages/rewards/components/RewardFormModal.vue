@@ -321,92 +321,90 @@
     </form>
 
     <!-- Submodal / Picker para subir o pegar foto en el cuadrito seleccionado -->
-    <Teleport to="body">
-      <div
-        v-if="activeSlotModal !== null"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
-        @click.self="activeSlotModal = null"
-      >
-        <div class="w-full max-w-lg bg-white rounded-md border border-slate-200 shadow-xl p-5 space-y-4 animate-in fade-in zoom-in-95 duration-150">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div>
-              <h3 class="text-sm font-extrabold text-slate-900">
-                {{ activeSlotModal === 0 ? 'Foto Principal (Portada Grande)' : `Miniatura ${activeSlotModal}` }}
-              </h3>
-              <span class="text-xs text-slate-500 font-medium">
-                Sube un archivo de tu equipo, pega una URL o selecciona una sugerida.
-              </span>
-            </div>
-            <button
-              type="button"
-              @click="activeSlotModal = null"
-              class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center cursor-pointer"
-            >
-              ✕
-            </button>
+    <!-- En Android es pantalla completa nativa sin popups oscuros; en Desktop es diálogo centrado -->
+    <BaseModal
+      :modelValue="activeSlotModal !== null"
+      :title="activeSlotModal === 0 ? 'Foto Principal (Portada)' : `Miniatura ${activeSlotModal}`"
+      size="md"
+      @update:modelValue="activeSlotModal = null"
+    >
+      <div class="p-4 sm:p-5 space-y-4 text-xs">
+        <p class="text-xs text-slate-500 font-medium">
+          Sube un archivo de tu equipo, pega una URL o selecciona una foto sugerida del catálogo.
+        </p>
+
+        <!-- Opciones de carga -->
+        <div class="space-y-3">
+          <!-- Opción 1: Subir archivo local -->
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-md space-y-2">
+            <label class="block font-bold text-slate-800">Opción 1: Subir imagen desde tu dispositivo</label>
+            <input
+              type="file"
+              accept="image/*"
+              @change="handleFileUpload"
+              class="block w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer"
+            />
           </div>
 
-          <!-- Opciones de carga -->
-          <div class="space-y-3 text-xs">
-            <!-- Opción 1: Subir archivo local -->
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-md space-y-2">
-              <label class="block font-bold text-slate-800">Opción 1: Subir imagen desde tu dispositivo</label>
+          <!-- Opción 2: Pegar URL -->
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-md space-y-2">
+            <label class="block font-bold text-slate-800">Opción 2: Pegar URL directa de imagen</label>
+            <div class="flex gap-2">
               <input
-                type="file"
-                accept="image/*"
-                @change="handleFileUpload"
-                class="block w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-emerald-700 file:text-white hover:file:bg-emerald-800 cursor-pointer"
+                v-model="tempUrl"
+                type="url"
+                placeholder="https://images.unsplash.com/..."
+                class="flex-1 px-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs font-mono outline-none focus:border-emerald-700"
               />
+              <button
+                type="button"
+                @click="applyTempUrl"
+                class="sg-btn sg-btn--primary sg-btn--sm"
+              >
+                Asignar
+              </button>
             </div>
+          </div>
 
-            <!-- Opción 2: Pegar URL -->
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-md space-y-2">
-              <label class="block font-bold text-slate-800">Opción 2: Pegar URL directa de imagen</label>
-              <div class="flex gap-2">
-                <input
-                  v-model="tempUrl"
-                  type="url"
-                  placeholder="https://images.unsplash.com/..."
-                  class="flex-1 px-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs font-mono outline-none focus:border-emerald-700"
-                />
-                <button
-                  type="button"
-                  @click="applyTempUrl"
-                  class="sg-btn sg-btn--primary sg-btn--sm"
-                >
-                  Asignar
-                </button>
-              </div>
-            </div>
-
-            <!-- Opción 3: Fotos sugeridas por categoría (1 clic) -->
-            <div class="space-y-1.5">
-              <span class="block font-bold text-slate-700 text-[11px] uppercase tracking-wider">
-                Fotos sugeridas para esta categoría:
-              </span>
-              <div class="grid grid-cols-4 gap-2">
-                <button
-                  v-for="(sugUrl, sIdx) in suggestedPhotos"
-                  :key="sIdx"
-                  type="button"
-                  @click="selectSuggested(sugUrl)"
-                  class="relative h-16 rounded-md overflow-hidden border border-slate-200 hover:border-emerald-600 hover:ring-2 hover:ring-emerald-400/50 cursor-pointer bg-slate-100"
-                >
-                  <img :src="sugUrl" alt="Sugerencia" class="w-full h-full object-cover" />
-                </button>
-              </div>
+          <!-- Opción 3: Fotos sugeridas por categoría (1 clic) -->
+          <div class="space-y-1.5">
+            <span class="block font-bold text-slate-700 text-[11px] uppercase tracking-wider">
+              Fotos sugeridas para esta categoría:
+            </span>
+            <div class="grid grid-cols-4 gap-2">
+              <button
+                v-for="(sugUrl, sIdx) in suggestedPhotos"
+                :key="sIdx"
+                type="button"
+                @click="selectSuggested(sugUrl)"
+                class="relative h-16 rounded-md overflow-hidden border border-slate-200 hover:border-emerald-600 hover:ring-2 hover:ring-emerald-400/50 cursor-pointer bg-slate-100"
+              >
+                <img :src="sugUrl" alt="Sugerencia" class="w-full h-full object-cover" />
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </Teleport>
+
+      <template #actions>
+        <div class="flex items-center justify-end w-full">
+          <button
+            type="button"
+            @click="activeSlotModal = null"
+            class="sg-btn sg-btn--secondary sg-btn--sm flex-1 sm:flex-initial"
+          >
+            Cerrar
+          </button>
+        </div>
+      </template>
+    </BaseModal>
 
     <template #actions>
-      <div class="flex items-center justify-end gap-2.5">
+      <div class="flex items-center justify-end gap-2.5 w-full">
         <button
           type="button"
           @click="$emit('update:modelValue', false)"
-          class="sg-btn sg-btn--secondary sg-btn--sm"
+          class="sg-btn sg-btn--secondary sg-btn--sm flex-1 sm:flex-initial"
         >
           Cancelar
         </button>
@@ -414,7 +412,7 @@
         <button
           type="submit"
           form="rewardForm"
-          class="sg-btn sg-btn--primary sg-btn--sm"
+          class="sg-btn sg-btn--primary sg-btn--sm flex-1 sm:flex-initial"
           :disabled="isSubmitting"
         >
           <span>{{ isEditing ? 'Guardar Cambios' : 'Publicar Producto' }}</span>

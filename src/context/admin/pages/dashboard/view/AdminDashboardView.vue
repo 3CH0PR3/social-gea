@@ -28,7 +28,7 @@
     </div>
 
     <!-- 4 KPI Metrics -->
-    <div v-if="dashboardStore.data" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div v-if="dashboardStore.data" class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
       <MetricCard
         label="Material Recuperado"
         :value="`${dashboardStore.data.summary.totalTonnesRecycled} Ton`"

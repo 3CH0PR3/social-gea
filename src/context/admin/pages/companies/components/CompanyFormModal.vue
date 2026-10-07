@@ -99,11 +99,11 @@
     </form>
 
     <template #actions>
-      <div class="flex items-center justify-end gap-2.5">
+      <div class="flex items-center justify-end gap-2.5 w-full">
         <button
           type="button"
           @click="$emit('update:modelValue', false)"
-          class="sg-btn sg-btn--secondary sg-btn--sm"
+          class="sg-btn sg-btn--secondary sg-btn--sm flex-1 sm:flex-initial"
         >
           Cancelar
         </button>
@@ -111,7 +111,7 @@
         <button
           type="submit"
           form="companyForm"
-          class="sg-btn sg-btn--primary sg-btn--sm"
+          class="sg-btn sg-btn--primary sg-btn--sm flex-1 sm:flex-initial"
         >
           <span>Registrar Empresa</span>
         </button>

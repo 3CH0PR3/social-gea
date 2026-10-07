@@ -81,6 +81,44 @@
         />
       </div>
 
+      <!-- Phone Number Field (Colombia +57 with SMS validation) -->
+      <div class="space-y-1.5 text-left">
+        <div class="flex items-center justify-between">
+          <label for="regPhone" class="block text-xs font-bold text-slate-700">
+            Teléfono Móvil (Colombia)
+          </label>
+          <span class="text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-1.5 py-0.5 rounded-sm">
+            Validación única por línea
+          </span>
+        </div>
+        <div class="relative flex items-center">
+          <span class="absolute left-3 text-xs font-bold text-slate-500 select-none">
+            🇨🇴 +57
+          </span>
+          <input
+            id="regPhone"
+            v-model="form.phone"
+            type="tel"
+            placeholder="312 345 6789"
+            class="w-full pl-17 pr-3.5 py-2.5 rounded-xl bg-slate-50/80 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 border border-slate-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 focus:outline-none text-xs sm:text-sm transition-all"
+          />
+        </div>
+      </div>
+
+      <!-- Referral Code Field (Optional or auto-filled from link) -->
+      <div class="space-y-1.5 text-left">
+        <label for="regReferral" class="block text-xs font-bold text-slate-700">
+          Código de referido (Opcional)
+        </label>
+        <input
+          id="regReferral"
+          v-model="form.referralCode"
+          type="text"
+          placeholder="Ej: CARLOS-ECO-77"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50/80 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 border border-slate-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 focus:outline-none text-xs sm:text-sm uppercase font-mono tracking-wider transition-all"
+        />
+      </div>
+
       <!-- Password Field -->
       <div class="space-y-1.5 text-left">
         <label for="regPassword" class="block text-xs font-bold text-slate-700">

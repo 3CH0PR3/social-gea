@@ -1,11 +1,15 @@
-import { INITIAL_NOTIFICATIONS } from '@/shared/data/initialData';
+import mockNotifications from './mocks/mockNotifications.json';
 
 export const notificationService = {
   async fetchNotifications() {
-    return Promise.resolve([...INITIAL_NOTIFICATIONS]);
+    return Promise.resolve(JSON.parse(JSON.stringify(mockNotifications)));
   },
 
   async markAllRead() {
     return Promise.resolve(true);
+  },
+
+  async markAsRead(id) {
+    return Promise.resolve(id);
   }
 };

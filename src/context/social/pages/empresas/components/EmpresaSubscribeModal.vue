@@ -189,6 +189,6 @@ const isFormValid = computed(() => {
 
 function handleSubmit() {
   if (!props.empresa || !isFormValid.value) return;
-  empresaStore.submitSubscription(props.empresa.id, { ...form });
+  empresaStore.submitSubscription(props.empresa, { ...form });
 }
 </script>

@@ -82,6 +82,20 @@
         </div>
       </RouterLink>
 
+      <RouterLink
+        to="/referrals"
+        class="flex items-center justify-between p-3 rounded-md w-full text-left transition-colors text-slate-700 hover:bg-slate-200/50 font-semibold"
+        active-class="!bg-emerald-50 !text-emerald-800 !font-bold"
+      >
+        <div class="flex items-center gap-3.5 text-sm">
+          <UserPlus class="w-5 h-5 text-emerald-700" />
+          <span>Referidos & Puntos</span>
+        </div>
+        <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded-sm">
+          +150 Pts
+        </span>
+      </RouterLink>
+
       <button
         type="button"
         @click="goToSaved"
@@ -157,7 +171,7 @@
 
 <script setup>
 import { RouterLink, useRouter } from 'vue-router';
-import { Home, Users, Sparkles, Building2, Gift, Bookmark, MessageCircle } from 'lucide-vue-next';
+import { Home, Users, Sparkles, Building2, Gift, Bookmark, MessageCircle, UserPlus } from 'lucide-vue-next';
 import { useFeedStore } from '@/context/social/pages/feed/store/feedStore';
 import SafeImage from './SafeImage.vue';
 

@@ -1,0 +1,94 @@
+[
+  {
+    "id": "ref_101",
+    "referrerCode": "CARLOS-ECO-77",
+    "name": "Valentina Ospina",
+    "email": "valen.ospina@gmail.com",
+    "city": "Medellín, Antioquia",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+    "registeredAt": "2026-10-02T14:20:00Z",
+    "status": "completed",
+    "statusLabel": "Verificado & Clasificación completada",
+    "pointsAwarded": 150,
+    "firstClassification": {
+      "enterprise": "Antioquia Circular S.A.S",
+      "material": "Plástico PET (12.4 kg)",
+      "date": "2026-10-03T11:15:00Z"
+    },
+    "security": {
+      "phoneVerified": true,
+      "deviceFingerprint": "dev_d8f72a1e94c2",
+      "networkType": "Claro Colombia Residencial",
+      "ipPrefix": "186.84.xxx.xxx",
+      "vpnDetected": false,
+      "riskScore": "Bajo (0.02)"
+    }
+  },
+  {
+    "id": "ref_102",
+    "referrerCode": "CARLOS-ECO-77",
+    "name": "Juan Pablo Duque",
+    "email": "jp.duque@outlook.com",
+    "city": "Bogotá D.C.",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+    "registeredAt": "2026-10-04T09:45:00Z",
+    "status": "completed",
+    "statusLabel": "Verificado & Clasificación completada",
+    "pointsAwarded": 150,
+    "firstClassification": {
+      "enterprise": "Recicladora Metropolitana Bogotá",
+      "material": "Cartón Corrugado (18.0 kg)",
+      "date": "2026-10-05T16:30:00Z"
+    },
+    "security": {
+      "phoneVerified": true,
+      "deviceFingerprint": "dev_9b31ca62f401",
+      "networkType": "Tigo Colombia Móvil",
+      "ipPrefix": "190.27.xxx.xxx",
+      "vpnDetected": false,
+      "riskScore": "Bajo (0.04)"
+    }
+  },
+  {
+    "id": "ref_103",
+    "referrerCode": "CARLOS-ECO-77",
+    "name": "Daniela Restrepo",
+    "email": "dani.restrepo@empresa.com.co",
+    "city": "Cali, Valle del Cauca",
+    "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150",
+    "registeredAt": "2026-10-06T18:10:00Z",
+    "status": "verified_pending_recycle",
+    "statusLabel": "Teléfono verificado · Pendiente primer reciclaje",
+    "pointsAwarded": 0,
+    "firstClassification": null,
+    "security": {
+      "phoneVerified": true,
+      "deviceFingerprint": "dev_17cb99e3a890",
+      "networkType": "Movistar Fibra Óptica",
+      "ipPrefix": "181.129.xxx.xxx",
+      "vpnDetected": false,
+      "riskScore": "Bajo (0.01)"
+    }
+  },
+  {
+    "id": "ref_104",
+    "referrerCode": "CARLOS-ECO-77",
+    "name": "Simulación Dispositivo Duplicado",
+    "email": "usuario.sospechoso@tempmail.com",
+    "city": "Bogotá D.C.",
+    "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
+    "registeredAt": "2026-10-06T22:05:00Z",
+    "status": "blocked_fraud",
+    "statusLabel": "Bloqueado por Anti-Fraude (Mismo dispositivo / IP proxy)",
+    "pointsAwarded": 0,
+    "firstClassification": null,
+    "security": {
+      "phoneVerified": false,
+      "deviceFingerprint": "dev_d8f72a1e94c2",
+      "networkType": "DataCenter / Proxy VPN",
+      "ipPrefix": "45.133.xxx.xxx",
+      "vpnDetected": true,
+      "riskScore": "Alto (0.98)"
+    }
+  }
+]

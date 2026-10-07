@@ -34,9 +34,11 @@ export const usePostReactionsStore = defineStore('social.reactions', () => {
 
     const currentReaction = post.userReaction;
 
-    if (currentReaction === reactionType) {
+    if (!reactionType || currentReaction === reactionType) {
       // Remover reacción
-      if (post.reactions[reactionType] > 0) post.reactions[reactionType]--;
+      if (currentReaction && post.reactions[currentReaction] > 0) {
+        post.reactions[currentReaction]--;
+      }
       post.userReaction = null;
     } else {
       // Cambiar o agregar reacción

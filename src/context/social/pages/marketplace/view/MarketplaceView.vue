@@ -83,6 +83,9 @@
       </div>
     </div>
 
+    <!-- Mobile Filters Bar (visible only on mobile screens when left sidebar is hidden) -->
+    <MobileMarketplaceFilters />
+
     <!-- Active Filters Feedback bar on mobile -->
     <div v-if="marketplaceStore.hasActiveFilters" class="flex items-center justify-between bg-amber-50/80 border border-amber-200 px-3.5 py-2 rounded-xl text-xs text-amber-900">
       <div class="flex items-center gap-1.5 truncate">
@@ -233,6 +236,7 @@
 import { ref, computed } from 'vue';
 import { Gift, Coins, Sparkles, Truck, History, X, Lock } from 'lucide-vue-next';
 import { useMarketplaceStore } from '../store/marketplaceStore';
+import MobileMarketplaceFilters from '../components/MobileMarketplaceFilters.vue';
 import RewardDetailModal from '../components/RewardDetailModal.vue';
 import RedeemRewardModal from '../components/RedeemRewardModal.vue';
 import SafeImage from '@/shared/components/SafeImage.vue';

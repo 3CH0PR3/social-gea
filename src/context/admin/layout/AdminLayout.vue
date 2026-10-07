@@ -3,14 +3,16 @@
     <!-- Desktop Sidebar (Sticky on left >= 1024px) -->
     <AdminSidebar class="hidden lg:flex" />
 
-    <!-- Mobile Drawer Sidebar (< 1024px) Teleported -->
+    <!-- Mobile / Tablet Drawer Sidebar (< 1024px) Teleported -->
+    <!-- En Android (< 640px): 100dvh pantalla completa blanca nativa sin modales ni fondo oscuro -->
+    <!-- En Tablet (>= 640px): panel lateral deslizable con fondo semitransparente -->
     <Teleport to="body">
       <div
         v-if="isMobileSidebarOpen"
-        class="fixed inset-0 z-50 flex bg-black/60 backdrop-blur-xs lg:hidden"
+        class="fixed inset-0 z-50 flex flex-col w-full h-[100dvh] bg-white sm:h-full sm:w-auto sm:bg-black/60 sm:backdrop-blur-xs lg:hidden overflow-hidden"
         @click.self="isMobileSidebarOpen = false"
       >
-        <div class="w-72 max-w-[85vw] h-full bg-white shadow-2xl flex flex-col">
+        <div class="w-full h-full bg-white flex flex-col sm:w-72 sm:max-w-[85vw] sm:shadow-2xl overflow-hidden">
           <AdminSidebar @close="isMobileSidebarOpen = false" />
         </div>
       </div>

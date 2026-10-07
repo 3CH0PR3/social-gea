@@ -100,7 +100,7 @@
     max-height: 90vh;
     max-width: var(--modal-max-w, 32rem);
     border: 1px solid var(--border-default);
-    border-radius: var(--radius-2xl);
+    border-radius: var(--radius-lg, 0.5rem);
     box-shadow: var(--shadow-modal);
   }
 

@@ -22,11 +22,11 @@
     </div>
 
     <template #actions>
-      <div class="flex items-center justify-end gap-2.5">
+      <div class="flex items-center justify-end gap-2.5 w-full">
         <button
           type="button"
           @click="$emit('update:modelValue', false)"
-          class="sg-btn sg-btn--secondary sg-btn--sm"
+          class="sg-btn sg-btn--secondary sg-btn--sm flex-1 sm:flex-initial"
         >
           Cancelar
         </button>
@@ -34,7 +34,7 @@
         <button
           type="button"
           @click="$emit('confirm', reward?.id)"
-          class="sg-btn sg-btn--danger sg-btn--sm"
+          class="sg-btn sg-btn--danger sg-btn--sm flex-1 sm:flex-initial"
           :disabled="isSubmitting"
         >
           <span>Eliminar Producto</span>

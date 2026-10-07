@@ -1,5 +1,5 @@
-import { reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/useAuth.store';
 import {
   validateEmail,
@@ -10,15 +10,24 @@ import {
 
 export function useSocialRegister() {
   const router = useRouter();
+  const route = useRoute();
   const authStore = useAuthStore();
 
   const form = reactive({
     firstName: '',
     lastName: '',
     email: '',
+    phone: '',
+    referralCode: '',
     password: '',
     confirmPassword: '',
     acceptTerms: true,
+  });
+
+  onMounted(() => {
+    if (route.query?.ref) {
+      form.referralCode = String(route.query.ref).trim().toUpperCase();
+    }
   });
 
   const showPassword = ref(false);

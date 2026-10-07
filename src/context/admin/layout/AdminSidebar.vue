@@ -1,7 +1,35 @@
 <template>
-  <aside class="sg-admin-sidebar">
-    <!-- Brand / Console Header -->
-    <div class="sg-admin-sidebar__brand">
+  <aside class="sg-admin-sidebar h-full flex flex-col">
+    <!-- Top App Bar en Mobile (< 640px) estilo Android -->
+    <header class="sm:hidden flex items-center justify-between h-14 px-3 border-b border-slate-200 bg-white shrink-0">
+      <button
+        type="button"
+        @click="$emit('close')"
+        class="w-10 h-10 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-100 active:bg-slate-200 cursor-pointer"
+        aria-label="Volver"
+      >
+        <ArrowLeft class="w-5 h-5" />
+      </button>
+
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-full bg-emerald-700 text-white flex items-center justify-center font-black text-xs">
+          sg
+        </div>
+        <h2 class="font-bold text-sm text-slate-900">Administración Socialgea</h2>
+      </div>
+
+      <button
+        type="button"
+        @click="$emit('close')"
+        class="w-10 h-10 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-100 active:bg-slate-200 cursor-pointer"
+        aria-label="Cerrar"
+      >
+        <X class="w-5 h-5" />
+      </button>
+    </header>
+
+    <!-- Brand / Console Header on Tablet & Desktop (>= 640px) -->
+    <div class="hidden sm:flex sg-admin-sidebar__brand">
       <div class="flex items-center gap-2.5">
         <div class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-black text-sm tracking-tight">
           sg
@@ -16,7 +44,7 @@
         </div>
       </div>
 
-      <!-- Close button on mobile -->
+      <!-- Close button on tablet drawer -->
       <button
         type="button"
         @click="$emit('close')"
@@ -27,17 +55,35 @@
       </button>
     </div>
 
-    <!-- Active Role Header Pill -->
-    <div class="px-3 py-2 bg-slate-100/80 border-b border-slate-200">
-      <div class="flex items-center gap-2">
-        <div class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-        <span class="text-[11px] font-extrabold text-slate-800">
-          {{ adminUser?.label || 'Super Administrador' }}
+    <!-- Active Role Header Pill & Quick Switcher on Mobile -->
+    <div class="px-3.5 py-3 bg-slate-50 border-b border-slate-200 space-y-2 shrink-0">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
+          <span class="text-xs font-extrabold text-slate-900">
+            {{ adminUser?.label || 'Super Administrador' }}
+          </span>
+        </div>
+        <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/70 px-2 py-0.5 rounded">
+          Activo
         </span>
       </div>
-      <p class="text-[10px] text-slate-500 line-clamp-1 mt-0.5 font-medium">
-        {{ adminUser?.description }}
-      </p>
+
+      <!-- Switcher accesible en móvil -->
+      <div class="pt-1">
+        <label class="block text-[10.5px] font-bold text-slate-500 uppercase mb-1">
+          Cambiar rol de prueba:
+        </label>
+        <select
+          :value="adminUser?.role"
+          @change="onRoleChange($event.target.value)"
+          class="w-full bg-white border border-slate-300 rounded-md px-2.5 py-1.5 text-xs font-bold text-slate-800 outline-none cursor-pointer"
+        >
+          <option value="super_admin">Super Administrador (Todo)</option>
+          <option value="moderator">Moderador de Comunidad</option>
+          <option value="company_manager">Gestor de Empresas Aliadas</option>
+        </select>
+      </div>
     </div>
 
     <!-- Admin Navigation Links (Filtered strictly by Role Permissions) -->
@@ -149,7 +195,20 @@
         <ArrowRight class="w-3.5 h-3.5 text-slate-400" />
       </RouterLink>
 
-      <div class="px-2 pt-1 text-[11px] text-slate-500 font-medium">
+      <!-- Logout button in sidebar -->
+      <button
+        type="button"
+        @click="handleLogout"
+        class="w-full flex items-center justify-between p-2.5 rounded-md bg-white border border-red-200 text-xs font-bold text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
+      >
+        <div class="flex items-center gap-2">
+          <LogOut class="w-4 h-4 text-red-600" />
+          <span>Cerrar sesión admin</span>
+        </div>
+        <span class="text-[10px] text-red-500 font-semibold">Salir</span>
+      </button>
+
+      <div class="px-2 pt-1 pb-1 text-[11px] text-slate-500 font-medium">
         <div class="flex items-center justify-between">
           <span>Alcance del rol:</span>
           <span class="text-emerald-800 font-bold capitalize">{{ isSuperAdmin ? 'Total' : isModerator ? 'Moderación' : 'Empresa Aliada' }}</span>
@@ -161,7 +220,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import {
   LayoutDashboard,
   Gift,
@@ -170,12 +229,15 @@ import {
   Ticket,
   Compass,
   ArrowRight,
+  ArrowLeft,
   X,
+  LogOut,
 } from 'lucide-vue-next';
 import { useAdminAuth } from '../pages/auth/composables/useAdminAuth';
 import { useAdminModerationStore } from '../pages/moderation/store/useAdminModeration.store';
 
-defineEmits(['close']);
+const emit = defineEmits(['close']);
+const router = useRouter();
 
 const {
   adminUser,
@@ -187,6 +249,8 @@ const {
   canViewModeration,
   canViewCompanies,
   canViewRedemptions,
+  switchRole,
+  logout,
 } = useAdminAuth();
 
 const moderationStore = useAdminModerationStore();
@@ -194,4 +258,20 @@ const moderationStore = useAdminModerationStore();
 const pendingReportsCount = computed(() => {
   return moderationStore.pendingCount || 7;
 });
+
+function onRoleChange(newRole) {
+  switchRole(newRole);
+  const currentPath = router.currentRoute.value.path;
+  if (newRole === 'moderator' && !currentPath.includes('moderation')) {
+    router.push('/admin/moderation');
+  } else if (newRole === 'company_manager' && currentPath.includes('moderation')) {
+    router.push('/admin/rewards');
+  }
+}
+
+function handleLogout() {
+  emit('close');
+  logout();
+  router.push('/admin/login');
+}
 </script>

@@ -1,49 +1,33 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { INITIAL_USERS } from '@/shared/data/initialData';
+import { notificationService } from '../services/notificationService';
 
 export const useNotificationsStore = defineStore('social.notifications', () => {
-  const notifications = ref([
-    {
-      id: 'notif_1',
-      type: 'like',
-      user: INITIAL_USERS[1],
-      text: 'le gustó tu publicación sobre reciclaje de PET.',
-      time: 'Hace 5 minutos',
-      unread: true,
-      targetId: 'post_1',
-    },
-    {
-      id: 'notif_2',
-      type: 'points',
-      user: { name: 'Recicladora Metropolitana', avatar: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=150' },
-      text: 'te acreditó +370 EcoPuntos por entrega de 18.5 kg de PET.',
-      time: 'Hace 2 horas',
-      unread: true,
-      targetId: null,
-    },
-    {
-      id: 'notif_3',
-      type: 'comment',
-      user: INITIAL_USERS[2],
-      text: 'comentó: "Excelente iniciativa, me sumo al punto de acopio".',
-      time: 'Ayer',
-      unread: false,
-      targetId: 'post_1',
-    },
-  ]);
-
+  const notifications = ref([]);
   const filter = ref('all'); // 'all' | 'unread'
   const isLoading = ref(false);
   const errorMsg = ref(null);
 
+  const executeAsync = async (fn) => {
+    errorMsg.value = null;
+    isLoading.value = true;
+    try {
+      return await fn();
+    } catch (err) {
+      errorMsg.value = err;
+      throw err;
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   const unreadCount = computed(() => {
-    return notifications.value.filter((n) => n.unread).length;
+    return notifications.value.filter((n) => !n.isRead).length;
   });
 
   const filteredNotifications = computed(() => {
     if (filter.value === 'unread') {
-      return notifications.value.filter((n) => n.unread);
+      return notifications.value.filter((n) => !n.isRead);
     }
     return notifications.value;
   });
@@ -52,19 +36,42 @@ export const useNotificationsStore = defineStore('social.notifications', () => {
     filter.value = newFilter;
   };
 
-  const markAllAsRead = () => {
-    notifications.value.forEach((n) => {
-      n.unread = false;
+  const markAllAsRead = async () => {
+    await executeAsync(async () => {
+      await notificationService.markAllRead();
+      notifications.value.forEach((n) => {
+        n.isRead = true;
+      });
     });
   };
 
-  const markAsRead = (id) => {
+  const markAsRead = async (id) => {
     const notif = notifications.value.find((n) => n.id === id);
-    if (notif) notif.unread = false;
+    if (notif && !notif.isRead) {
+      notif.isRead = true;
+      await notificationService.markAsRead(id);
+    }
   };
 
-  const loadNotifications = () => {
-    // Already loaded
+  const loadNotifications = async () => {
+    if (notifications.value.length > 0) return;
+    await executeAsync(async () => {
+      const data = await notificationService.fetchNotifications();
+      notifications.value = data;
+    });
+  };
+
+  const addMentionNotification = ({ senderName, senderAvatar, commentText }) => {
+    notifications.value.unshift({
+      id: `notif_${Date.now()}`,
+      type: 'comment',
+      actorName: senderName || 'Amigo de Socialgea',
+      actorAvatar: senderAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150',
+      targetPreview: `te mencionó en un comentario: "${commentText?.slice(0, 55) || '...'}"`,
+      timestamp: 'Ahora mismo',
+      isRead: false,
+      link: '/feeds',
+    });
   };
 
   return {
@@ -74,10 +81,12 @@ export const useNotificationsStore = defineStore('social.notifications', () => {
     unreadCount,
     isLoading,
     errorMsg,
+    executeAsync,
     setFilter,
     markAllAsRead,
     markAsRead,
     loadNotifications,
+    addMentionNotification,
   };
 });
 

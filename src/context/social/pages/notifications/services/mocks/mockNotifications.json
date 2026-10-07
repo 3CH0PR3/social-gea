@@ -1,0 +1,52 @@
+[
+  {
+    "id": "notif_1",
+    "type": "points",
+    "actorName": "Recicladora Metropolitana",
+    "actorAvatar": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=150",
+    "targetPreview": "te acreditó +370 EcoPuntos por entrega y clasificación de 18.5 kg de PET.",
+    "timestamp": "Hace 15 min",
+    "isRead": false,
+    "link": "/marketplace"
+  },
+  {
+    "id": "notif_2",
+    "type": "like",
+    "actorName": "Elena Rostova",
+    "actorAvatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+    "targetPreview": "reaccionó 'Me encanta' a tu publicación sobre separación de residuos.",
+    "timestamp": "Hace 42 min",
+    "isRead": false,
+    "link": "/feeds"
+  },
+  {
+    "id": "notif_3",
+    "type": "comment",
+    "actorName": "Marcos Benítez",
+    "actorAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+    "targetPreview": "comentó: 'Excelente iniciativa, me sumo al centro de acopio de Bogotá'.",
+    "timestamp": "Hace 2 horas",
+    "isRead": false,
+    "link": "/feeds"
+  },
+  {
+    "id": "notif_4",
+    "type": "friend_request",
+    "actorName": "Camila Morales",
+    "actorAvatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+    "targetPreview": "se conectó contigo como aliado ecológico.",
+    "timestamp": "Ayer",
+    "isRead": true,
+    "link": "/radar"
+  },
+  {
+    "id": "notif_5",
+    "type": "redeem",
+    "actorName": "Socialgea Marketplace",
+    "actorAvatar": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=150",
+    "targetPreview": "tu comprobante CANJE-928412 fue emitido y está listo para retiro.",
+    "timestamp": "Hace 2 días",
+    "isRead": true,
+    "link": "/marketplace"
+  }
+]

@@ -15,7 +15,65 @@
       </span>
     </div>
 
-    <div class="sg-admin-table-wrapper border-0 rounded-none">
+    <!-- Vista Móvil Android (< 640px): Lista nativa sin scroll horizontal forzado -->
+    <div class="sm:hidden divide-y divide-slate-100">
+      <div
+        v-for="act in activities"
+        :key="'act-mob-' + act.id"
+        class="p-3.5 space-y-2"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div v-if="act.avatar" class="w-7 h-7 rounded-full overflow-hidden bg-slate-200 shrink-0">
+              <img :src="act.avatar" :alt="act.user" class="w-full h-full object-cover" />
+            </div>
+            <div v-else class="w-7 h-7 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-xs shrink-0">
+              ⚠️
+            </div>
+            <div>
+              <span class="font-bold text-xs text-slate-900 block leading-tight">{{ act.user }}</span>
+              <span class="text-[10px] text-slate-400 font-mono">{{ act.id }}</span>
+            </div>
+          </div>
+
+          <span
+            :class="{
+              'bg-emerald-50 text-emerald-800 border-emerald-200': act.status === 'verified',
+              'bg-amber-50 text-amber-800 border-amber-200': act.status === 'processing',
+              'bg-red-50 text-red-700 border-red-200': act.status === 'pending_review',
+              'bg-blue-50 text-blue-700 border-blue-200': act.status === 'pending_validation'
+            }"
+            class="px-2 py-0.5 rounded text-[10px] font-bold border"
+          >
+            {{ formatStatus(act.status) }}
+          </span>
+        </div>
+
+        <div class="text-xs text-slate-700">
+          <span>{{ act.detail }}</span>
+          <span class="text-slate-400 block text-[11px] mt-0.5">
+            📍 {{ act.company || 'Sistema' }} · {{ act.city }}
+          </span>
+        </div>
+
+        <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-50 text-slate-500">
+          <span class="text-[11px]">{{ act.timestamp }}</span>
+          <span
+            v-if="act.points"
+            :class="act.points.startsWith('+') ? 'text-emerald-800 font-extrabold' : 'text-amber-800 font-extrabold'"
+            class="tabular-nums"
+          >
+            {{ act.points }}
+          </span>
+          <span v-else-if="act.voucher" class="font-mono text-xs font-bold text-slate-800">
+            {{ act.voucher }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Desktop (>= 640px) -->
+    <div class="hidden sm:block sg-admin-table-wrapper border-0 rounded-none">
       <table class="sg-admin-table">
         <thead>
           <tr>

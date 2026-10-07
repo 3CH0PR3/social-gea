@@ -111,10 +111,14 @@ export const useFeedStore = defineStore('social.feed', () => {
     });
   };
 
-  const deletePost = (postId) => {
-    posts.value = posts.value.filter((p) => p.id !== postId);
-    eventBus.emit(EVENTS.POST_DELETED, { postId });
+  const toggleReaction = (postId, reactionType = 'like') => {
+    const post = posts.value.find((p) => p.id === postId);
+    if (post) {
+      reactionsStore.handleToggleReaction(post, reactionType);
+    }
   };
+
+  const toggleLike = toggleReaction;
 
   const toggleSave = (postId) => {
     const post = posts.value.find((p) => p.id === postId);
@@ -124,10 +128,147 @@ export const useFeedStore = defineStore('social.feed', () => {
     }
   };
 
-  const toggleLike = (postId, reactionType = 'like') => {
+  const toggleSavePost = toggleSave;
+
+  const deletePost = (postId) => {
+    posts.value = posts.value.filter((p) => p.id !== postId);
+    eventBus.emit(EVENTS.POST_DELETED, { postId });
+  };
+
+  const removePost = deletePost;
+
+  const sharePost = (targetPost, quoteText = '') => {
+    if (!targetPost) return null;
+
+    targetPost.sharesCount = (targetPost.sharesCount || 0) + 1;
+
+    const content = quoteText?.trim()
+      ? `${quoteText.trim()}\n\n[Compartido de ${targetPost.authorName}]: "${targetPost.content}"`
+      : `[Compartido de ${targetPost.authorName}]: "${targetPost.content}"`;
+
+    const newPost = {
+      id: 'post_shared_' + Date.now(),
+      authorId: currentUser.value.id,
+      authorName: currentUser.value.name,
+      authorAvatar: currentUser.value.avatar,
+      content,
+      images: targetPost.images ? [...targetPost.images] : [],
+      timestamp: 'Justo ahora',
+      reactions: { like: 0, love: 0, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 },
+      userReaction: null,
+      commentsCount: 0,
+      sharesCount: 0,
+      isSaved: false,
+      comments: [],
+    };
+
+    posts.value.unshift(newPost);
+    eventBus.emit(EVENTS.POST_CREATED, newPost);
+    return newPost;
+  };
+
+  const addComment = (postId, text, imageUrl = null, parentId = null, replyTarget = null) => {
     const post = posts.value.find((p) => p.id === postId);
-    if (post) {
-      reactionsStore.handleToggleReaction(post, reactionType);
+    if (!post || (!text?.trim() && !imageUrl)) return null;
+
+    if (!post.comments) {
+      post.comments = [];
+    }
+
+    const newComment = {
+      id: 'cmt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+      authorId: currentUser.value.id,
+      authorName: currentUser.value.name,
+      authorAvatar: currentUser.value.avatar,
+      content: text ? text.trim() : '',
+      imageUrl: imageUrl || null,
+      timestamp: 'Justo ahora',
+      reactions: { like: 0, love: 0, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 },
+      userReaction: null,
+      parentId: parentId || null,
+      replyTarget: replyTarget || null,
+      replies: [],
+    };
+
+    if (parentId) {
+      const parentComment = post.comments.find((c) => c.id === parentId);
+      if (parentComment) {
+        if (!parentComment.replies) parentComment.replies = [];
+        parentComment.replies.push(newComment);
+      } else {
+        post.comments.push(newComment);
+      }
+    } else {
+      post.comments.push(newComment);
+    }
+
+    post.commentsCount = (post.commentsCount || 0) + 1;
+
+    eventBus.emit(EVENTS.COMMENT_CREATED, {
+      postId: post.id,
+      comment: newComment,
+      commentsCount: post.commentsCount,
+    });
+
+    return newComment;
+  };
+
+  const deleteComment = (postId, commentId) => {
+    const post = posts.value.find((p) => p.id === postId);
+    if (!post || !post.comments) return;
+
+    const initialLen = post.comments.length;
+    post.comments = post.comments.filter((c) => c.id !== commentId);
+
+    if (post.comments.length < initialLen) {
+      post.commentsCount = Math.max(0, (post.commentsCount || 1) - 1);
+    } else {
+      for (const c of post.comments) {
+        if (c.replies) {
+          const rLen = c.replies.length;
+          c.replies = c.replies.filter((r) => r.id !== commentId);
+          if (c.replies.length < rLen) {
+            post.commentsCount = Math.max(0, (post.commentsCount || 1) - 1);
+            break;
+          }
+        }
+      }
+    }
+  };
+
+  const reactToComment = (postId, commentOrReplyId, reactionType = 'like') => {
+    const post = posts.value.find((p) => p.id === postId);
+    if (!post || !post.comments) return;
+
+    let target = post.comments.find((c) => c.id === commentOrReplyId);
+    if (!target) {
+      for (const c of post.comments) {
+        if (c.replies) {
+          target = c.replies.find((r) => r.id === commentOrReplyId);
+          if (target) break;
+        }
+      }
+    }
+
+    if (!target) return;
+
+    if (!target.reactions) {
+      target.reactions = { like: 0, love: 0, care: 0, haha: 0, wow: 0, sad: 0, angry: 0 };
+    }
+
+    const currentReaction = target.userReaction;
+
+    if (!reactionType || currentReaction === reactionType) {
+      if (currentReaction && target.reactions[currentReaction] > 0) {
+        target.reactions[currentReaction]--;
+      }
+      target.userReaction = null;
+    } else {
+      if (currentReaction && target.reactions[currentReaction] > 0) {
+        target.reactions[currentReaction]--;
+      }
+      target.reactions[reactionType] = (target.reactions[reactionType] || 0) + 1;
+      target.userReaction = reactionType;
     }
   };
 
@@ -156,6 +297,14 @@ export const useFeedStore = defineStore('social.feed', () => {
     lightboxStore.prev();
   };
 
+  const setLightboxIndex = (idx) => {
+    if (lightboxStore.setIndex) {
+      lightboxStore.setIndex(idx);
+    } else {
+      lightboxStore.activeIndex = idx;
+    }
+  };
+
   return {
     // State
     posts,
@@ -170,22 +319,34 @@ export const useFeedStore = defineStore('social.feed', () => {
     filteredPosts,
     savedPosts,
     currentLightboxImage,
+    lightboxImage: currentLightboxImage,
     currentLightboxPost,
 
     // Methods
     executeAsync,
     loadPosts,
     createPost,
+    addPost: createPost,
     deletePost,
+    removePost: deletePost,
     toggleSave,
-    toggleLike,
+    toggleSavePost: toggleSave,
+    toggleReaction,
+    toggleLike: toggleReaction,
+    sharePost,
+    addComment,
+    deleteComment,
+    reactToComment,
+    toggleLikeComment: reactToComment,
     setFilter,
     setSearch,
 
     // Lightbox methods
     openLightbox,
+    setLightbox: openLightbox,
     closeLightbox,
     nextLightboxImage,
     prevLightboxImage,
+    setLightboxIndex,
   };
 });
