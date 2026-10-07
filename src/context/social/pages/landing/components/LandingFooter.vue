@@ -3,9 +3,11 @@
     <!-- Call to Action Banner (Light Theme) -->
     <div class="border-b border-slate-200 bg-white py-12 sm:py-16">
       <div class="sg-landing-container text-center max-w-4xl mx-auto space-y-4 sm:space-y-5">
-        <span class="inline-block text-xs sm:text-sm font-bold px-3 py-1 bg-emerald-100 text-emerald-900 border border-emerald-200 rounded-md">
-          🌱 El cambio empieza en tu casa
-        </span>
+        <div>
+          <span class="sg-landing-badge">
+            El cambio empieza en tu casa
+          </span>
+        </div>
 
         <h2 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
           Deja de botar plata a la basura. Empieza a acumular EcoPuntos hoy.

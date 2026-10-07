@@ -1,0 +1,152 @@
+/* =====================================================================
+   SOCIALGEA — LANDING PAGE TAILWIND COMPONENTS
+   All styles use Tailwind @apply rules, brand tokens, and semantic classes.
+   ===================================================================== */
+
+@layer components {
+  /* ── Pill Badges (Example requested by user) ─────────────────────── */
+  .sg-landing-badge {
+    @apply inline-block rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-400 select-none;
+  }
+
+  .sg-landing-badge--hero {
+    @apply inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3.5 py-1 text-xs sm:text-sm font-bold text-brand-800 shadow-2xs;
+  }
+
+  .sg-landing-section-badge {
+    @apply inline-block rounded-full border border-brand-200 bg-brand-50 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-700 mb-3 select-none;
+  }
+
+  /* ── Layout & Containers ────────────────────────────────────────── */
+  .sg-landing-page {
+    @apply min-h-screen bg-slate-50/70 text-slate-700 font-sans overflow-x-hidden text-[15px];
+  }
+
+  .sg-landing-container {
+    @apply w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .sg-landing-section {
+    @apply py-14 sm:py-20 lg:py-24 border-b border-slate-200;
+  }
+
+  .sg-landing-section-header {
+    @apply text-center max-w-3xl mx-auto mb-10 sm:mb-12;
+  }
+
+  .sg-landing-section-title {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight;
+  }
+
+  .sg-landing-section-sub {
+    @apply mt-3 text-sm sm:text-base text-slate-600 leading-relaxed;
+  }
+
+  /* ── Navbar ─────────────────────────────────────────────────────── */
+  .sg-landing-nav {
+    @apply sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200;
+  }
+
+  .sg-landing-nav__inner {
+    @apply flex items-center justify-between h-15 sm:h-16 lg:h-17;
+  }
+
+  .sg-landing-nav__links {
+    @apply hidden lg:flex items-center gap-5 xl:gap-7;
+  }
+
+  .sg-landing-nav__link {
+    @apply text-sm font-semibold text-slate-600 hover:text-brand-700 transition-colors py-1.5 px-1 whitespace-nowrap;
+  }
+
+  /* ── Hero Section ───────────────────────────────────────────────── */
+  .sg-landing-hero {
+    @apply relative pt-8 pb-14 sm:pt-12 sm:pb-18 lg:pt-16 lg:pb-22 border-b border-slate-200 bg-gradient-to-b from-white to-slate-50/80;
+  }
+
+  .sg-landing-hero__grid {
+    @apply grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center;
+  }
+
+  .sg-landing-hero__left {
+    @apply lg:col-span-7;
+  }
+
+  .sg-landing-hero__right {
+    @apply lg:col-span-5 relative;
+  }
+
+  .sg-landing-hero__title {
+    @apply text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tight text-slate-900 leading-tight;
+  }
+
+  .sg-landing-hero__highlight {
+    @apply text-brand-700 relative inline-block;
+  }
+
+  .sg-landing-hero__lead {
+    @apply mt-5 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl;
+  }
+
+  /* ── Stats Matrix ───────────────────────────────────────────────── */
+  .sg-landing-stats {
+    @apply grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-7 mt-10 pt-8 border-t border-slate-200;
+  }
+
+  .sg-landing-stat__num {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tabular-nums leading-tight tracking-tight;
+  }
+
+  .sg-landing-stat__label {
+    @apply mt-1.5 text-xs sm:text-sm font-semibold text-slate-500 leading-snug;
+  }
+
+  /* ── Hero Ticket Preview ────────────────────────────────────────── */
+  .sg-landing-ticket-card {
+    @apply bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 shadow-sm;
+  }
+
+  /* ── Cards & Surfaces ───────────────────────────────────────────── */
+  .sg-landing-card {
+    @apply bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs hover:border-slate-300 transition-colors;
+  }
+
+  /* ── Buttons ────────────────────────────────────────────────────── */
+  .sg-landing-btn {
+    @apply inline-flex items-center justify-center gap-2 min-h-10 px-4.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer select-none whitespace-nowrap;
+  }
+
+  .sg-landing-btn--primary {
+    @apply bg-brand-700 hover:bg-brand-800 text-white shadow-xs;
+  }
+
+  .sg-landing-btn--secondary {
+    @apply bg-white hover:bg-slate-50 text-slate-800 border border-slate-300;
+  }
+
+  .sg-landing-btn--reward {
+    @apply bg-amber-700 hover:bg-amber-800 text-white shadow-xs;
+  }
+
+  .sg-landing-btn--sm {
+    @apply min-h-8 px-3 py-1 text-xs rounded-lg;
+  }
+
+  .sg-landing-btn--lg {
+    @apply min-h-11 px-5 py-2.5 text-sm sm:text-base rounded-xl;
+  }
+
+  .sg-landing-btn--block {
+    @apply w-full;
+  }
+
+  /* ── Form Controls & Range Slider ───────────────────────────────── */
+  .sg-landing-range-input {
+    @apply w-full h-1.5 accent-brand-700 cursor-pointer rounded-lg bg-slate-200;
+  }
+
+  /* ── Numeric & Tabular Formats ──────────────────────────────────── */
+  .sg-landing-num {
+    @apply tabular-nums font-black;
+  }
+}

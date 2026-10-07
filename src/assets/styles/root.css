@@ -22,6 +22,7 @@
 @import "./components/feedback.css";
 @import "./components/driver-tour.css";
 @import "./components/tables.css";
+@import "./components/landing.css";
 
 /* 4. Navigation & Shared Components */
 @import "./components/navbar.css";
@@ -48,6 +49,16 @@
   --color-primary-active: var(--color-primary-active);
   --color-primary-subtle: var(--color-primary-subtle);
   --color-primary-contrast: var(--color-primary-contrast);
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
   --radius-card: var(--card-radius, 1rem);
   --radius-btn: var(--btn-radius, 0.75rem);
   --radius-input: var(--input-radius, 0.75rem);

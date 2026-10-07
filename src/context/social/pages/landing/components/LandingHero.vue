@@ -3,11 +3,12 @@
     <div class="sg-landing-container">
       <div class="sg-landing-hero__grid">
         <!-- Hero Copy (Left) -->
-        <div>
+        <div class="sg-landing-hero__left">
           <!-- Badge -->
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-md text-xs sm:text-sm font-bold mb-5 shadow-2xs">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-600" />
-            <span>Red Social Oficial de Reciclaje · Colombia 2026</span>
+          <div class="mb-5">
+            <span class="sg-landing-badge">
+              Red Social Oficial de Reciclaje · Colombia 2026
+            </span>
           </div>
 
           <!-- Main Title -->
@@ -83,7 +84,7 @@
         </div>
 
         <!-- Hero Graphic: Live Simulated Ticket (Right) -->
-        <div class="relative">
+        <div class="sg-landing-hero__right">
           <div class="sg-landing-ticket-card">
             <!-- Simulated User Status -->
             <div class="flex items-center justify-between pb-3.5 mb-3.5 border-b border-slate-100">
